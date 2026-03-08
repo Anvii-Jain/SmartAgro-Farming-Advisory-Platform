@@ -56,6 +56,8 @@ SQLite
 
 # Live platform link-  https://smartagro-farmeradvisoryplatform.netlify.app/
 
+ppt link - https://drive.google.com/file/d/1IDcjblj-hwnOY1CwALy06GrxhAwPUyeq/view?usp=drivesdk
+
 Team HackSphere-
 
 Anvi Jain --
