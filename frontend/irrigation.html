@@ -421,7 +421,7 @@
             });
         });
 
-       // Set default planting date and load crops - SINGLE VERSION (duplicate removed)
+       // Set default planting date and load crops
 document.addEventListener('DOMContentLoaded', function() {
     // Load crops from backend
     loadCropsFromBackend();
@@ -429,20 +429,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load irrigation tips
     loadIrrigationTips();
     
-    // Set default planting date to 30 days ago (more reasonable default)
+    // Set default planting date to 30 days ago
     const today = new Date();
     const defaultPlantingDate = new Date(today);
-    defaultPlantingDate.setDate(today.getDate() - 30); // Default to 30 days ago
+    defaultPlantingDate.setDate(today.getDate() - 30);
     
     // Store planting date for calculations
     window.plantingDate = defaultPlantingDate;
     
-    // Make planting date input visible and set default value
+    // Set the input value with proper YYYY-MM-DD format
     const plantingDateInput = document.getElementById('plantingDate');
     if (plantingDateInput) {
-        plantingDateInput.valueAsDate = defaultPlantingDate;
-        plantingDateInput.style.display = 'block'; // Ensure it's visible
-        plantingDateInput.style.marginTop = '8px'; // Add some spacing
+        // Format date as YYYY-MM-DD for input
+        const year = defaultPlantingDate.getFullYear();
+        const month = String(defaultPlantingDate.getMonth() + 1).padStart(2, '0');
+        const day = String(defaultPlantingDate.getDate()).padStart(2, '0');
+        plantingDateInput.value = `${year}-${month}-${day}`;
+        console.log("Planting date input set to:", plantingDateInput.value);
     }
     
     // Generate initial chart with default values
@@ -621,68 +624,85 @@ async function loadCropsFromBackend() {
             }
         }
 
-              // Irrigation Plan Form Handler - CONNECTED TO BACKEND
-        document.getElementById('irrigationForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            // Get form values
-            const crop = document.getElementById('cropSelect').value;
-            const soil = document.getElementById('soilSelect').value;
-            const season = document.getElementById('seasonSelect').value;
-            const area = parseFloat(document.getElementById('fieldArea').value) || 1;
-            const plantingDate = document.getElementById('plantingDate').value; // ADD THIS LINE
-            
-            if (!crop || !soil || !season) {
-                alert('Please select all options');
-                return;
-            }
-            
-            // Update planting date based on user selection
-            if (plantingDate) {
-                window.plantingDate = new Date(plantingDate); // ADD THIS LINE
-            }
-            
-            // Show loading, hide results
-            document.getElementById('loadingSection').classList.remove('hidden');
-            document.getElementById('resultsSection').classList.add('hidden');
-            
-            try {
-                // Make API call to Flask backend
-                const response = await fetch('http://127.0.0.1:5001/api/irrigation/plan', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        crop: crop,
-                        soil: soil,
-                        season: season,
-                        area: area
-                    })
-                });
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Update UI with real data from backend
-                    updateDynamicValuesWithBackendData(data.plan);
-                } else {
-                    alert('Error: ' + data.message);
-                    // Fallback to local calculation
-                    updateDynamicValues();
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Failed to connect to backend. Using local data.');
-                // Fallback to local calculation
-                updateDynamicValues();
-            }
-            
-            // Hide loading, show results
-            document.getElementById('loadingSection').classList.add('hidden');
-            document.getElementById('resultsSection').classList.remove('hidden');
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+           // Irrigation Plan Form Handler - CONNECTED TO BACKEND
+document.getElementById('irrigationForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // This prevents page refresh
+    event.stopPropagation(); // Stop event bubbling
+    
+    console.log("Form submitted - generating irrigation plan...");
+    
+    // Get form values
+    const crop = document.getElementById('cropSelect').value;
+    const soil = document.getElementById('soilSelect').value;
+    const season = document.getElementById('seasonSelect').value;
+    const area = parseFloat(document.getElementById('fieldArea').value) || 1;
+    const plantingDate = document.getElementById('plantingDate').value;
+    
+    if (!crop || !soil || !season) {
+        alert('Please select all options');
+        return;
+    }
+    
+    // Update planting date based on user selection
+    if (plantingDate) {
+        window.plantingDate = new Date(plantingDate);
+        console.log("Planting date set to:", window.plantingDate);
+    }
+    
+    // Show loading, hide results
+    document.getElementById('loadingSection').classList.remove('hidden');
+    document.getElementById('resultsSection').classList.add('hidden');
+    
+    try {
+        // Make API call to Flask backend
+        console.log("Calling irrigation API with:", {crop, soil, season, area});
+        
+        const response = await fetch('http://127.0.0.1:5001/api/irrigation/plan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                crop: crop,
+                soil: soil,
+                season: season,
+                area: area
+            })
         });
+        
+        const data = await response.json();
+        console.log("API Response:", data);
+        
+        if (data.success) {
+            // Update UI with real data from backend
+            updateDynamicValuesWithBackendData(data.plan);
+        } else {
+            alert('Error: ' + data.message);
+            // Fallback to local calculation
+            updateDynamicValues();
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to connect to backend. Using local data.');
+        // Fallback to local calculation
+        updateDynamicValues();
+    } finally {
+        // Hide loading, show results
+        document.getElementById('loadingSection').classList.add('hidden');
+        document.getElementById('resultsSection').classList.remove('hidden');
+        
+        // Smooth scroll to results
+        document.getElementById('resultsSection').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }    // Prevent any accidental form resets
+    document.getElementById('irrigationForm').addEventListener('reset', function(event) {
+        event.preventDefault();
+        console.log("Form reset prevented");
+    });
+});
 
         // New function to update UI with backend data
         function updateDynamicValuesWithBackendData(plan) {
@@ -1093,3 +1113,4 @@ const today = new Date(); // Keep this for highlighting today
     </script>
 </body>
 </html>
+
