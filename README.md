@@ -5,12 +5,19 @@ The platform integrates crop intelligence, AI disease detection, weather insight
 
 Features:
 Crop Recommendation – Suggests suitable crops based on soil and season.
+
 AI Disease Detection – Detects plant diseases from leaf images using a CNN model.
+
 Weather Advisory – Provides weather insights for better crop planning.
+
 Irrigation Planning – Helps determine irrigation schedules based on crop stage.
+
 Live Mandi Prices – Displays mandi rates and price trends.
+
 Transport Support – Allows farmers to request transport and connect with drivers.
+
 Farmer Community – Platform for farmers to ask questions and share knowledge.
+
 AI Chatbot – Provides quick assistance for farming queries.
 
 Technologies Used:
@@ -39,11 +46,9 @@ Future Enhancements:
 -Mobile application development
 
 Demo link - 
+
 Pitch video - 
 
-Team HackSphere
-
-
+Team HackSphere-
 Anvi Jain
-
 Anshika Gupta
