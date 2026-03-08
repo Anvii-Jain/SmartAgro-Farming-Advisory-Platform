@@ -40,7 +40,7 @@ CNN for disease detection
 -Database-
 SQLite
 
-#Future Enhancements:
+# Future Enhancements:
 
 -Regional language support
 
@@ -50,13 +50,13 @@ SQLite
 
 -Mobile application development
 
-#Demo link - 
+# Demo link - 
 
-#Pitch video - 
+# Pitch video - 
 
-#Live platform link- 
+# Live platform link- 
 
 Team HackSphere-
 
-Anvi Jain--
+Anvi Jain --
 Anshika Gupta
