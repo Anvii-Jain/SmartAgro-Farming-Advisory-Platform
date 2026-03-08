@@ -1,6 +1,7 @@
 Flask
 flask-cors
 Flask-SocketIO
+gunicorn
 eventlet
 python-dotenv
 requests
@@ -18,3 +19,4 @@ python-socketio
 bidict
 simple-websocket
 Werkzeug
+
