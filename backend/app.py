@@ -26,7 +26,7 @@ from PIL import Image
 import sqlite3
 import community_db
 import hashlib 
-
+import tensorflow as tf
 
 # Load your dataset
 DATA_PATH = "Crop_recommendation.csv"  # make sure this file is in same folder
@@ -53,6 +53,171 @@ model.fit(X, y)
 
 print("✅ Model trained. Number of classes:", len(model.classes_))
 
+# ========== DISEASE DETECTION MODEL (TensorFlow) ==========
+print("\n" + "="*60)
+print("LOADING DISEASE DETECTION MODEL")
+print("="*60)
+
+try:
+    DISEASE_MODEL_PATH = Path(__file__).parent / "model" / "plant_disease_model.h5"
+    print(f"Looking for model at: {DISEASE_MODEL_PATH}")
+    print(f"File exists: {DISEASE_MODEL_PATH.exists()}")
+    
+    if DISEASE_MODEL_PATH.exists():
+        print("📁 Model file found! Attempting to load...")
+        
+        # METHOD 1: Load with custom_objects to ignore quantization_config
+        try:
+            from keras.layers import Dense
+            import keras
+            
+            # Define a custom Dense class that ignores quantization_config
+            class CustomDense(keras.layers.Dense):
+                def __init__(self, *args, **kwargs):
+                    # Remove quantization_config if it exists
+                    kwargs.pop('quantization_config', None)
+                    super().__init__(*args, **kwargs)
+            
+            # Load model with custom objects
+            disease_model = tf.keras.models.load_model(
+                str(DISEASE_MODEL_PATH),
+                custom_objects={
+                    'Dense': CustomDense,
+                    'quantization_config': None
+                },
+                compile=False
+            )
+            print("✅ Model loaded with custom Dense class")
+            
+        except Exception as e1:
+            print(f"⚠️ Method 1 failed: {e1}")
+            
+            # METHOD 2: Load with compile=False only
+            try:
+                disease_model = tf.keras.models.load_model(
+                    str(DISEASE_MODEL_PATH),
+                    compile=False
+                )
+                print("✅ Model loaded with compile=False")
+                
+            except Exception as e2:
+                print(f"⚠️ Method 2 failed: {e2}")
+                
+                # METHOD 3: Load with weights only (create new model)
+                try:
+                    from tensorflow.keras.applications import MobileNetV2
+                    from tensorflow.keras import layers, models
+                    
+                    # Recreate the model architecture
+                    base_model = MobileNetV2(
+                        input_shape=(128, 128, 3),
+                        include_top=False,
+                        weights='imagenet'
+                    )
+                    base_model.trainable = False
+                    
+                    x = base_model.output
+                    x = layers.GlobalAveragePooling2D()(x)
+                    x = layers.Dense(128, activation='relu')(x)
+                    
+                    # We need to know number of classes - load from file or use default
+                    CLASS_NAMES_PATH = Path(__file__).parent / "model" / "class_names.json"
+                    if CLASS_NAMES_PATH.exists():
+                        with open(CLASS_NAMES_PATH, 'r') as f:
+                            CLASS_NAMES = json.load(f)
+                            num_classes = len(CLASS_NAMES)
+                    else:
+                        num_classes = 38  # Default for plant disease dataset
+                    
+                    output = layers.Dense(num_classes, activation='softmax')(x)
+                    
+                    # Create new model
+                    temp_model = models.Model(inputs=base_model.input, outputs=output)
+                    
+                    # Load weights
+                    temp_model.load_weights(str(DISEASE_MODEL_PATH))
+                    disease_model = temp_model
+                    print("✅ Model loaded by rebuilding architecture and loading weights")
+                    
+                except Exception as e3:
+                    print(f"❌ All loading methods failed: {e3}")
+                    disease_model = None
+        
+        if disease_model is not None:
+            print(f"✅ Disease detection model loaded successfully!")
+            print(f"Model input shape: {disease_model.input_shape}")
+            print(f"Model output shape: {disease_model.output_shape}")
+        else:
+            print("❌ Failed to load model - disease_model is None")
+            disease_model = None
+        
+        # Load class names
+        CLASS_NAMES_PATH = Path(__file__).parent / "model" / "class_names.json"
+        print(f"Looking for class names at: {CLASS_NAMES_PATH}")
+        print(f"File exists: {CLASS_NAMES_PATH.exists()}")
+        
+        if CLASS_NAMES_PATH.exists():
+            with open(CLASS_NAMES_PATH, 'r') as f:
+                CLASS_NAMES = json.load(f)
+            print(f"✅ Loaded {len(CLASS_NAMES)} disease classes")
+            print(f"First 5 classes: {CLASS_NAMES[:5]}")
+        else:
+            print(f"⚠️ Class names file not found! Using fallback classes.")
+            # Fallback classes - common plant diseases
+            CLASS_NAMES = [
+                "Apple___Apple_scab", "Apple___Black_rot", "Apple___Cedar_apple_rust", "Apple___healthy",
+                "Blueberry___healthy", "Cherry___Powdery_mildew", "Cherry___healthy",
+                "Corn___Cercospora_leaf_spot", "Corn___Common_rust", "Corn___Northern_Leaf_Blight", "Corn___healthy",
+                "Grape___Black_rot", "Grape___Esca", "Grape___Leaf_blight", "Grape___healthy",
+                "Orange___Haunglongbing", "Peach___Bacterial_spot", "Peach___healthy",
+                "Pepper___Bacterial_spot", "Pepper___healthy", "Potato___Early_blight", "Potato___Late_blight", "Potato___healthy",
+                "Raspberry___healthy", "Soybean___healthy", "Squash___Powdery_mildew",
+                "Strawberry___Leaf_scorch", "Strawberry___healthy", "Tomato___Bacterial_spot", "Tomato___Early_blight",
+                "Tomato___Late_blight", "Tomato___Leaf_Mold", "Tomato___Septoria_leaf_spot",
+                "Tomato___Spider_mites", "Tomato___Target_Spot", "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+                "Tomato___Tomato_mosaic_virus", "Tomato___healthy"
+            ]
+            print(f"✅ Using {len(CLASS_NAMES)} fallback classes")
+            
+    else:
+        print(f"❌ Model file not found at: {DISEASE_MODEL_PATH}")
+        disease_model = None
+        CLASS_NAMES = []
+        
+except Exception as e:
+    print(f"❌ Unexpected error loading disease model: {e}")
+    import traceback
+    traceback.print_exc()
+    disease_model = None
+    CLASS_NAMES = []
+
+print("="*60 + "\n")
+# ========== DISEASE PREPROCESSING FUNCTION ==========
+def preprocess_disease_image(img):
+    """Preprocess image for disease detection model"""
+    try:
+        # Convert to RGB if needed
+        img = img.convert("RGB")
+        
+        # Handle large images
+        img.thumbnail((512, 512))
+        
+        # Resize to model input size (128x128)
+        img = img.resize((128, 128))
+        
+        # Convert to numpy array
+        img = np.array(img, dtype=np.float32)
+        
+        # Normalize to [0,1]
+        img = img / 255.0
+        
+        # Add batch dimension
+        img = np.expand_dims(img, axis=0)
+        
+        return img
+    except Exception as e:
+        print(f"Error preprocessing image: {e}")
+        return None
 # Path to crops.json (same folder as this file)
 CROPS_PATH = Path(__file__).parent / "crops.json"
 
@@ -1887,481 +2052,7 @@ def api_schemes():
 
     return jsonify({"success": True, "items": filtered}), 200
 
-# ========== DISEASE DETECTION ==========
 
-# Load the new improved model
-# DISEASE_MODEL_PATH = Path(__file__).parent / "models" / "plant_disease_rf.pkl"
-# DISEASE_LABELS_PATH = Path(__file__).parent / "models" / "class_names.pkl"
-
-# Load model and labels
-# disease_model = None
-# label_encoder = None
-# class_names = None
-
-# if DISEASE_MODEL_PATH.exists() and DISEASE_LABELS_PATH.exists():
-#     try:
-#         with open(DISEASE_MODEL_PATH, 'rb') as f:
-#             model_data = pickle.load(f)
-#             disease_model = model_data['model']
-        
-#         with open(DISEASE_LABELS_PATH, 'rb') as f:
-#             label_data = pickle.load(f)
-#             class_names = label_data['classes']
-#             label_encoder = label_data['encoder']
-        
-#         print(f"✅ Loaded improved disease model with {len(class_names)} classes")
-#         print(f"📊 Model accuracy: {model_data.get('accuracy', 0)*100:.1f}%")
-#     except Exception as e:
-#         print(f"❌ Error loading disease model: {e}")
-#         disease_model = None
-# else:
-#     print(f"ℹ️ Disease model not found at: {DISEASE_MODEL_PATH}")
-
-# def extract_image_features_for_prediction(img_bytes):
-#     """Extract features for prediction (same as training)"""
-#     try:
-#         img = Image.open(BytesIO(img_bytes)).convert('RGB')
-#         img = img.resize((100, 100))
-#         img_array = np.array(img)
-        
-#         features = []
-        
-#         # 1. Color features
-#         for channel in range(3):
-#             channel_data = img_array[:, :, channel].flatten()
-#             features.append(np.mean(channel_data))
-#             features.append(np.std(channel_data))
-        
-#         # 2. Color histogram
-#         for channel in range(3):
-#             hist = np.histogram(img_array[:, :, channel].flatten(), bins=8, range=(0, 255))[0]
-#             features.extend(hist / hist.sum())
-        
-#         # 3. Edge features
-#         gray = np.mean(img_array, axis=2)
-#         grad_x = np.abs(gray[:, 1:] - gray[:, :-1]).mean()
-#         grad_y = np.abs(gray[1:, :] - gray[:-1, :]).mean()
-#         features.append(grad_x)
-#         features.append(grad_y)
-        
-#         # 4. Texture features
-#         texture_var = np.var(gray)
-#         features.append(texture_var)
-        
-#         # 5. Shape features
-#         height, width = gray.shape
-#         features.append(width / height if height > 0 else 1.0)
-        
-#         threshold = np.mean(gray)
-#         object_area = np.sum(gray > threshold) / (height * width)
-#         features.append(object_area)
-        
-#         return np.array(features)
-        
-#     except Exception as e:
-#         print(f"Error extracting features: {e}")
-#         return None
-
-# def get_disease_info(predicted_class):
-#     """Get detailed information about a disease - UPDATED WITH INDIAN CROPS"""
-#     disease_info = {
-#         # ========== INDIAN CROPS ==========
-#         # Rice diseases
-#         "Brown_spot": {
-#             "name": "Rice Brown Spot",
-#             "type": "Fungal",
-#             "symptoms": "Small, oval brown spots on leaves and grains, yellow halo around spots",
-#             "treatment": [
-#                 "Apply fungicides like carbendazim or mancozeb",
-#                 "Use balanced fertilizers (avoid excess nitrogen)",
-#                 "Remove infected plant debris"
-#             ],
-#             "prevention": [
-#                 "Use disease-resistant varieties (IR 36, IR 64)",
-#                 "Maintain proper plant spacing",
-#                 "Avoid water stagnation in fields"
-#             ]
-#         },
-#         "Blast": {
-#             "name": "Rice Blast",
-#             "type": "Fungal",
-#             "symptoms": "Diamond-shaped lesions with gray centers, neck rot in panicles",
-#             "treatment": [
-#                 "Apply tricyclazole or isoprothiolane fungicides",
-#                 "Remove and burn infected plants",
-#                 "Reduce nitrogen fertilizer"
-#             ],
-#             "prevention": [
-#                 "Plant resistant varieties (Pusa Basmati, Swarna)",
-#                 "Avoid excessive nitrogen",
-#                 "Practice crop rotation with pulses"
-#             ]
-#         },
-#         "Hispa": {
-#             "name": "Rice Hispa",
-#             "type": "Insect",
-#             "symptoms": "White streaks on leaves, leaf mining by beetles",
-#             "treatment": [
-#                 "Spray chlorpyriphos or carbaryl insecticides",
-#                 "Use light traps to catch beetles",
-#                 "Handpick and destroy beetles"
-#             ],
-#             "prevention": [
-#                 "Maintain field sanitation",
-#                 "Use neem-based biopesticides",
-#                 "Avoid waterlogging"
-#             ]
-#         },
-        
-#         # Wheat diseases
-#         "Rust": {
-#             "name": "Wheat Rust",
-#             "type": "Fungal",
-#             "symptoms": "Reddish-brown pustules on leaves and stems, yellowing of leaves",
-#             "treatment": [
-#                 "Apply propiconazole or tebuconazole fungicides",
-#                 "Spray sulfur-based fungicides",
-#                 "Remove volunteer wheat plants"
-#             ],
-#             "prevention": [
-#                 "Plant resistant varieties (HD 2967, PBW 550)",
-#                 "Early sowing to avoid rust period",
-#                 "Proper field drainage"
-#             ]
-#         },
-#         "Smut": {
-#             "name": "Wheat Smut",
-#             "type": "Fungal",
-#             "symptoms": "Black powdery masses replacing grains, distorted spikes",
-#             "treatment": [
-#                 "Use carboxin or thiram treated seeds",
-#                 "Rogue out infected plants before spore release",
-#                 "Solarize seeds before planting"
-#             ],
-#             "prevention": [
-#                 "Use certified disease-free seeds",
-#                 "Practice crop rotation with mustard",
-#                 "Avoid late sowing"
-#             ]
-#         },
-        
-#         # Maize diseases
-#         "Maize_rust": {
-#             "name": "Maize Rust",
-#             "type": "Fungal",
-#             "symptoms": "Orange-brown pustules on both leaf surfaces, early leaf drop",
-#             "treatment": [
-#                 "Apply mancozeb or propiconazole fungicides",
-#                 "Remove infected leaves early",
-#                 "Improve air circulation"
-#             ],
-#             "prevention": [
-#                 "Plant resistant hybrids (Pioneer, Dekalb)",
-#                 "Avoid overhead irrigation",
-#                 "Maintain proper plant spacing"
-#             ]
-#         },
-#         "Maize_blight": {
-#             "name": "Maize Blight",
-#             "type": "Fungal",
-#             "symptoms": "Large elliptical grayish lesions with yellow borders",
-#             "treatment": [
-#                 "Spray chlorothalonil or azoxystrobin",
-#                 "Remove infected plant debris",
-#                 "Apply balanced fertilizers"
-#             ],
-#             "prevention": [
-#                 "Use disease-free seeds",
-#                 "Practice crop rotation with soybean",
-#                 "Avoid water stress"
-#             ]
-#         },
-        
-#         # Cotton diseases
-#         "Cotton_wilt": {
-#             "name": "Cotton Wilt",
-#             "type": "Fungal",
-#             "symptoms": "Yellowing and wilting of leaves, brown discoloration of vascular tissue",
-#             "treatment": [
-#                 "Drench with carbendazim or thiophanate-methyl",
-#                 "Apply Trichoderma biocontrol agents",
-#                 "Remove and destroy infected plants"
-#             ],
-#             "prevention": [
-#                 "Plant resistant varieties (Bunny, Narma)",
-#                 "Practice soil solarization",
-#                 "Avoid waterlogging"
-#             ]
-#         },
-        
-#         # ========== COMMON DISEASES ==========
-#         # Bacterial diseases
-#         "Bacterial_spot": {
-#             "name": "Bacterial Spot",
-#             "type": "Bacterial",
-#             "symptoms": "Small, dark, water-soaked spots on leaves and fruits",
-#             "treatment": [
-#                 "Use copper-based bactericides",
-#                 "Remove infected plants",
-#                 "Practice crop rotation",
-#                 "Use disease-free seeds"
-#             ],
-#             "prevention": [
-#                 "Avoid overhead irrigation",
-#                 "Ensure good air circulation",
-#                 "Clean tools and equipment"
-#             ]
-#         },
-        
-#         # Fungal diseases
-#         "Early_blight": {
-#             "name": "Early Blight",
-#             "type": "Fungal",
-#             "symptoms": "Dark brown spots with concentric rings on lower leaves",
-#             "treatment": [
-#                 "Apply fungicides containing chlorothalonil or mancozeb",
-#                 "Remove affected leaves",
-#                 "Improve air circulation"
-#             ],
-#             "prevention": [
-#                 "Mulch around plants",
-#                 "Avoid wetting leaves",
-#                 "Practice crop rotation"
-#             ]
-#         },
-#         "Late_blight": {
-#             "name": "Late Blight",
-#             "type": "Fungal",
-#             "symptoms": "Large, dark, water-soaked lesions on leaves and stems",
-#             "treatment": [
-#                 "Apply fungicides containing metalaxyl or chlorothalonil",
-#                 "Remove and destroy infected plants"
-#             ],
-#             "prevention": [
-#                 "Plant resistant varieties",
-#                 "Avoid overcrowding",
-#                 "Water early in the day"
-#             ]
-#         },
-#         "Common_rust": {
-#             "name": "Common Rust",
-#             "type": "Fungal",
-#             "symptoms": "Small, circular, reddish-brown pustules on leaves",
-#             "treatment": [
-#                 "Apply fungicides if infection is severe",
-#                 "Remove infected debris after harvest"
-#             ],
-#             "prevention": [
-#                 "Plant resistant hybrids",
-#                 "Space plants properly"
-#             ]
-#         },
-#         "Powdery_mildew": {
-#             "name": "Powdery Mildew",
-#             "type": "Fungal",
-#             "symptoms": "White powdery growth on leaves and stems",
-#             "treatment": [
-#                 "Apply sulfur-based fungicides",
-#                 "Prune affected areas",
-#                 "Improve air circulation"
-#             ],
-#             "prevention": [
-#                 "Plant resistant varieties",
-#                 "Avoid overhead watering",
-#                 "Space plants adequately"
-#             ]
-#         },
-        
-#         # Viral diseases
-#         "Yellow_Leaf_Curl_Virus": {
-#             "name": "Yellow Leaf Curl Virus",
-#             "type": "Viral",
-#             "symptoms": "Yellowing and upward curling of leaves, stunted growth",
-#             "treatment": [
-#                 "Remove infected plants immediately",
-#                 "Control whitefly population with insecticides"
-#             ],
-#             "prevention": [
-#                 "Use virus-free seedlings",
-#                 "Install insect nets",
-#                 "Control weeds around field"
-#             ]
-#         },
-#         "Mosaic_virus": {
-#             "name": "Mosaic Virus",
-#             "type": "Viral",
-#             "symptoms": "Mottled light and dark green patterns on leaves",
-#             "treatment": [
-#                 "Remove and destroy infected plants",
-#                 "Control aphid vectors"
-#             ],
-#             "prevention": [
-#                 "Use certified virus-free seeds",
-#                 "Practice field hygiene",
-#                 "Control insect vectors early"
-#             ]
-#         },
-        
-#         # Healthy plants
-#         "healthy": {
-#             "name": "Healthy Plant",
-#             "type": "Healthy",
-#             "symptoms": "No visible disease symptoms, vigorous growth, uniform color",
-#             "treatment": [
-#                 "Continue regular monitoring and maintenance",
-#                 "Apply balanced fertilizer as per crop requirement"
-#             ],
-#             "prevention": [
-#                 "Maintain proper watering schedule",
-#                 "Regularly check for pests",
-#                 "Practice crop rotation",
-#                 "Test soil nutrient levels annually"
-#             ]
-#         }
-#     }
-    
-#     # Clean the predicted class name
-#     predicted_lower = predicted_class.lower().replace("___", "_").replace(" ", "_")
-    
-#     # Try to find exact match first
-#     for disease_key, info in disease_info.items():
-#         if disease_key.lower() in predicted_lower:
-#             return info
-    
-#     # Try partial matches for Indian crops
-#     if "rice" in predicted_lower:
-#         if "brown" in predicted_lower:
-#             return disease_info.get("Brown_spot", disease_info["healthy"])
-#         elif "blast" in predicted_lower:
-#             return disease_info.get("Blast", disease_info["healthy"])
-#         elif "hispa" in predicted_lower:
-#             return disease_info.get("Hispa", disease_info["healthy"])
-    
-#     if "wheat" in predicted_lower:
-#         if "rust" in predicted_lower:
-#             return disease_info.get("Rust", disease_info["healthy"])
-#         elif "smut" in predicted_lower:
-#             return disease_info.get("Smut", disease_info["healthy"])
-    
-#     if "maize" in predicted_lower or "corn" in predicted_lower:
-#         if "rust" in predicted_lower:
-#             return disease_info.get("Maize_rust", disease_info["healthy"])
-#         elif "blight" in predicted_lower:
-#             return disease_info.get("Maize_blight", disease_info["healthy"])
-    
-#     if "cotton" in predicted_lower:
-#         if "wilt" in predicted_lower:
-#             return disease_info.get("Cotton_wilt", disease_info["healthy"])
-    
-#     # Generic matching by disease type
-#     disease_type = "Unknown"
-#     if "bacterial" in predicted_lower:
-#         disease_type = "Bacterial"
-#     elif "fungal" in predicted_lower or "blight" in predicted_lower or "rust" in predicted_lower or "mildew" in predicted_lower or "spot" in predicted_lower:
-#         disease_type = "Fungal"
-#     elif "virus" in predicted_lower or "mosaic" in predicted_lower:
-#         disease_type = "Viral"
-#     elif "healthy" in predicted_lower:
-#         return disease_info["healthy"]
-#     elif "insect" in predicted_lower or "hispa" in predicted_lower:
-#         disease_type = "Insect"
-    
-#     # Create generic response
-#     display_name = predicted_class.replace("___", " - ").replace("_", " ")
-    
-#     return {
-#         "name": display_name,
-#         "type": disease_type,
-#         "symptoms": "Consult local KVK (Krishi Vigyan Kendra) or agricultural officer for accurate diagnosis and treatment recommendations.",
-#         "treatment": [
-#             "Remove affected plant parts carefully and dispose safely",
-#             "Apply appropriate treatment based on disease type",
-#             "Improve field hygiene and sanitation practices"
-#         ],
-#         "prevention": [
-#             "Practice crop rotation with non-host crops",
-#             "Use disease-resistant varieties suitable for your region",
-#             "Maintain proper plant spacing for good air circulation",
-#             "Monitor crops regularly for early detection",
-#             "Test soil health annually and maintain balanced nutrition"
-#         ]
-#     }
-
-# @app.route("/api/detect_disease", methods=["POST"])
-# def detect_disease():
-#     try:
-#         # Check if model is loaded
-#         if disease_model is None or label_encoder is None:
-#             return jsonify({
-#                 "success": False, 
-#                 "error": "Disease detection model not loaded. Please train the model first."
-#             }), 500
-
-#         if "image" not in request.files:
-#             return jsonify({"success": False, "error": "Missing file field 'image'"}), 400
-
-#         img = request.files["image"]
-#         if img.filename == "":
-#             return jsonify({"success": False, "error": "Uploaded file has no name"}), 400
-
-#         img_bytes = img.read()
-        
-#         # Extract features
-#         features = extract_image_features_for_prediction(img_bytes)
-#         if features is None:
-#             return jsonify({"success": False, "error": "Invalid image format"}), 400
-        
-#         # Make prediction
-#         prediction_encoded = disease_model.predict([features])[0]
-#         predicted_class = label_encoder.inverse_transform([prediction_encoded])[0]
-        
-#         # Get probabilities
-#         probabilities = disease_model.predict_proba([features])[0]
-#         confidence = float(np.max(probabilities)) * 100
-        
-#         # Get top 5 predictions
-#         top_5_indices = np.argsort(probabilities)[-5:][::-1]
-#         top_5_predictions = []
-#         for idx in top_5_indices:
-#             if idx < len(label_encoder.classes_):
-#                 class_name = label_encoder.classes_[idx]
-#                 prob = float(probabilities[idx]) * 100
-#                 top_5_predictions.append({
-#                     "label": class_name,
-#                     "prob": prob
-#                 })
-        
-#         # Get disease information
-#         disease_info = get_disease_info(predicted_class)
-        
-#         # Format prediction for display
-#         display_name = predicted_class.replace("___", " - ").replace("_", " ")
-        
-#         return jsonify({
-#             "success": True,
-#             "result": {
-#                 "prediction": predicted_class,
-#                 "display_name": display_name,
-#                 "confidence": round(confidence, 2),
-#                 "disease_name": disease_info["name"],
-#                 "disease_type": disease_info["type"],
-#                 "symptoms": disease_info["symptoms"],
-#                 "treatment": disease_info["treatment"],
-#                 "prevention": disease_info["prevention"],
-#                 "topk": top_5_predictions,
-#                 "model_accuracy": 60.8  # From our training
-#             }
-#         }), 200
-
-#     except Exception as e:
-#         print(f"Error in disease detection: {e}")
-#         import traceback
-#         traceback.print_exc()
-        
-#         return jsonify({
-#             "success": False,
-#             "error": str(e)
-#         }), 500
 
 # ========== AI CHATBOT ==========
 @app.route('/api/chat', methods=['POST'])
@@ -2490,6 +2181,106 @@ def chat_with_bot():
         return jsonify({"bot": bot_reply})
 
 
+# ========== DISEASE DETECTION API (TensorFlow) ==========
+@app.route('/api/detect_disease', methods=['POST'])
+def detect_disease_tf():
+    """Detect plant disease from uploaded image using TensorFlow model"""
+    
+    # Check if model is loaded
+    if disease_model is None:
+        return jsonify({
+            "success": False,
+            "error": "Disease detection model not loaded. Please check server logs."
+        }), 500
+    
+    try:
+        # Check if file was uploaded
+        if 'file' not in request.files:
+            return jsonify({
+                "success": False,
+                "error": "No file uploaded. Please provide an image file."
+            }), 400
+        
+        file = request.files['file']
+        
+        # Check if file is empty
+        if file.filename == '':
+            return jsonify({
+                "success": False,
+                "error": "Empty file uploaded. Please select a valid image."
+            }), 400
+        
+        # Open and process image
+        try:
+            image = Image.open(file).convert("RGB")
+        except Exception as e:
+            return jsonify({
+                "success": False,
+                "error": "Invalid image file. Please upload a valid image (JPEG, PNG, etc.)."
+            }), 400
+        
+        # Preprocess image
+        processed_img = preprocess_disease_image(image)
+        if processed_img is None:
+            return jsonify({
+                "success": False,
+                "error": "Image preprocessing failed. Please try another image."
+            }), 500
+        
+        print(f"📸 Image shape: {processed_img.shape}")
+        
+        # Make prediction
+        prediction = disease_model.predict(processed_img)
+        
+        # Get predicted class
+        predicted_index = int(np.argmax(prediction[0]))
+        confidence = float(np.max(prediction[0])) * 100
+        
+        # Get disease name
+        if CLASS_NAMES and predicted_index < len(CLASS_NAMES):
+            disease_name = CLASS_NAMES[predicted_index]
+        else:
+            disease_name = f"Class_{predicted_index}"
+        
+        # If confidence is low, mark as uncertain
+        if confidence < 60:
+            disease_name = "Unknown / Low confidence"
+            confidence = round(confidence, 2)
+        
+        print(f"✅ Prediction: {disease_name} ({confidence:.2f}%)")
+        
+        # Get top 3 predictions for more info
+        top_3_indices = np.argsort(prediction[0])[-3:][::-1]
+        top_3_predictions = []
+        
+        for idx in top_3_indices:
+            if CLASS_NAMES and idx < len(CLASS_NAMES):
+                class_name = CLASS_NAMES[idx]
+            else:
+                class_name = f"Class_{idx}"
+            
+            top_3_predictions.append({
+                "disease": class_name,
+                "confidence": round(float(prediction[0][idx]) * 100, 2)
+            })
+        
+        return jsonify({
+            "success": True,
+            "disease": disease_name,
+            "confidence": round(confidence, 2),
+            "top_predictions": top_3_predictions,
+            "message": "Disease detection completed successfully"
+        }), 200
+        
+    except Exception as e:
+        print(f"❌ Error in disease detection: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        return jsonify({
+            "success": False,
+            "error": f"Detection failed: {str(e)}"
+        }), 500
   # ========== IRRIGATION PLAN API ==========
 @app.route("/api/irrigation/plan", methods=["POST"])
 def irrigation_plan():
