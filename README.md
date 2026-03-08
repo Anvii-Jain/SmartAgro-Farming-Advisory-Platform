@@ -54,7 +54,7 @@ SQLite
 
 # Pitch video -  https://drive.google.com/file/d/1BHwVckTiJeBPKjDJ3zd4USx_yHj5fci_/view?usp=sharing
 
-# Live platform link- 
+# Live platform link-  https://smartagro-farmeradvisoryplatform.netlify.app/
 
 Team HackSphere-
 
