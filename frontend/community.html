@@ -39,11 +39,11 @@
             display: block;
         }
         /* Hide search and filter elements */
-.search-container,
-.filter-section,
-#locationFilter {
-    display: none !important;
-}
+        .search-container,
+        .filter-section,
+        #locationFilter {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-                 <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
     <!-- Features Section -->
     <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
         📋 Features
@@ -80,7 +80,6 @@
     <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
     
 </nav>
-
             <div class="border-t border-white/10 p-4 text-sm text-white/70">
                 <p class="text-center">Empowering farmers with AI</p>
             </div>
@@ -121,14 +120,13 @@
                             <span class="text-sm font-semibold text-gray-700"><span class="text-green-600">142</span> online now</span>
                         </div>
 
-
                         <!-- Notifications -->
                         <div class="relative">
                             <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-green-600 transition"></i>
                             <span class="notification-badge">3</span>
                         </div>
 
-                        <!-- User Profile - DYNAMIC NOW -->
+                        <!-- User Profile -->
                         <div class="flex items-center gap-2 cursor-pointer group">
                             <div class="relative">
                                 <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold" id="userInitials">
@@ -149,17 +147,16 @@
 
                 <!-- Search Bar with Filters -->
                 <div class="mt-4 flex flex-col md:flex-row gap-3">
-                   <div class="search-container flex-1 relative">
-    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-    <input type="text" id="searchInput" placeholder="Search questions, crops, diseases..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-green-400 bg-white/50">
-</div>
+                    <div class="search-container flex-1 relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" placeholder="Search questions, crops, diseases..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-green-400 bg-white/50">
+                    </div>
                     <div class="filter-section flex gap-2 overflow-x-auto pb-2 md:pb-0">
-    <input type="text" id="cropFilter" placeholder="Filter by crop..." 
-           class="bg-white/50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-green-400 min-w-[150px]">
-                       
+                        <input type="text" id="cropFilter" placeholder="Filter by crop..." 
+                               class="bg-white/50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-green-400 min-w-[150px]">
                         <button class="bg-green-50 text-green-600 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap border border-green-200 hover:bg-green-100 transition" onclick="applyFilters()">
-        <i class="fas fa-sliders-h mr-1"></i> Filters
-    </button>
+                            <i class="fas fa-sliders-h mr-1"></i> Filters
+                        </button>
                     </div>
                 </div>
 
@@ -251,12 +248,11 @@
                             <div class="relative">
                                 <input type="text" id="questionTitle" placeholder="e.g., How to control bacterial wilt in tomato plants?" 
                                        class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition pr-12" required>
-                                
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <input type="text" id="questionCrop" placeholder="e.g., Wheat, Rice, Tomato, or local name" 
-       class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition" required>
+                                       class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition" required>
                                 
                                 <input type="text" id="questionLocation" placeholder="Your location" value="Maharashtra, India"
                                        class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400" required>
@@ -272,42 +268,9 @@
                             <textarea id="questionDescription" placeholder="Describe your issue in detail... (Include symptoms, soil type, weather conditions)" 
                                       rows="3" class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition resize-none" required></textarea>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="border-2 border-dashed border-green-400/50 rounded-lg p-4">
-    <div class="flex items-center justify-between mb-3">
-        <span class="text-sm font-medium text-gray-700">Attach Images</span>
-        <span class="text-xs text-gray-500">Max 5 photos</span>
-    </div>
-    
-    <!-- Image Preview Grid -->
-    <div id="imagePreviewContainer" class="grid grid-cols-4 gap-2 mb-3 hidden">
-        <!-- Preview images will be added here -->
-    </div>
-    
-    <!-- Upload Button -->
-    <div class="border-2 border-dashed border-green-400/50 rounded-lg p-4 text-center cursor-pointer hover:border-green-400 transition group" onclick="document.getElementById('imageUpload').click()">
-        <i class="fas fa-cloud-upload-alt text-2xl text-gray-400 group-hover:text-green-500"></i>
-        <p class="text-sm text-gray-600 mt-1">Click to upload or drag & drop</p>
-        <p class="text-xs text-gray-400 mt-1">PNG, JPG, JPEG up to 5MB</p>
-        <input type="file" id="imageUpload" class="hidden" accept="image/*" multiple onchange="handleImageUpload(event)">
-    </div>
-    
-    <!-- Upload Progress (hidden by default) -->
-    <div id="uploadProgress" class="hidden mt-3">
-        <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
-            <span>Uploading...</span>
-            <span id="uploadPercent">0%</span>
-        </div>
-        <div class="w-full bg-gray-200 rounded-full h-2">
-            <div id="uploadProgressBar" class="bg-green-600 h-2 rounded-full" style="width: 0%"></div>
-        </div>
-    </div>
-</div>
-                                
-                                <div class="flex items-center gap-2">
-                                    <input type="checkbox" id="anonymous" class="rounded text-green-500">
-                                    <label for="anonymous" class="text-sm text-gray-600">Post anonymously</label>
-                                </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="anonymous" class="rounded text-green-500">
+                                <label for="anonymous" class="text-sm text-gray-600">Post anonymously</label>
                             </div>
 
                             <!-- Similar Questions Preview -->
@@ -466,8 +429,6 @@
                     </div>
                 </div>
             </div>
-
-           
         </aside>
     </div>
 
@@ -597,11 +558,9 @@
             card.setAttribute('data-question-id', q.id);
             
             const userInitials = q.user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-            // Fix the UTC date parsing
-// Fix UTC time parsing
-const utcDate = new Date(q.created_at + ' UTC'); // Tell JS it's UTC
-const localDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000)); // Convert to IST
-const timeAgo = getTimeAgo(localDate);
+            const utcDate = new Date(q.created_at + ' UTC');
+            const localDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
+            const timeAgo = getTimeAgo(localDate);
             
             const answersHtml = q.answers && q.answers.length > 0 ? 
                 q.answers.map(a => `
@@ -644,17 +603,6 @@ const timeAgo = getTimeAgo(localDate);
                 <p class="text-sm text-gray-600 mb-4 line-clamp-2 md:line-clamp-3">
                     ${q.description}
                 </p>
-
-                                ${q.images && q.images.length > 0 ? `
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 my-3">
-                    ${q.images.map(img => `
-                        <div class="relative group cursor-pointer" onclick="openImageModal('${img}')">
-                            <img src="${img}" class="w-full h-24 object-cover rounded-lg border border-gray-200 hover:opacity-90 transition">
-                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition rounded-lg"></div>
-                        </div>
-                    `).join('')}
-                </div>
-                ` : ''}
 
                 <div class="flex flex-wrap items-center justify-between text-xs text-gray-500 mb-4">
                     <div class="flex items-center gap-3 md:gap-4">
@@ -764,16 +712,17 @@ const timeAgo = getTimeAgo(localDate);
             }
         }
 
- function getTimeAgo(date) {
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / (1000 * 60));
-    
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return diffMins + ' minutes ago';
-    if (diffMins < 1440) return Math.floor(diffMins / 60) + ' hours ago';
-    return Math.floor(diffMins / 1440) + ' days ago';
-}
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            
+            if (diffMins < 1) return 'just now';
+            if (diffMins < 60) return diffMins + ' minutes ago';
+            if (diffMins < 1440) return Math.floor(diffMins / 60) + ' hours ago';
+            return Math.floor(diffMins / 1440) + ' days ago';
+        }
+
         // ========== UPDATE STATS ==========
         function updateStats() {
             const totalQ = document.getElementById('totalQuestions');
@@ -824,7 +773,6 @@ const timeAgo = getTimeAgo(localDate);
         // ========== FILTERS AND SORT ==========
         function applyFilters() {
             currentCrop = document.getElementById('cropFilter').value;
-            
             
             displayedQuestions = allQuestions.filter(q => {
                 let match = true;
@@ -930,73 +878,66 @@ const timeAgo = getTimeAgo(localDate);
             }, 500);
         });
 
-        // ========== POST QUESTION WITH IMAGES ==========
-async function postQuestion(event) {
-    event.preventDefault();
-    
-    const title = document.getElementById('questionTitle').value;
-    const description = document.getElementById('questionDescription').value;
-    const crop = document.getElementById('questionCrop').value;
-    const location = document.getElementById('questionLocation').value;
-    const priority = document.getElementById('questionPriority').value;
-    const anonymous = document.getElementById('anonymous').checked;
-    
-    if (!title || !description || !crop || !location) {
-        alert('Please fill in all required fields');
-        return;
-    }
-    
-    const btn = event.target.querySelector('button[type="submit"]');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
-    btn.disabled = true;
-    
-    try {
-        const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
-        
-        const questionData = {
-            title: title,
-            description: description,
-            crop: crop,
-            location: location,
-            priority: priority,
-            anonymous: anonymous,
-            user_name: userData.name || 'Guest Farmer',
-            user_email: userData.email || 'guest@smartagro.com',
-            images: uploadedImages // Add uploaded images to the question data
-        };
-        
-        const response = await fetch(`${API_BASE}/api/community/questions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(questionData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            alert('✅ Question posted successfully!');
-            document.getElementById('askQuestionForm').reset();
+        // ========== POST QUESTION ==========
+        async function postQuestion(event) {
+            event.preventDefault();
             
-            // Clear uploaded images
-            uploadedImages = [];
-            document.getElementById('imagePreviewContainer').innerHTML = '';
-            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            const title = document.getElementById('questionTitle').value;
+            const description = document.getElementById('questionDescription').value;
+            const crop = document.getElementById('questionCrop').value;
+            const location = document.getElementById('questionLocation').value;
+            const priority = document.getElementById('questionPriority').value;
+            const anonymous = document.getElementById('anonymous').checked;
             
-            await loadQuestions();
-        } else {
-            alert('❌ Error: ' + (data.error || 'Failed to post question'));
+            if (!title || !description || !crop || !location) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const btn = event.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+            btn.disabled = true;
+            
+            try {
+                const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+                
+                const questionData = {
+                    title: title,
+                    description: description,
+                    crop: crop,
+                    location: location,
+                    priority: priority,
+                    anonymous: anonymous,
+                    user_name: userData.name || 'Guest Farmer',
+                    user_email: userData.email || 'guest@smartagro.com'
+                };
+                
+                const response = await fetch(`${API_BASE}/api/community/questions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(questionData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ Question posted successfully!');
+                    document.getElementById('askQuestionForm').reset();
+                    await loadQuestions();
+                } else {
+                    alert('❌ Error: ' + (data.error || 'Failed to post question'));
+                }
+            } catch (error) {
+                console.error('Error posting question:', error);
+                alert('❌ Failed to post question. Check console for details.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
-    } catch (error) {
-        console.error('Error posting question:', error);
-        alert('❌ Failed to post question. Check console for details.');
-    } finally {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }
-}
 
         // ========== SAVE DRAFT ==========
         function saveDraft() {
@@ -1031,168 +972,29 @@ async function postQuestion(event) {
             });
         });
 
-        // ========== IMAGE UPLOAD FUNCTIONALITY ==========
-let uploadedImages = []; // Store uploaded image URLs
-
-async function handleImageUpload(event) {
-    const files = event.target.files;
-    
-    if (files.length === 0) return;
-    
-    if (files.length > 5) {
-        alert('Maximum 5 photos allowed');
-        return;
-    }
-    
-    // Show progress bar
-    document.getElementById('uploadProgress').classList.remove('hidden');
-    const progressBar = document.getElementById('uploadProgressBar');
-    const percentText = document.getElementById('uploadPercent');
-    
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        
-        // Check file size (5MB limit)
-        if (file.size > 5 * 1024 * 1024) {
-            alert(`File ${file.name} is too large. Maximum size is 5MB`);
-            continue;
-        }
-        
-        // Update progress
-        const progress = ((i + 1) / files.length) * 100;
-        progressBar.style.width = progress + '%';
-        percentText.textContent = Math.round(progress) + '%';
-        
-        // Create form data
-        const formData = new FormData();
-        formData.append('image', file);
-        
-        try {
-            const response = await fetch(`${API_BASE}/api/community/upload`, {
-                method: 'POST',
-                body: formData
+        // ========== SIDEBAR ACTIVE STATE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+            
+            console.log('📍 Current page:', currentPage);
+            
+            const sidebarLinks = document.querySelectorAll('#sidebar a');
+            
+            sidebarLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                
+                link.classList.remove('bg-white/15', 'font-semibold');
+                
+                if (linkHref === currentPage) {
+                    link.classList.add('bg-white/15', 'font-semibold');
+                    console.log('✅ Highlighted:', linkHref);
+                }
+                
+                if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                    link.classList.add('bg-white/15', 'font-semibold');
+                }
             });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                uploadedImages.push(data.image_url);
-                addImagePreview(data.image_url, file.name);
-            } else {
-                alert('Error uploading ' + file.name + ': ' + data.error);
-            }
-        } catch (error) {
-            console.error('Upload error:', error);
-            alert('Failed to upload ' + file.name);
-        }
-    }
-    
-    // Hide progress bar after completion
-    setTimeout(() => {
-        document.getElementById('uploadProgress').classList.add('hidden');
-    }, 1000);
-    
-    // Clear input
-    event.target.value = '';
-}
-
-function addImagePreview(imageUrl, fileName) {
-    const container = document.getElementById('imagePreviewContainer');
-    container.classList.remove('hidden');
-    
-    const previewDiv = document.createElement('div');
-    previewDiv.className = 'relative group';
-    previewDiv.innerHTML = `
-        <img src="${imageUrl}" class="w-full h-16 object-cover rounded-lg border border-gray-200">
-        <button onclick="removeImage('${imageUrl}')" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition">
-            <i class="fas fa-times"></i>
-        </button>
-    `;
-    
-    container.appendChild(previewDiv);
-}
-
-function removeImage(imageUrl) {
-    uploadedImages = uploadedImages.filter(url => url !== imageUrl);
-    
-    // Remove preview element
-    const container = document.getElementById('imagePreviewContainer');
-    const previews = container.children;
-    for (let i = 0; i < previews.length; i++) {
-        const img = previews[i].querySelector('img');
-        if (img && img.src.includes(imageUrl)) {
-            previews[i].remove();
-            break;
-        }
-    }
-    
-    // Hide container if no images left
-    if (container.children.length === 0) {
-        container.classList.add('hidden');
-    }
-}// ========== IMAGE MODAL FOR FULL-SIZE VIEW ==========
-function openImageModal(imageUrl) {
-    // Create modal element
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4';
-    modal.onclick = function(e) {
-        if (e.target === modal) this.remove();
-    };
-    
-    modal.innerHTML = `
-        <div class="relative max-w-4xl max-h-[90vh]">
-            <img src="${imageUrl}" class="w-full h-full object-contain rounded-lg">
-            <button onclick="this.parentElement.parentElement.remove()" class="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center transition">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            <button onclick="downloadImage('${imageUrl}')" class="absolute bottom-4 right-4 text-white bg-green-600 hover:bg-green-700 rounded-full w-10 h-10 flex items-center justify-center transition">
-                <i class="fas fa-download text-xl"></i>
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-}
-
-// Optional: Download image function
-function downloadImage(imageUrl) {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = imageUrl.split('/').pop();
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
- // ========== SIDEBAR ACTIVE STATE ==========
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
-        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
-        
-        console.log('📍 Current page:', currentPage); // For debugging
-        
-        // Find all sidebar links
-        const sidebarLinks = document.querySelectorAll('#sidebar a');
-        
-        // Loop through links and highlight current page
-        sidebarLinks.forEach(link => {
-            const linkHref = link.getAttribute('href');
-            
-            // Remove any existing active classes (clean slate)
-            link.classList.remove('bg-white/15', 'font-semibold');
-            
-            // Check if this link matches current page
-            if (linkHref === currentPage) {
-                link.classList.add('bg-white/15', 'font-semibold');
-                console.log('✅ Highlighted:', linkHref); // For debugging
-            }
-            
-            // Special case for empty URL (root) - go to dashboard
-            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
-                link.classList.add('bg-white/15', 'font-semibold');
-            }
         });
-    });
     </script>
 </body>
 </html>
