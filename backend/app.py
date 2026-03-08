@@ -2281,20 +2281,51 @@ def detect_disease_tf():
             "success": False,
             "error": f"Detection failed: {str(e)}"
         }), 500
-  # ========== IRRIGATION PLAN API ==========
-@app.route("/api/irrigation/plan", methods=["POST"])
+# ========== IRRIGATION PLAN API ==========
+@app.route("/api/irrigation/plan", methods=["GET", "POST"])
 def irrigation_plan():
     """
     Generate irrigation plan based on crop, soil, season, and area
-    Uses AI for ALL crops to ensure consistent calculation
     """
+    # Handle GET requests (usually from browsers or misconfigured forms)
+    if request.method == "GET":
+        print("\n" + "="*60)
+        print("⚠️ WARNING: GET request received on irrigation API")
+        print("="*60)
+        print("This endpoint requires POST. Returning helpful error.")
+        return jsonify({
+            "success": False,
+            "message": "This endpoint requires POST method. Please use the form to submit data.",
+            "hint": "Make sure your frontend is sending a POST request with crop, soil, season, and area data."
+        }), 405
+    
+    # POST request - handle the actual irrigation calculation
     try:
         data = request.get_json()
+        print("\n" + "="*60)
+        print("✅ IRRIGATION PLAN REQUEST RECEIVED (POST)")
+        print("="*60)
+        print(f"Request data: {data}")
         
+        # Validate required fields
+        if not data:
+            return jsonify({
+                "success": False,
+                "message": "No data provided"
+            }), 400
+            
         crop = data.get("crop")
         soil = data.get("soil")
         season = data.get("season")
         area = float(data.get("area", 1))
+        
+        if not crop or not soil or not season:
+            return jsonify({
+                "success": False,
+                "message": "Missing required fields: crop, soil, season"
+            }), 400
+        
+        print(f"Parameters: crop={crop}, soil={soil}, season={season}, area={area}")
         
         soil_factors = {
             "sandy": 1.3,
@@ -2311,6 +2342,13 @@ def irrigation_plan():
         
         soil_factor = soil_factors.get(soil, 1.0)
         season_factor = season_factors.get(season, 1.0)
+        
+        print(f"Factors: soil_factor={soil_factor}, season_factor={season_factor}")
+        
+        # Define duration variables at the beginning (outside if/else)
+        veg_duration = 45
+        flower_duration = 30
+        maturity_duration = 40
         
         # Check if Groq API key is available
         if not GROQ_API_KEY:
@@ -2329,7 +2367,11 @@ def irrigation_plan():
             veg_water = round(fallback_data["veg"] * soil_factor * season_factor)
             flower_water = round(fallback_data["flower"] * soil_factor * season_factor)
             maturity_water = round(fallback_data["maturity"] * soil_factor * season_factor)
-            avg_freq = round((fallback_data["veg_freq"] + fallback_data["flower_freq"] + fallback_data["maturity_freq"]) / 3)
+            veg_freq = fallback_data["veg_freq"]
+            flower_freq = fallback_data["flower_freq"]
+            maturity_freq = fallback_data["maturity_freq"]
+            avg_freq = round((veg_freq + flower_freq + maturity_freq) / 3)
+            full_note = " (fallback values - no API key)"
             
             return jsonify({
                 "success": True,
@@ -2337,32 +2379,33 @@ def irrigation_plan():
                     "total_water": total_water,
                     "area": area,
                     "avg_frequency": avg_freq,
+                    "schedule_note": full_note,
+                    "durations": {
+                        "veg": veg_duration,
+                        "flower": flower_duration,
+                        "maturity": maturity_duration
+                    },
                     "stages": {
                         "vegetative": {
                             "water": veg_water,
-                            "frequency": fallback_data["veg_freq"],
-                            "description": f"Keep soil moist. Apply {veg_water}L per acre every {fallback_data['veg_freq']} days."
+                            "frequency": veg_freq,
+                            "description": f"Keep soil moist. Apply {veg_water}L per acre every {veg_freq} days.{full_note}"
                         },
                         "flowering": {
                             "water": flower_water,
-                            "frequency": fallback_data["flower_freq"],
-                            "description": f"Critical stage! Apply {flower_water}L per acre every {fallback_data['flower_freq']} days."
+                            "frequency": flower_freq,
+                            "description": f"Critical stage! Apply {flower_water}L per acre every {flower_freq} days.{full_note}"
                         },
                         "maturity": {
                             "water": maturity_water,
-                            "frequency": fallback_data["maturity_freq"],
-                            "description": f"Reduce water. Apply {maturity_water}L per acre every {fallback_data['maturity_freq']} days."
+                            "frequency": maturity_freq,
+                            "description": f"Reduce water. Apply {maturity_water}L per acre every {maturity_freq} days.{full_note}"
                         }
                     }
                 }
             })
         
-                                # Check cache first
-        # Define duration variables at the beginning (outside if/else)
-        veg_duration = 45
-        flower_duration = 30
-        maturity_duration = 40
-        
+        # Check cache first
         cached_data = get_cached_response(crop, soil, season)
         if cached_data:
             crop_requirements = cached_data
@@ -2512,40 +2555,8 @@ Base your answer on real agricultural science, not guessing. Use appropriate mm 
                 }
                 
                 print(f"📊 Using {category} fallback: total={fallback['total']}L")
-                
-                # ===== SMART CATEGORY-BASED FALLBACKS =====
-                # Get crop category from crops.json if available
-                category = "default"
-                if crop in crops_data:
-                    category = crops_data[crop].get("category", "default")
-                
-                # Category-based realistic values
-                category_fallbacks = {
-                    "Cereal": {"total": 150000, "veg": 60000, "flower": 52500, "maturity": 37500, "veg_freq": 7, "flower_freq": 5, "maturity_freq": 10},
-                    "Millet": {"total": 120000, "veg": 48000, "flower": 42000, "maturity": 30000, "veg_freq": 7, "flower_freq": 5, "maturity_freq": 11},
-                    "Pulse": {"total": 130000, "veg": 52000, "flower": 45500, "maturity": 32500, "veg_freq": 8, "flower_freq": 6, "maturity_freq": 12},
-                    "Oilseed": {"total": 140000, "veg": 56000, "flower": 49000, "maturity": 35000, "veg_freq": 7, "flower_freq": 5, "maturity_freq": 11},
-                    "Vegetable": {"total": 140000, "veg": 56000, "flower": 49000, "maturity": 35000, "veg_freq": 6, "flower_freq": 4, "maturity_freq": 10},
-                    "Fruit": {"total": 250000, "veg": 100000, "flower": 87500, "maturity": 62500, "veg_freq": 7, "flower_freq": 5, "maturity_freq": 12},
-                    "Cash Crop": {"total": 200000, "veg": 80000, "flower": 70000, "maturity": 50000, "veg_freq": 6, "flower_freq": 4, "maturity_freq": 10},
-                    "default": {"total": 130000, "veg": 52000, "flower": 45500, "maturity": 32500, "veg_freq": 7, "flower_freq": 5, "maturity_freq": 11}
-                }
-                
-                fallback = category_fallbacks.get(category, category_fallbacks["default"])
-                
-                crop_requirements = {
-                    "total": fallback["total"],
-                    "veg": fallback["veg"],
-                    "flower": fallback["flower"],
-                    "maturity": fallback["maturity"],
-                    "veg_freq": fallback["veg_freq"],
-                    "flower_freq": fallback["flower_freq"],
-                    "maturity_freq": fallback["maturity_freq"]
-                }
-                
-                print(f"📊 Using {category} fallback: total={fallback['total']}L")
         
-                        # Get base frequencies from AI
+        # Get base frequencies from AI
         veg_freq = crop_requirements["veg_freq"]
         flower_freq = crop_requirements["flower_freq"]
         maturity_freq = crop_requirements["maturity_freq"]
@@ -2569,7 +2580,7 @@ Base your answer on real agricultural science, not guessing. Use appropriate mm 
             flower_freq = round(flower_freq * 1.3)
             maturity_freq = round(maturity_freq * 1.3)
             soil_note = " (clay soil: less frequent)"
-
+            
         elif soil == "black":
             # Black soil: similar to clay - 25% less frequent (multiply by 1.25)
             # But needs careful management to prevent cracking
@@ -2578,8 +2589,8 @@ Base your answer on real agricultural science, not guessing. Use appropriate mm 
             maturity_freq = round(maturity_freq * 1.25)
             soil_note = " (black soil: less frequent, monitor cracks)"
             
-        else:  # loamy or black
-            # Loamy/Black: standard frequency
+        else:  # loamy
+            # Loamy: standard frequency
             soil_note = ""
         
         # ===== SEASONAL ADJUSTMENTS =====
@@ -2620,6 +2631,10 @@ Base your answer on real agricultural science, not guessing. Use appropriate mm 
         veg_water = round(crop_requirements["veg"] * soil_factor * season_factor)
         flower_water = round(crop_requirements["flower"] * soil_factor * season_factor)
         maturity_water = round(crop_requirements["maturity"] * soil_factor * season_factor)
+        
+        print(f"✅ Returning irrigation plan with total_water={total_water}")
+        print("="*60 + "\n")
+        
         return jsonify({
             "success": True,
             "plan": {
@@ -2627,7 +2642,7 @@ Base your answer on real agricultural science, not guessing. Use appropriate mm 
                 "area": area,
                 "avg_frequency": avg_freq,
                 "schedule_note": full_note,
-                "durations": {  # ← ADD THIS
+                "durations": {
                     "veg": veg_duration,
                     "flower": flower_duration,
                     "maturity": maturity_duration
@@ -2653,7 +2668,7 @@ Base your answer on real agricultural science, not guessing. Use appropriate mm 
         })
         
     except Exception as e:
-        print(f"Error in irrigation plan: {e}")
+        print(f"❌ Error in irrigation plan: {e}")
         import traceback
         traceback.print_exc()
         return jsonify({
