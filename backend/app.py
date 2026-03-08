@@ -1028,7 +1028,12 @@ def get_market_prices():
 # ========== BASIC ROUTES ==========
 @app.route("/")
 def home():
-    return "SmartAgro backend is running"
+    return send_from_directory("../frontend", "index.html")
+
+
+@app.route("/<path:path>")
+def serve_frontend(path):
+    return send_from_directory("../frontend", path)
 
 @app.route("/ping")
 def ping():
@@ -3201,4 +3206,3 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
-
