@@ -1,0 +1,3653 @@
+{
+  "wheat": {
+    "name": "Wheat",
+    "category": "Cereal",
+    "duration": {
+      "veg": 35,
+      "flower": 18,
+      "maturity": 32
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose (Before Sowing)",
+        "items": [
+          { "name": "FYM/Compost", "dose": "4–5 tons/acre", "note": "Well decomposed" },
+          { "name": "DAP", "dose": "50 kg/acre" }
+        ]
+      },
+      {
+        "title": "Crown Root Initiation (20–25 days)",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "Before Heading (45–50 days)",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Rust",
+        "symptoms": "Orange/brown pustules on leaves and stems",
+        "prevention": [
+          "Grow resistant varieties",
+          "Avoid late sowing",
+          "Spray Propiconazole or Mancozeb when symptoms appear"
+        ]
+      },
+      {
+        "name": "Powdery Mildew",
+        "symptoms": "White powdery growth on leaves and stems",
+        "prevention": [
+          "Avoid excess nitrogen",
+          "Maintain proper spacing",
+          "Spray wettable sulfur or recommended fungicide"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, sticky honeydew, stunted growth",
+        "control": [
+          "Spray neem oil (2-3 ml/L water)",
+          "Use imidacloprid @ 0.5 ml/L if infestation is severe",
+          "Introduce natural predators like ladybugs"
+        ],
+        "prevention": [
+          "Regular field monitoring",
+          "Avoid excess nitrogen fertilizer",
+          "Remove and destroy infested plant parts"
+        ]
+      },
+      {
+        "name": "Army Worm",
+        "symptoms": "Leaf defoliation, caterpillars feeding on leaves at night",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L or cypermethrin @ 1 ml/L",
+          "Use pheromone traps for monitoring",
+          "Handpick and destroy caterpillars in small areas"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation with non-host crops",
+          "Maintain field sanitation"
+        ]
+      },
+      {
+        "name": "Wheat Stem Sawfly",
+        "symptoms": "Hollow stems, lodging of plants, white heads",
+        "control": [
+          "Spray lambda-cyhalothrin @ 1 ml/L at stem elongation",
+          "Harvest at ground level to remove larvae"
+        ],
+        "prevention": [
+          "Grow resistant varieties",
+          "Stubble burning or deep plowing after harvest",
+          "Avoid late sowing"
+        ]
+      }
+    ]
+  },
+  "rice": {
+    "name": "Rice",
+    "category": "Cereal",
+    "duration": {
+      "veg": 42,
+      "flower": 28,
+      "maturity": 35
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal (Before Transplanting / Sowing)",
+        "items": [
+          { "name": "FYM/Compost", "dose": "4–5 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "Tillering Stage (20–25 days after transplanting)",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "Panicle Initiation (40–45 days after transplanting)",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" },
+          { "name": "MOP (Potash)", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Rice Blast",
+        "symptoms": "Diamond-shaped lesions with gray center on leaves and neck",
+        "prevention": [
+          "Use resistant varieties",
+          "Avoid excess nitrogen",
+          "Spray Tricyclazole as per recommendation"
+        ]
+      },
+      {
+        "name": "Bacterial Leaf Blight",
+        "symptoms": "Yellowing and drying from leaf tip toward base",
+        "prevention": [
+          "Use clean seed and resistant varieties",
+          "Balanced fertilization",
+          "Avoid water movement from infected fields"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Brown Plant Hopper",
+        "symptoms": "Hopper burn, circular yellowing and drying of plants, honeydew secretion",
+        "control": [
+          "Spray pymetrozine @ 0.6 g/L or imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L as organic option",
+          "Maintain 2-3 cm water depth during application"
+        ],
+        "prevention": [
+          "Avoid close planting",
+          "Use resistant varieties like PTB 33",
+          "Monitor fields regularly with light traps"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Dead hearts in vegetative stage, white ears in reproductive stage, bore holes in stem",
+        "control": [
+          "Spray chlorantraniliprole @ 0.4 ml/L or cartap hydrochloride @ 1 g/L",
+          "Apply carbofuran granules in nursery",
+          "Use pheromone traps @ 5-6 traps/acre"
+        ],
+        "prevention": [
+          "Clip and destroy affected tillers",
+          "Avoid staggered planting",
+          "Flood field to submerge eggs"
+        ]
+      },
+      {
+        "name": "Leaf Folder",
+        "symptoms": "Leaves folded and fastened with silk, white and green striped appearance",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L or quinalphos @ 2 ml/L",
+          "Use neem-based insecticides",
+          "Release natural enemies like Trichogramma"
+        ],
+        "prevention": [
+          "Avoid excess nitrogen",
+          "Maintain proper spacing",
+          "Remove and destroy affected leaves"
+        ]
+      }
+    ]
+  },
+  "maize": {
+    "name": "Maize",
+    "category": "Cereal",
+    "duration": {
+      "veg": 40,
+      "flower": 22,
+      "maturity": 33
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Early Growth (0–30 days)",
+        "items": [
+          { "name": "FYM/Compost", "dose": "5–6 tons/acre", "note": "Before sowing" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "Knee-High Stage (25–30 days)",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "Pre-Tasseling (45–50 days)",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" },
+          { "name": "MOP (Potash)", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Leaf Blight",
+        "symptoms": "Brown, elongated lesions with yellow halos on leaves",
+        "prevention": [
+          "Use resistant hybrids",
+          "Avoid dense planting",
+          "Spray Mancozeb or similar fungicide if severe"
+        ]
+      },
+      {
+        "name": "Stem Rot",
+        "symptoms": "Dark lesions on lower stems, lodging, wilting",
+        "prevention": [
+          "Avoid waterlogging",
+          "Crop rotation with non-host crops",
+          "Use balanced fertilizer"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Fall Army Worm",
+        "symptoms": "Leaf defoliation, window-pane damage, frass near whorl",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or spinosad @ 0.5 ml/L",
+          "Apply chlorantraniliprole @ 0.4 ml/L in whorl",
+          "Use neem oil @ 5 ml/L for organic control"
+        ],
+        "prevention": [
+          "Early planting to avoid peak pest population",
+          "Install pheromone traps @ 4-5 traps/acre",
+          "Conserve natural enemies like parasitic wasps"
+        ]
+      },
+      {
+        "name": "Maize Stem Borer",
+        "symptoms": "Dead heart, shot holes in leaves, bore holes in stem",
+        "control": [
+          "Spray carbaryl @ 2.5 g/L or chlorpyriphos @ 2.5 ml/L",
+          "Apply carbofuran granules in leaf whorl",
+          "Release Trichogramma egg parasitoids"
+        ],
+        "prevention": [
+          "Destroy crop residues after harvest",
+          "Deep summer plowing",
+          "Grow resistant hybrids"
+        ]
+      },
+      {
+        "name": "Corn Earworm",
+        "symptoms": "Feeding on silks and kernels, frass on ear tips",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L at silking stage",
+          "Apply mineral oil drops on silks"
+        ],
+        "prevention": [
+          "Plant early maturing varieties",
+          "Use pheromone traps",
+          "Avoid late planting"
+        ]
+      }
+    ]
+  },
+  "barley": {
+    "name": "Barley",
+    "category": "Cereal",
+    "duration": {
+      "veg": 35,
+      "flower": 18,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" },
+          { "name": "DAP", "dose": "40 kg/acre" }
+        ]
+      },
+      {
+        "title": "Tillering Stage (20–25 days)",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Leaf Blotch",
+        "symptoms": "Brown blotches on leaves",
+        "prevention": [
+          "Use disease-free seed",
+          "Avoid monocropping",
+          "Fungicide spray if needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, sticky honeydew, stunted growth",
+        "control": [
+          "Spray neem oil @ 3 ml/L",
+          "Use imidacloprid @ 0.5 ml/L for severe infestation",
+          "Introduce ladybugs for biological control"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Avoid excess nitrogen",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Army Worm",
+        "symptoms": "Leaf defoliation, caterpillars feeding in groups",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Handpick and destroy larvae",
+          "Use pheromone traps"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation",
+          "Maintain field sanitation"
+        ]
+      },
+      {
+        "name": "Barley Thrips",
+        "symptoms": "Silvery streaks on leaves, stunted growth",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "sorghum": {
+    "name": "Sorghum",
+    "category": "Millet",
+    "duration": {
+      "veg": 35,
+      "flower": 20,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "4–5 tons/acre" },
+          { "name": "DAP", "dose": "30–40 kg/acre" }
+        ]
+      },
+      {
+        "title": "30–35 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Chlorotic streaks, downy growth on underside of leaves",
+        "prevention": [
+          "Treat seeds with fungicide",
+          "Destroy infected plants",
+          "Grow resistant varieties"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot Fly",
+        "symptoms": "Dead heart, rotting of central shoot, fishy odor",
+        "control": [
+          "Spray dimethoate @ 1 ml/L at 7 and 15 days after emergence",
+          "Use carbofuran granules in furrows at sowing",
+          "Apply neem cake @ 50 kg/acre"
+        ],
+        "prevention": [
+          "Early sowing with monsoon onset",
+          "Grow resistant varieties",
+          "Remove and destroy affected tillers"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Dead hearts, bore holes in stem, red discoloration",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Apply carbofuran granules in leaf whorl",
+          "Release Trichogramma parasitoids"
+        ],
+        "prevention": [
+          "Destroy crop residues",
+          "Deep summer plowing",
+          "Intercropping with pulses"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on leaves, honeydew, sooty mold",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Conserve natural enemies"
+        ]
+      }
+    ]
+  },
+  "pearl-millet": {
+    "name": "Pearl Millet",
+    "category": "Millet",
+    "duration": {
+      "veg": 30,
+      "flower": 18,
+      "maturity": 27
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "25–30 kg/acre" }
+        ]
+      },
+      {
+        "title": "25–30 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Systemic infection, pale leaves, malformed heads",
+        "prevention": [
+          "Use resistant hybrids",
+          "Seed treatment with fungicide",
+          "Rogue out infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot Fly",
+        "symptoms": "Dead heart, rotting of central shoot",
+        "control": [
+          "Spray dimethoate @ 1 ml/L at 7 and 15 days after emergence",
+          "Use carbofuran granules at sowing",
+          "Apply neem cake @ 50 kg/acre"
+        ],
+        "prevention": [
+          "Early sowing with monsoon",
+          "Grow resistant varieties",
+          "Remove and destroy affected tillers"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Dead hearts, bore holes in stem",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Apply carbofuran granules",
+          "Release Trichogramma"
+        ],
+        "prevention": [
+          "Destroy crop residues",
+          "Deep summer plowing"
+        ]
+      },
+      {
+        "name": "White Grub",
+        "symptoms": "Wilting, roots eaten, larvae in soil",
+        "control": [
+          "Apply chlorpyriphos @ 2.5 ml/L as soil drench",
+          "Use carbofuran granules at sowing"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      }
+    ]
+  },
+  "finger-millet": {
+    "name": "Finger Millet",
+    "category": "Millet",
+    "duration": {
+      "veg": 35,
+      "flower": 20,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "4 tons/acre" },
+          { "name": "DAP", "dose": "30–35 kg/acre" }
+        ]
+      },
+      {
+        "title": "25–30 Days After Transplanting",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Blast",
+        "symptoms": "Spindle-shaped lesions on leaves and neck",
+        "prevention": [
+          "Use resistant varieties",
+          "Balanced nitrogen application",
+          "Spray recommended fungicide"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Army Worm",
+        "symptoms": "Leaf defoliation, caterpillars feeding",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Handpick and destroy larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing, sooty mold",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Avoid monocropping",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "oats": {
+    "name": "Oats",
+    "category": "Cereal",
+    "duration": {
+      "veg": 35,
+      "flower": 18,
+      "maturity": 32
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose (At Sowing)",
+        "items": [
+          { "name": "FYM/Compost", "dose": "5–6 tons/acre" },
+          { "name": "DAP", "dose": "35–40 kg/acre" }
+        ]
+      },
+      {
+        "title": "Tillering Stage (25–30 days)",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Leaf Rust",
+        "symptoms": "Reddish-brown pustules on leaves",
+        "prevention": [
+          "Use resistant varieties",
+          "Avoid excessive nitrogen",
+          "Apply fungicide if incidence is high"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, sticky honeydew",
+        "control": [
+          "Spray neem oil @ 3 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Army Worm",
+        "symptoms": "Leaf defoliation, caterpillars feeding",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Handpick and destroy larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid late sowing",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "rye": {
+    "name": "Rye",
+    "category": "Cereal",
+    "duration": {
+      "veg": 35,
+      "flower": 18,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" },
+          { "name": "DAP", "dose": "30–35 kg/acre" }
+        ]
+      },
+      {
+        "title": "Tillering (20–25 days)",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Ergot",
+        "symptoms": "Dark, hardened bodies replacing grains",
+        "prevention": [
+          "Use clean seed",
+          "Crop rotation",
+          "Destroy ergot-affected heads"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, sticky honeydew",
+        "control": [
+          "Spray neem oil @ 3 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Army Worm",
+        "symptoms": "Leaf defoliation",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Handpick larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      },
+      {
+        "name": "Hessian Fly",
+        "symptoms": "Stunted plants, dark larvae at stem base",
+        "control": [
+          "Delay planting to avoid fly emergence",
+          "Spray lambda-cyhalothrin @ 1 ml/L"
+        ],
+        "prevention": [
+          "Destroy volunteer plants",
+          "Use resistant varieties"
+        ]
+      }
+    ]
+  },
+  "foxtail-millet": {
+    "name": "Foxtail Millet",
+    "category": "Millet",
+    "duration": {
+      "veg": 30,
+      "flower": 18,
+      "maturity": 27
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "25–30 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "10–12 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Blast",
+        "symptoms": "Spots on leaves and panicles leading to drying",
+        "prevention": [
+          "Use resistant varieties",
+          "Seed treatment with fungicide",
+          "Avoid excess nitrogen"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot Fly",
+        "symptoms": "Dead heart, rotting of central shoot",
+        "control": [
+          "Spray dimethoate @ 1 ml/L at 7 and 15 days after emergence",
+          "Use carbofuran granules at sowing"
+        ],
+        "prevention": [
+          "Early sowing with monsoon",
+          "Remove and destroy affected tillers"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Dead hearts, bore holes",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Release Trichogramma"
+        ],
+        "prevention": [
+          "Destroy crop residues",
+          "Deep summer plowing"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray neem oil @ 3 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Conserve natural enemies"
+        ]
+      }
+    ]
+  },
+  "little-millet": {
+    "name": "Little Millet",
+    "category": "Millet",
+    "duration": {
+      "veg": 30,
+      "flower": 18,
+      "maturity": 27
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "20–25 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "8–10 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Rust",
+        "symptoms": "Small brown pustules on leaves",
+        "prevention": [
+          "Use healthy seed",
+          "Avoid volunteer plants",
+          "Fungicide spray if needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot Fly",
+        "symptoms": "Dead heart, rotting of central shoot",
+        "control": [
+          "Spray dimethoate @ 1 ml/L at 7 and 15 days after emergence",
+          "Use carbofuran granules at sowing"
+        ],
+        "prevention": [
+          "Early sowing with monsoon",
+          "Remove and destroy affected tillers"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Dead hearts, bore holes",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Release Trichogramma"
+        ],
+        "prevention": [
+          "Destroy crop residues",
+          "Deep summer plowing"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray neem oil @ 3 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Conserve natural enemies"
+        ]
+      }
+    ]
+  },
+  "barnyard-millet": {
+    "name": "Barnyard Millet",
+    "category": "Millet",
+    "duration": {
+      "veg": 30,
+      "flower": 18,
+      "maturity": 27
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      },
+      {
+        "title": "25 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "8–10 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Smut",
+        "symptoms": "Sori replacing grains with black powder",
+        "prevention": [
+          "Seed treatment with fungicide",
+          "Crop rotation",
+          "Use resistant varieties"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot Fly",
+        "symptoms": "Dead heart, rotting of central shoot",
+        "control": [
+          "Spray dimethoate @ 1 ml/L at 7 and 15 days after emergence",
+          "Use carbofuran granules at sowing"
+        ],
+        "prevention": [
+          "Early sowing with monsoon",
+          "Remove and destroy affected tillers"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Dead hearts, bore holes",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Release Trichogramma"
+        ],
+        "prevention": [
+          "Destroy crop residues",
+          "Deep summer plowing"
+        ]
+      },
+      {
+        "name": "Army Worm",
+        "symptoms": "Leaf defoliation",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Handpick and destroy larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      }
+    ]
+  },
+  "chickpea": {
+    "name": "Chickpea (Gram)",
+    "category": "Pulse",
+    "duration": {
+      "veg": 32,
+      "flower": 22,
+      "maturity": 28
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose (Before Sowing)",
+        "items": [
+          { "name": "DAP", "dose": "25–30 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Wilt",
+        "symptoms": "Sudden wilting and drying of plants",
+        "prevention": [
+          "Use wilt-resistant varieties",
+          "Seed treatment with fungicide",
+          "Crop rotation with non-host crops"
+        ]
+      },
+      {
+        "name": "Ascochyta Blight",
+        "symptoms": "Dark lesions on leaves, stems and pods",
+        "prevention": [
+          "Use disease-free seed",
+          "Avoid dense planting",
+          "Fungicidal sprays when needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding on seeds, webbed pods",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or indoxacarb @ 0.5 ml/L",
+          "Use neem oil @ 5 ml/L at pod formation",
+          "Install pheromone traps @ 5 traps/acre"
+        ],
+        "prevention": [
+          "Early sowing to escape pest attack",
+          "Intercropping with coriander or mustard",
+          "Avoid excess nitrogen"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender shoots and pods, sticky honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L or imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L as organic option"
+        ],
+        "prevention": [
+          "Remove and destroy affected plant parts",
+          "Conserve natural enemies like ladybird beetles"
+        ]
+      },
+      {
+        "name": "Cutworm",
+        "symptoms": "Young plants cut at ground level, wilting",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L on soil",
+          "Apply poison baits (rice bran + molasses + insecticide)"
+        ],
+        "prevention": [
+          "Deep plowing in summer",
+          "Handpick and destroy larvae at early stage"
+        ]
+      }
+    ]
+  },
+  "pigeon-pea": {
+    "name": "Pigeon Pea (Tur/Arhar)",
+    "category": "Pulse",
+    "duration": {
+      "veg": 45,
+      "flower": 35,
+      "maturity": 40
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Sterility Mosaic",
+        "symptoms": "Bushy plants with mosaic leaves, no pods",
+        "prevention": [
+          "Use resistant varieties",
+          "Control mite vectors",
+          "Remove infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding on seeds",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or indoxacarb @ 0.5 ml/L",
+          "Use neem oil @ 5 ml/L",
+          "Install pheromone traps @ 5 traps/acre"
+        ],
+        "prevention": [
+          "Intercropping with sorghum or pearl millet",
+          "Release Trichogramma parasitoids",
+          "Avoid continuous cropping"
+        ]
+      },
+      {
+        "name": "Spotted Pod Borer",
+        "symptoms": "Webbing on leaves and pods, larvae feeding",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem-based insecticides"
+        ],
+        "prevention": [
+          "Regular monitoring",
+          "Remove and destroy affected pods"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Conserve natural enemies",
+          "Remove weed hosts"
+        ]
+      }
+    ]
+  },
+    "green-gram": {
+    "name": "Green Gram (Moong)",
+    "category": "Pulse",
+    "duration": {
+      "veg": 25,
+      "flower": 20,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "16–20 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Yellow Mosaic Virus",
+        "symptoms": "Yellow mosaic pattern on leaves",
+        "prevention": [
+          "Use resistant varieties",
+          "Control whiteflies",
+          "Rogue out infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing, sooty mold, virus transmission",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Avoid monocropping",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding on seeds",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L at pod formation"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Install pheromone traps"
+        ]
+      }
+    ]
+  },
+  "black-gram": {
+    "name": "Black Gram (Urad)",
+    "category": "Pulse",
+    "duration": {
+      "veg": 25,
+      "flower": 20,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "16–20 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Cercospora Leaf Spot",
+        "symptoms": "Brown circular spots on leaves",
+        "prevention": [
+          "Use healthy seed",
+          "Avoid waterlogging",
+          "Apply fungicide if severe"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing, sooty mold",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Avoid monocropping",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Install pheromone traps"
+        ]
+      }
+    ]
+  },
+  "lentil": {
+    "name": "Lentil (Masoor)",
+    "category": "Pulse",
+    "duration": {
+      "veg": 30,
+      "flower": 20,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "15–20 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Rust",
+        "symptoms": "Small orange pustules on leaves and stems",
+        "prevention": [
+          "Grow resistant varieties",
+          "Avoid late sowing",
+          "Fungicidal sprays when required"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor fields regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding on seeds",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L at pod formation"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Install pheromone traps"
+        ]
+      },
+      {
+        "name": "Cutworm",
+        "symptoms": "Plants cut at base, wilting",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L on soil",
+          "Use poison baits"
+        ],
+        "prevention": [
+          "Deep plowing in summer",
+          "Handpick larvae"
+        ]
+      }
+    ]
+  },
+  "kidney-bean": {
+    "name": "Kidney Beans (Rajma)",
+    "category": "Pulse",
+    "duration": {
+      "veg": 30,
+      "flower": 22,
+      "maturity": 28
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Anthracnose",
+        "symptoms": "Dark sunken lesions on stems and pods",
+        "prevention": [
+          "Use certified seed",
+          "Avoid overhead irrigation",
+          "Apply fungicide if needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Install pheromone traps"
+        ]
+      },
+      {
+        "name": "Spider Mites",
+        "symptoms": "Yellow speckling on leaves, fine webbing",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L",
+          "Apply sulfur dust"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      }
+    ]
+  },
+  "peas": {
+    "name": "Peas",
+    "category": "Pulse",
+    "duration": {
+      "veg": 28,
+      "flower": 20,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Powdery Mildew",
+        "symptoms": "White powdery growth on leaf surfaces",
+        "prevention": [
+          "Sow at proper time",
+          "Fungicidal sprays when needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Pod Borer",
+        "symptoms": "Holes in pods, larvae feeding on peas",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L at pod formation"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Install pheromone traps"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves, distorted growth",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid late sowing",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "soybean": {
+    "name": "Soybean",
+    "category": "Pulse",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "30–40 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Rust",
+        "symptoms": "Tiny reddish-brown pustules on underside of leaves",
+        "prevention": [
+          "Resistant varieties",
+          "Avoid late sowing",
+          "Fungicidal sprays when needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Tobacco Caterpillar",
+        "symptoms": "Leaf defoliation, larvae feeding on leaves",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use chlorpyriphos @ 2.5 ml/L",
+          "Handpick and destroy larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Use pheromone traps"
+        ]
+      },
+      {
+        "name": "Stem Fly",
+        "symptoms": "Wilting of young plants, maggots in stem",
+        "control": [
+          "Seed treatment with imidacloprid",
+          "Spray dimethoate @ 1 ml/L at early stage"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Remove and destroy affected plants"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Green Semilooper",
+        "symptoms": "Defoliation, green larvae feeding on leaves",
+        "control": [
+          "Spray chlorantraniliprole @ 0.4 ml/L",
+          "Use neem-based insecticides"
+        ],
+        "prevention": [
+          "Regular monitoring",
+          "Handpick larvae at early stage"
+        ]
+      }
+    ]
+  },
+  "groundnut": {
+    "name": "Groundnut",
+    "category": "Oilseed",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "Gypsum", "dose": "80–100 kg/acre", "note": "At flowering" },
+          { "name": "DAP", "dose": "25–30 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Tikka Leaf Spot",
+        "symptoms": "Circular brown spots on leaves with yellow halo",
+        "prevention": [
+          "Use treated seed",
+          "Spray Mancozeb or Chlorothalonil",
+          "Destroy crop residues"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Leaf Miner",
+        "symptoms": "Serpentine mines on leaves, drying of leaves",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or triazophos @ 1.5 ml/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Remove and destroy affected leaves",
+          "Avoid water stress"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender shoots, curling leaves",
+        "control": [
+          "Spray dimethoate @ 1 ml/L or imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "White Grub",
+        "symptoms": "Wilting, roots eaten, larvae in soil",
+        "control": [
+          "Apply chlorpyriphos @ 2.5 ml/L as soil drench",
+          "Use carbofuran granules at sowing"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation with non-host crops"
+        ]
+      },
+      {
+        "name": "Red Hairy Caterpillar",
+        "symptoms": "Defoliation, hairy caterpillars in groups",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Handpick and destroy larvae",
+          "Create barrier trenches"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Remove alternate hosts"
+        ]
+      }
+    ]
+  },
+  "mustard": {
+    "name": "Mustard",
+    "category": "Oilseed",
+    "duration": {
+      "veg": 30,
+      "flower": 22,
+      "maturity": 28
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "30–35 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      },
+      {
+        "title": "30 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Alternaria Blight",
+        "symptoms": "Dark concentric spots on leaves, pods and stems",
+        "prevention": [
+          "Use treated seed",
+          "Timely sowing",
+          "Fungicidal sprays as recommended"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender shoots, pods, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L or imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L",
+          "Install yellow sticky traps"
+        ],
+        "prevention": [
+          "Early sowing to escape peak infestation",
+          "Conserve natural enemies like ladybird beetles",
+          "Avoid excess nitrogen"
+        ]
+      },
+      {
+        "name": "Mustard Sawfly",
+        "symptoms": "Defoliation, larvae feeding on leaves",
+        "control": [
+          "Spray quinalphos @ 1.5 ml/L",
+          "Use neem-based insecticides"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      },
+      {
+        "name": "Cabbage Butterfly",
+        "symptoms": "Holes in leaves, green larvae feeding",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Handpick and destroy larvae",
+          "Use Bacillus thuringiensis"
+        ],
+        "prevention": [
+          "Regular monitoring",
+          "Remove and destroy egg masses"
+        ]
+      },
+      {
+        "name": "Flea Beetle",
+        "symptoms": "Shot holes in leaves, small jumping beetles",
+        "control": [
+          "Spray carbaryl @ 2 g/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Avoid monocropping",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "sunflower": {
+    "name": "Sunflower",
+    "category": "Oilseed",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "30–35 kg/acre" },
+          { "name": "FYM/Compost", "dose": "3–4 tons/acre" }
+        ]
+      },
+      {
+        "title": "30 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Chlorotic patches and downy growth on leaves",
+        "prevention": [
+          "Treat seeds with fungicide",
+          "Resistant varieties",
+          "Sprays if needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Helicoverpa (Pod Borer)",
+        "symptoms": "Larvae feeding on flower heads and seeds",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use indoxacarb @ 0.5 ml/L",
+          "Install pheromone traps @ 5 traps/acre"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Handpick and destroy larvae",
+          "Release Trichogramma"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender shoots, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid late sowing",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Sunflower Moth",
+        "symptoms": "Webbing on flower heads, larvae feeding on seeds",
+        "control": [
+          "Spray chlorantraniliprole @ 0.4 ml/L at flowering",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Remove and destroy affected heads"
+        ]
+      }
+    ]
+  },
+    "sesame": {
+    "name": "Sesame (Til)",
+    "category": "Oilseed",
+    "duration": {
+      "veg": 25,
+      "flower": 20,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Phyllody",
+        "symptoms": "Floral parts turn leafy and sterile",
+        "prevention": [
+          "Use healthy seed",
+          "Control leafhopper vectors",
+          "Rogue out infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Leaf Roller",
+        "symptoms": "Leaves rolled and fastened with silk, larvae inside",
+        "control": [
+          "Spray quinalphos @ 1.5 ml/L",
+          "Use neem oil @ 3 ml/L",
+          "Handpick and destroy rolled leaves"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Remove and destroy affected leaves",
+          "Avoid excess nitrogen"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Gall Fly",
+        "symptoms": "Galls on leaves, stunted growth",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Remove and destroy galls"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Use resistant varieties"
+        ]
+      }
+    ]
+  },
+  "safflower": {
+    "name": "Safflower",
+    "category": "Oilseed",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Alternaria Leaf Spot",
+        "symptoms": "Brown spots on leaves and heads",
+        "prevention": [
+          "Use disease-free seed",
+          "Avoid continuous cropping",
+          "Apply fungicide if required"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender shoots, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Early sowing",
+          "Conserve natural enemies",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Safflower Caterpillar",
+        "symptoms": "Defoliation, larvae feeding on leaves",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Handpick and destroy larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Regular monitoring"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid late sowing",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "linseed": {
+    "name": "Linseed (Flaxseed)",
+    "category": "Oilseed",
+    "duration": {
+      "veg": 35,
+      "flower": 22,
+      "maturity": 28
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "DAP", "dose": "20–25 kg/acre" },
+          { "name": "FYM/Compost", "dose": "2–3 tons/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Wilt",
+        "symptoms": "Yellowing and wilting of plants",
+        "prevention": [
+          "Use resistant varieties",
+          "Seed treatment",
+          "Crop rotation"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Linseed Caterpillar",
+        "symptoms": "Defoliation, larvae feeding on leaves and capsules",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use quinalphos @ 1.5 ml/L",
+          "Handpick and destroy larvae"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Early sowing",
+          "Remove crop residues"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid late sowing",
+          "Remove weed hosts"
+        ]
+      }
+    ]
+  },
+  "potato": {
+    "name": "Potato",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 32,
+      "flower": 18,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose (At Planting)",
+        "items": [
+          { "name": "FYM/Compost", "dose": "6–8 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "Earthing Up (25–30 days)",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" },
+          { "name": "MOP", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Late Blight",
+        "symptoms": "Dark, water-soaked lesions on leaves and stems",
+        "prevention": [
+          "Use resistant varieties",
+          "Avoid waterlogging",
+          "Spray fungicides like Mancozeb/Metalaxyl as recommended"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Potato Tuber Moth",
+        "symptoms": "Larvae mine into leaves and tubers, webbing on foliage",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or spinosad @ 0.5 ml/L",
+          "Treat seed tubers with chlorpyriphos",
+          "Deep planting to cover tubers"
+        ],
+        "prevention": [
+          "Avoid leaving tubers in field after harvest",
+          "Use healthy, certified seed",
+          "Store at cool temperatures"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, virus transmission, honeydew",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L or dimethoate @ 1 ml/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Remove weed hosts",
+          "Avoid overcrowding"
+        ]
+      },
+      {
+        "name": "Cutworm",
+        "symptoms": "Plants cut at base, wilting",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L on soil",
+          "Use poison baits"
+        ],
+        "prevention": [
+          "Deep plowing",
+          "Handpick larvae at night"
+        ]
+      },
+      {
+        "name": "White Grub",
+        "symptoms": "Wilting, roots and tubers eaten",
+        "control": [
+          "Apply chlorpyriphos @ 2.5 ml/L as soil drench",
+          "Use carbofuran granules at planting"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Crop rotation"
+        ]
+      }
+    ]
+  },
+  "tomato": {
+    "name": "Tomato",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 28,
+      "flower": 22,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Early Growth (0–30 days)",
+        "items": [
+          { "name": "FYM/Compost", "dose": "8–10 tons/acre", "note": "Before planting" },
+          { "name": "DAP", "dose": "50 kg/acre" },
+          { "name": "Urea", "dose": "20 kg/acre" }
+        ]
+      },
+      {
+        "title": "Mid Growth (30–60 days)",
+        "items": [
+          { "name": "NPK 19-19-19 (Water-soluble)", "dose": "2–3 kg/acre weekly" },
+          { "name": "Calcium Nitrate", "dose": "2–3 kg/acre" }
+        ]
+      },
+      {
+        "title": "Late Growth / Fruiting (60+ days)",
+        "items": [
+          { "name": "Potassium Sulfate (SOP)", "dose": "15–20 kg/acre" },
+          { "name": "Magnesium Sulfate (Epsom Salt)", "dose": "5 kg/acre", "note": "Foliar spray" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Early Blight",
+        "symptoms": "Brown spots with concentric rings on older leaves",
+        "prevention": [
+          "Spray Chlorothalonil or Mancozeb",
+          "Avoid overhead irrigation"
+        ]
+      },
+      {
+        "name": "Late Blight",
+        "symptoms": "Dark brown to black lesions on leaves and stems",
+        "prevention": [
+          "Spray Metalaxyl or Copper oxychloride",
+          "Ensure good crop spacing"
+        ]
+      },
+      {
+        "name": "Fusarium Wilt",
+        "symptoms": "Yellowing and wilting of lower leaves, brown vascular tissue",
+        "prevention": [
+          "Use resistant varieties",
+          "Soil drenching with Carbendazim"
+        ]
+      },
+      {
+        "name": "Tomato Leaf Curl Virus",
+        "symptoms": "Upward curling and yellowing of leaves, stunted plants",
+        "prevention": [
+          "Control whiteflies (Imidacloprid, sticky traps)",
+          "Remove and destroy infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Fruit Borer",
+        "symptoms": "Holes in fruits, rotting, larvae inside fruits",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or spinosad @ 0.5 ml/L",
+          "Use neem oil @ 5 ml/L at fruiting stage",
+          "Install pheromone traps @ 5 traps/acre"
+        ],
+        "prevention": [
+          "Remove and destroy infested fruits",
+          "Avoid continuous cropping of tomato",
+          "Use resistant varieties"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing of leaves, sooty mold, vector for viruses",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L or acetamiprid @ 0.5 g/L",
+          "Use yellow sticky traps @ 6-8 traps/acre",
+          "Spray neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid planting near already infested fields",
+          "Remove weed hosts",
+          "Use reflective mulch"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, stunted growth, honeydew secretion",
+        "control": [
+          "Spray dimethoate @ 1 ml/L or imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Conserve natural enemies",
+          "Monitor fields regularly"
+        ]
+      },
+      {
+        "name": "Spider Mites",
+        "symptoms": "Yellow speckling on leaves, fine webbing",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L",
+          "Apply sulfur dust"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      }
+    ]
+  },
+  "onion": {
+    "name": "Onion",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 40,
+      "flower": 22,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "5–6 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "30–35 Days After Transplanting",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Purple Blotch",
+        "symptoms": "Purple lesions with yellow halo on leaves",
+        "prevention": [
+          "Use disease-free seed",
+          "Avoid waterlogging",
+          "Fungicidal sprays as needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves, white patches, leaf curling",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L or fipronil @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Apply neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid planting near grain fields",
+          "Use blue sticky traps",
+          "Irrigate regularly to reduce thrips population"
+        ]
+      },
+      {
+        "name": "Onion Maggot",
+        "symptoms": "Larvae feed on roots and bulbs, wilting, rotting",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L around plants",
+          "Seed treatment with imidacloprid"
+        ],
+        "prevention": [
+          "Crop rotation with non-host crops",
+          "Remove crop residues",
+          "Avoid excessive organic matter"
+        ]
+      }
+    ]
+  },
+  "brinjal": {
+    "name": "Brinjal (Eggplant)",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "8–10 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "30–40 Days After Transplanting",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" },
+          { "name": "MOP", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Phomopsis Blight",
+        "symptoms": "Spots on leaves and fruit rot",
+        "prevention": [
+          "Use healthy seed",
+          "Destroy infected fruits",
+          "Fungicide sprays if severe"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot and Fruit Borer",
+        "symptoms": "Bore holes in shoots and fruits, wilting of shoots, frass",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or spinosad @ 0.5 ml/L",
+          "Use neem oil @ 5 ml/L",
+          "Remove and destroy affected shoots and fruits"
+        ],
+        "prevention": [
+          "Grow resistant varieties",
+          "Install pheromone traps @ 5 traps/acre",
+          "Avoid continuous cropping"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing, sooty mold",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Remove weed hosts",
+          "Avoid monocropping"
+        ]
+      },
+      {
+        "name": "Epilachna Beetle",
+        "symptoms": "Skeletonized leaves, yellow beetle with spots",
+        "control": [
+          "Spray carbaryl @ 2 g/L",
+          "Handpick and destroy beetles and larvae"
+        ],
+        "prevention": [
+          "Regular monitoring",
+          "Remove alternate hosts"
+        ]
+      }
+    ]
+  },
+  "chilli": {
+    "name": "Chilli",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "8–10 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "30–35 Days After Transplanting",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Anthracnose",
+        "symptoms": "Sunken dark spots on fruits",
+        "prevention": [
+          "Use healthy seed",
+          "Crop rotation",
+          "Fungicidal sprays when needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves, curling, stunted growth",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L or fipronil @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Apply neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Use blue sticky traps",
+          "Avoid water stress",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Mites",
+        "symptoms": "Yellow speckling on leaves, leaf drop",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L",
+          "Apply sulfur dust"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      },
+      {
+        "name": "Fruit Borer",
+        "symptoms": "Holes in fruits, larvae inside",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Remove and destroy affected fruits",
+          "Install pheromone traps"
+        ]
+      }
+    ]
+  },
+  "okra": {
+    "name": "Okra (Ladyfinger)",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 30,
+      "flower": 25,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "5–6 tons/acre" },
+          { "name": "DAP", "dose": "30–40 kg/acre" }
+        ]
+      },
+      {
+        "title": "20–25 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Yellow Vein Mosaic Virus",
+        "symptoms": "Yellowing of veins and mosaic pattern on leaves",
+        "prevention": [
+          "Use resistant varieties",
+          "Control whiteflies",
+          "Remove infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Shoot and Fruit Borer",
+        "symptoms": "Bore holes in shoots and fruits, wilting, frass",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use spinosad @ 0.5 ml/L",
+          "Remove and destroy affected shoots and fruits"
+        ],
+        "prevention": [
+          "Grow resistant varieties",
+          "Install pheromone traps",
+          "Avoid continuous cropping"
+        ]
+      },
+      {
+        "name": "Leaf Hopper",
+        "symptoms": "Hopper burn, yellowing, curling of leaves",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Conserve natural enemies",
+          "Regular monitoring"
+        ]
+      },
+      {
+        "name": "Red Spider Mite",
+        "symptoms": "Yellow speckling, fine webbing",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      }
+    ]
+  },
+  "cabbage": {
+    "name": "Cabbage",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 28,
+      "flower": 20,
+      "maturity": 27
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "6–8 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "30 Days After Transplanting",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Black Rot",
+        "symptoms": "V-shaped yellow lesions on leaf margins",
+        "prevention": [
+          "Use disease-free seed",
+          "Crop rotation",
+          "Destroy infected crop residues"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Diamondback Moth",
+        "symptoms": "Holes in leaves, larvae feeding, ragged appearance",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use spinosad @ 0.5 ml/L",
+          "Apply Bacillus thuringiensis"
+        ],
+        "prevention": [
+          "Use pheromone traps",
+          "Release natural enemies like Trichogramma",
+          "Avoid continuous cropping"
+        ]
+      },
+      {
+        "name": "Cabbage Butterfly",
+        "symptoms": "Holes in leaves, green larvae feeding",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Handpick and destroy larvae",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Cover with insect-proof nets",
+          "Remove and destroy egg masses"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on leaves, curling, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Cutworm",
+        "symptoms": "Plants cut at base",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Use poison baits"
+        ],
+        "prevention": [
+          "Deep plowing",
+          "Handpick larvae"
+        ]
+      }
+    ]
+  },
+  "cauliflower": {
+    "name": "Cauliflower",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 28,
+      "flower": 20,
+      "maturity": 27
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "6–8 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "30 Days After Transplanting",
+        "items": [
+          { "name": "Urea", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Yellow patches on upper surface and downy growth underside",
+        "prevention": [
+          "Good drainage and spacing",
+          "Fungicidal sprays if required"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Diamondback Moth",
+        "symptoms": "Holes in leaves, larvae feeding",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use spinosad @ 0.5 ml/L",
+          "Apply Bacillus thuringiensis"
+        ],
+        "prevention": [
+          "Use pheromone traps",
+          "Avoid continuous cropping"
+        ]
+      },
+      {
+        "name": "Cabbage Butterfly",
+        "symptoms": "Holes in leaves, green larvae",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Handpick larvae"
+        ],
+        "prevention": [
+          "Use insect-proof nets",
+          "Remove egg masses"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      }
+    ]
+  },
+  "carrot": {
+    "name": "Carrot",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 40,
+      "flower": 20,
+      "maturity": 25
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "4–5 tons/acre" },
+          { "name": "DAP", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "25–30 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "10–12 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Alternaria Leaf Blight",
+        "symptoms": "Irregular brown spots on leaves",
+        "prevention": [
+          "Use healthy seed",
+          "Crop rotation",
+          "Fungicide sprays if needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Carrot Weevil",
+        "symptoms": "Larvae tunnel into roots, wilting",
+        "control": [
+          "Spray chlorpyriphos @ 2.5 ml/L",
+          "Apply carbofuran granules at sowing",
+          "Crop rotation with non-host crops"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Remove crop residues"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Leafhopper",
+        "symptoms": "Hopper burn, yellowing",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Remove weed hosts",
+          "Use yellow sticky traps"
+        ]
+      }
+    ]
+  },
+  "spinach": {
+    "name": "Spinach",
+    "category": "Vegetable",
+    "duration": {
+      "veg": 20,
+      "flower": 15,
+      "maturity": 15
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "5–6 tons/acre" },
+          { "name": "DAP", "dose": "20–25 kg/acre" }
+        ]
+      },
+      {
+        "title": "15–20 Days After Sowing",
+        "items": [
+          { "name": "Urea", "dose": "8–10 kg/acre", "note": "Light top dressing" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Yellow patches on upper leaf surface with downy growth below",
+        "prevention": [
+          "Use resistant varieties",
+          "Avoid overhead irrigation",
+          "Apply fungicide if necessary"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, sooty mold",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Apply neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies",
+          "Remove heavily infested leaves"
+        ]
+      },
+      {
+        "name": "Leaf Miner",
+        "symptoms": "Serpentine mines in leaves",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use neem oil @ 5 ml/L",
+          "Remove and destroy affected leaves"
+        ],
+        "prevention": [
+          "Cover with insect-proof nets",
+          "Avoid overcrowding"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove weed hosts"
+        ]
+      }
+    ]
+  },
+  "banana": {
+    "name": "Banana",
+    "category": "Fruit",
+    "duration": {
+      "veg": 180,
+      "flower": 60,
+      "maturity": 90
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal at Planting",
+        "items": [
+          { "name": "FYM", "dose": "10–12 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "3–4 Split Doses During Growth",
+        "items": [
+          { "name": "Urea", "dose": "Total 60–80 kg/acre", "note": "In splits" },
+          { "name": "MOP", "dose": "40–50 kg/acre", "note": "In splits" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Panama Wilt",
+        "symptoms": "Yellowing and wilting of leaves, splitting of pseudostem",
+        "prevention": [
+          "Use disease-free suckers",
+          "Crop rotation",
+          "Soil drenching where recommended"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Banana Rhizome Weevil",
+        "symptoms": "Tunnels in rhizome, yellowing, wilting, plant toppling",
+        "control": [
+          "Treat suckers with chlorpyriphos before planting",
+          "Apply carbofuran granules around plants",
+          "Set pheromone traps @ 5 traps/acre"
+        ],
+        "prevention": [
+          "Use healthy, pest-free suckers",
+          "Remove and destroy infested plants",
+          "Maintain field sanitation"
+        ]
+      },
+      {
+        "name": "Banana Stem Borer",
+        "symptoms": "Holes in pseudostem, oozing, yellowing",
+        "control": [
+          "Inject chlorpyriphos into bore holes",
+          "Spray carbaryl @ 2 g/L on stem",
+          "Remove and destroy affected plants"
+        ],
+        "prevention": [
+          "Remove side suckers regularly",
+          "Keep field clean",
+          "Avoid ratooning for many years"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender leaves, virus transmission",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Remove affected plant parts",
+          "Use healthy planting material"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Rusty scarring on fruit skin",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 5 ml/L",
+          "Bag bunches with polythene sleeves"
+        ],
+        "prevention": [
+          "Remove alternate weed hosts",
+          "Monitor regularly during flowering"
+        ]
+      }
+    ]
+  },
+  "papaya": {
+    "name": "Papaya",
+    "category": "Fruit",
+    "duration": {
+      "veg": 150,
+      "flower": 60,
+      "maturity": 90
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM", "dose": "8–10 kg/plant", "note": "At planting" }
+        ]
+      },
+      {
+        "title": "Every 2–3 Months",
+        "items": [
+          { "name": "NPK mixture", "dose": "Small doses around basin", "note": "As per recommendation" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Papaya Ring Spot Virus",
+        "symptoms": "Mosaic and ring spots on fruits, distortion of leaves",
+        "prevention": [
+          "Use virus-free planting material",
+          "Control aphids",
+          "Remove infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, virus transmission, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Install yellow sticky traps"
+        ],
+        "prevention": [
+          "Remove weed hosts",
+          "Use reflective mulch",
+          "Monitor regularly"
+        ]
+      },
+      {
+        "name": "Mites",
+        "symptoms": "Yellow speckling on leaves, webbing",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L",
+          "Apply sulfur dust"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      },
+      {
+        "name": "Fruit Fly",
+        "symptoms": "Punctures on fruits, rotting, maggots inside",
+        "control": [
+          "Install methyl eugenol traps @ 10 traps/acre",
+          "Collect and destroy infested fruits",
+          "Spray malathion @ 1 ml/L"
+        ],
+        "prevention": [
+          "Field sanitation",
+          "Early harvest",
+          "Use fruit fly traps"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing, sooty mold",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Remove weed hosts",
+          "Avoid monocropping"
+        ]
+      }
+    ]
+  },
+  "grapes": {
+    "name": "Grapes",
+    "category": "Fruit",
+    "duration": {
+      "veg": 90,
+      "flower": 30,
+      "maturity": 60
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal (Before Pruning)",
+        "items": [
+          { "name": "FYM", "dose": "10–12 tons/acre" },
+          { "name": "NPK mixture", "dose": "As per regional recommendations" }
+        ]
+      },
+      {
+        "title": "Growth and Berry Development",
+        "items": [
+          { "name": "Water-soluble NPK", "dose": "Through drip as per schedule" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Oil spots on leaves, white downy growth on underside",
+        "prevention": [
+          "Canopy management for aeration",
+          "Prophylactic fungicide sprays"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Thrips",
+        "symptoms": "Scarring on berries, silvering of leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Apply neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor during flowering",
+          "Remove weed hosts"
+        ]
+      },
+      {
+        "name": "Mealybugs",
+        "symptoms": "White cottony masses on shoots and bunches, honeydew, sooty mold",
+        "control": [
+          "Spray profenofos @ 2 ml/L",
+          "Use chlorpyriphos @ 2.5 ml/L",
+          "Apply neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Remove loose bark",
+          "Control ants",
+          "Release Cryptolaemus beetles"
+        ]
+      },
+      {
+        "name": "Flea Beetle",
+        "symptoms": "Shot holes in young leaves",
+        "control": [
+          "Spray carbaryl @ 2 g/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Remove crop residues",
+          "Avoid monocropping"
+        ]
+      },
+      {
+        "name": "Mites",
+        "symptoms": "Yellow speckling, bronzing of leaves",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      }
+    ]
+  },
+  "mango": {
+    "name": "Mango",
+    "category": "Fruit",
+    "duration": {
+      "veg": 365,
+      "flower": 30,
+      "maturity": 120
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Young Trees (1–3 years)",
+        "items": [
+          { "name": "FYM", "dose": "10–15 kg/tree/year" },
+          { "name": "NPK mixture", "dose": "As per age-based recommendation" }
+        ]
+      },
+      {
+        "title": "Bearing Trees",
+        "items": [
+          { "name": "FYM", "dose": "30–40 kg/tree/year" },
+          { "name": "NPK", "dose": "1–2 kg/tree split before flowering and after fruit set" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Powdery Mildew",
+        "symptoms": "White powdery growth on panicles and young leaves",
+        "prevention": [
+          "Spray recommended fungicides at panicle emergence",
+          "Prune overcrowded branches"
+        ]
+      },
+      {
+        "name": "Anthracnose",
+        "symptoms": "Dark lesions on leaves, twigs and fruits",
+        "prevention": [
+          "Sanitation and pruning",
+          "Prophylactic fungicide sprays"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Mango Hopper",
+        "symptoms": "Nymphs and adults on panicles, honeydew, sooty mold, flower drop",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L at panicle emergence",
+          "Use dimethoate @ 1 ml/L",
+          "Apply neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Prune overcrowded branches",
+          "Maintain orchard hygiene",
+          "Avoid dense planting"
+        ]
+      },
+      {
+        "name": "Mealybug",
+        "symptoms": "White cottony masses on inflorescence and fruits",
+        "control": [
+          "Spray profenofos @ 2 ml/L",
+          "Use chlorpyriphos @ 2.5 ml/L",
+          "Apply neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Control ants",
+          "Band tree trunks with sticky grease",
+          "Remove and destroy affected parts"
+        ]
+      },
+      {
+        "name": "Fruit Fly",
+        "symptoms": "Punctures on fruits, rotting, maggots inside",
+        "control": [
+          "Install methyl eugenol traps @ 10 traps/acre",
+          "Collect and destroy fallen fruits",
+          "Spray malathion @ 1 ml/L"
+        ],
+        "prevention": [
+          "Field sanitation",
+          "Early harvest",
+          "Bag fruits with paper bags"
+        ]
+      },
+      {
+        "name": "Stem Borer",
+        "symptoms": "Frass near holes, wilting, dying branches",
+        "control": [
+          "Insert wire into holes",
+          "Inject chlorpyriphos into holes",
+          "Apply carbaryl paste on trunk"
+        ],
+        "prevention": [
+          "Paint trunk with lime solution",
+          "Remove and destroy affected branches"
+        ]
+      }
+    ]
+  },
+  "guava": {
+    "name": "Guava",
+    "category": "Fruit",
+    "duration": {
+      "veg": 180,
+      "flower": 60,
+      "maturity": 90
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Young Plants",
+        "items": [
+          { "name": "FYM", "dose": "10–15 kg/plant/year" },
+          { "name": "NPK mixture", "dose": "Small split doses during growth" }
+        ]
+      },
+      {
+        "title": "Bearing Trees",
+        "items": [
+          { "name": "FYM", "dose": "20–25 kg/tree/year" },
+          { "name": "NPK", "dose": "500–700 g N, 250–350 g P2O5, 250–350 g K2O per tree/year" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Wilt",
+        "symptoms": "Yellowing and wilting of branches, drying of tree",
+        "prevention": [
+          "Use tolerant rootstocks",
+          "Improve drainage",
+          "Soil treatment where needed"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Fruit Fly",
+        "symptoms": "Punctures on fruits, rotting, maggots inside",
+        "control": [
+          "Install methyl eugenol traps @ 10 traps/acre",
+          "Collect and destroy infested fruits",
+          "Spray malathion @ 1 ml/L"
+        ],
+        "prevention": [
+          "Field sanitation",
+          "Early harvest",
+          "Bag fruits with paper bags"
+        ]
+      },
+      {
+        "name": "Mealybug",
+        "symptoms": "White cottony masses on shoots and fruits",
+        "control": [
+          "Spray profenofos @ 2 ml/L",
+          "Use chlorpyriphos @ 2.5 ml/L",
+          "Apply neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Control ants",
+          "Remove and destroy affected parts"
+        ]
+      },
+      {
+        "name": "Scale Insects",
+        "symptoms": "Brown scales on bark and leaves",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use fish oil resin soap",
+          "Scrape off scales"
+        ],
+        "prevention": [
+          "Prune infested branches",
+          "Maintain tree vigor"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      }
+    ]
+  },
+  "pomegranate": {
+    "name": "Pomegranate",
+    "category": "Fruit",
+    "duration": {
+      "veg": 120,
+      "flower": 45,
+      "maturity": 75
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal and Annual Dose",
+        "items": [
+          { "name": "FYM", "dose": "10–15 kg/tree/year" },
+          { "name": "NPK mixture", "dose": "500–600 g N, 200–250 g P2O5, 200–250 g K2O per tree/year" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Bacterial Blight",
+        "symptoms": "Water-soaked spots on leaves, fruits and stems",
+        "prevention": [
+          "Use disease-free planting material",
+          "Prune and destroy infected parts",
+          "Follow recommended spray schedule"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Fruit Borer",
+        "symptoms": "Holes in fruits, rotting, larvae inside",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Use spinosad @ 0.5 ml/L",
+          "Install pheromone traps"
+        ],
+        "prevention": [
+          "Remove and destroy infested fruits",
+          "Bag fruits with paper bags",
+          "Field sanitation"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Mealybug",
+        "symptoms": "White cottony masses on shoots and fruits",
+        "control": [
+          "Spray profenofos @ 2 ml/L",
+          "Use neem oil @ 5 ml/L"
+        ],
+        "prevention": [
+          "Control ants",
+          "Remove affected parts"
+        ]
+      },
+      {
+        "name": "Thrips",
+        "symptoms": "Silvery streaks on leaves",
+        "control": [
+          "Spray spinosad @ 0.5 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Monitor during flowering"
+        ]
+      }
+    ]
+  },
+  "watermelon": {
+    "name": "Watermelon",
+    "category": "Fruit",
+    "duration": {
+      "veg": 35,
+      "flower": 25,
+      "maturity": 30
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "6–8 tons/acre" },
+          { "name": "DAP", "dose": "30–40 kg/acre" }
+        ]
+      },
+      {
+        "title": "Vine Growth (20–25 days)",
+        "items": [
+          { "name": "Urea", "dose": "10–15 kg/acre" },
+          { "name": "MOP", "dose": "10–15 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Downy Mildew",
+        "symptoms": "Yellow angular spots on leaves with downy growth underside",
+        "prevention": [
+          "Provide good air circulation",
+          "Avoid overhead irrigation",
+          "Spray fungicide if required"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Aphids",
+        "symptoms": "Curling leaves, honeydew, virus transmission",
+        "control": [
+          "Spray dimethoate @ 1 ml/L",
+          "Use imidacloprid @ 0.5 ml/L",
+          "Apply neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Monitor regularly",
+          "Remove weed hosts",
+          "Use yellow sticky traps"
+        ]
+      },
+      {
+        "name": "Fruit Fly",
+        "symptoms": "Punctures on fruits, rotting, maggots inside",
+        "control": [
+          "Install cue-lure traps @ 5 traps/acre",
+          "Collect and destroy infested fruits",
+          "Spray malathion @ 1 ml/L"
+        ],
+        "prevention": [
+          "Field sanitation",
+          "Early harvest",
+          "Bag fruits"
+        ]
+      },
+      {
+        "name": "Red Pumpkin Beetle",
+        "symptoms": "Holes in leaves, beetles feeding on foliage",
+        "control": [
+          "Spray carbaryl @ 2 g/L",
+          "Handpick and destroy beetles"
+        ],
+        "prevention": [
+          "Remove crop residues",
+          "Avoid monocropping"
+        ]
+      },
+      {
+        "name": "Mites",
+        "symptoms": "Yellow speckling on leaves",
+        "control": [
+          "Spray abamectin @ 0.5 ml/L",
+          "Use dicofol @ 2 ml/L"
+        ],
+        "prevention": [
+          "Avoid water stress",
+          "Remove infested leaves"
+        ]
+      }
+    ]
+  },
+  "sugarcane": {
+    "name": "Sugarcane",
+    "category": "Cash Crop",
+    "duration": {
+      "veg": 180,
+      "flower": 60,
+      "maturity": 90
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Planting Time",
+        "items": [
+          { "name": "FYM/Compost", "dose": "8–10 tons/acre" },
+          { "name": "DAP", "dose": "50–60 kg/acre" }
+        ]
+      },
+      {
+        "title": "45–60 Days After Planting",
+        "items": [
+          { "name": "Urea", "dose": "30–40 kg/acre" }
+        ]
+      },
+      {
+        "title": "90–120 Days After Planting",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" },
+          { "name": "MOP", "dose": "15–20 kg/acre" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Red Rot",
+        "symptoms": "Reddish discoloration of internal tissues with white patches",
+        "prevention": [
+          "Use disease-free setts",
+          "Rotate crops",
+          "Remove and burn infected clumps"
+        ]
+      },
+      {
+        "name": "Smut",
+        "symptoms": "Whip-like black structures from cane tops",
+        "prevention": [
+          "Hot water treatment of setts",
+          "Resistant varieties",
+          "Roguing infected plants"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Early Shoot Borer",
+        "symptoms": "Dead hearts, bore holes near base, wilting",
+        "control": [
+          "Spray chlorantraniliprole @ 0.4 ml/L or fipronil @ 2 ml/L",
+          "Apply carbofuran granules @ 8-10 kg/acre at planting"
+        ],
+        "prevention": [
+          "Avoid late planting",
+          "Remove and destroy affected shoots",
+          "Use resistant varieties"
+        ]
+      },
+      {
+        "name": "Top Borer",
+        "symptoms": "Dead hearts, bore holes in top portion, red discoloration",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L",
+          "Release Trichogramma parasitoids"
+        ],
+        "prevention": [
+          "Remove affected tops",
+          "Intercropping with pulses"
+        ]
+      },
+      {
+        "name": "Scale Insect",
+        "symptoms": "White scale covering on internodes, stunted growth",
+        "control": [
+          "Spray dimethoate @ 2 ml/L or chlorpyriphos @ 2.5 ml/L",
+          "Use healthy setts for planting"
+        ],
+        "prevention": [
+          "Hot water treatment of setts (50°C for 30 minutes)",
+          "Remove and destroy affected clumps"
+        ]
+      },
+      {
+        "name": "Termite",
+        "symptoms": "Tunnels in setts, drying of plants",
+        "control": [
+          "Apply chlorpyriphos @ 2.5 ml/L at planting",
+          "Use treated setts"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Remove crop residues"
+        ]
+      }
+    ]
+  },
+  "cotton": {
+    "name": "Cotton",
+    "category": "Cash Crop",
+    "duration": {
+      "veg": 60,
+      "flower": 30,
+      "maturity": 45
+    },
+    "fertilizerSchedule": [
+      {
+        "title": "Basal Dose",
+        "items": [
+          { "name": "FYM/Compost", "dose": "5–6 tons/acre" },
+          { "name": "DAP", "dose": "40–50 kg/acre" }
+        ]
+      },
+      {
+        "title": "Square Formation (25–30 days)",
+        "items": [
+          { "name": "Urea", "dose": "20–25 kg/acre" },
+          { "name": "MOP", "dose": "10–15 kg/acre" }
+        ]
+      },
+      {
+        "title": "Boll Development (45–60 days)",
+        "items": [
+          { "name": "NPK 19-19-19", "dose": "2–3 kg/acre via drip or foliar" }
+        ]
+      }
+    ],
+    "diseases": [
+      {
+        "name": "Wilt",
+        "symptoms": "Yellowing, wilting, brown vascular tissue",
+        "prevention": [
+          "Use resistant varieties",
+          "Seed treatment with fungicide",
+          "Crop rotation"
+        ]
+      },
+      {
+        "name": "Leaf Spot",
+        "symptoms": "Small brown spots on leaves that may merge",
+        "prevention": [
+          "Remove infected debris",
+          "Avoid overhead irrigation",
+          "Fungicide spray if severe"
+        ]
+      }
+    ],
+    "pests": [
+      {
+        "name": "Pink Bollworm",
+        "symptoms": "Pink larvae inside bolls, damaged seeds, rosette flowers",
+        "control": [
+          "Spray emamectin benzoate @ 0.4 g/L or indoxacarb @ 0.5 ml/L",
+          "Install pheromone traps @ 5 traps/acre",
+          "Use Bt cotton varieties"
+        ],
+        "prevention": [
+          "Timely sowing",
+          "Remove and destroy crop residues after harvest",
+          "Avoid ratoon cotton"
+        ]
+      },
+      {
+        "name": "Aphids",
+        "symptoms": "Colonies on tender shoots, curling leaves, honeydew",
+        "control": [
+          "Spray imidacloprid @ 0.5 ml/L or dimethoate @ 1 ml/L",
+          "Use neem oil @ 3 ml/L"
+        ],
+        "prevention": [
+          "Remove weed hosts",
+          "Conserve natural enemies"
+        ]
+      },
+      {
+        "name": "Whitefly",
+        "symptoms": "Yellowing, sooty mold, honeydew, vector for viruses",
+        "control": [
+          "Spray diafenthiuron @ 1 g/L or acetamiprid @ 0.5 g/L",
+          "Use yellow sticky traps"
+        ],
+        "prevention": [
+          "Avoid continuous cotton cultivation",
+          "Use trap crops like sunflower"
+        ]
+      },
+      {
+        "name": "Spodoptera (Army Worm)",
+        "symptoms": "Leaf defoliation, young larvae feed gregariously",
+        "control": [
+          "Spray chlorantraniliprole @ 0.4 ml/L or emamectin benzoate @ 0.4 g/L",
+          "Handpick and destroy egg masses"
+        ],
+        "prevention": [
+          "Deep summer plowing",
+          "Use pheromone traps"
+        ]
+      }
+    ]
+  }
+}
