@@ -58,10 +58,11 @@ print("\n" + "="*60)
 print("LOADING DISEASE DETECTION MODEL")
 print("="*60)
 
-# ======== DISEASE DETECTION MODEL ========
+# ========== DISEASE DETECTION MODEL (TensorFlow) ==========
+print("\n" + "="*60)
+print("LOADING DISEASE DETECTION MODEL")
+print("="*60)
 
-import os
-import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 try:
@@ -81,132 +82,7 @@ except Exception as e:
     disease_model = None
     print("❌ Error loading disease model:", str(e))
         
-        # METHOD 1: Load with custom_objects to ignore quantization_config
-        try:
-            from keras.layers import Dense
-            import keras
-            
-            # Define a custom Dense class that ignores quantization_config
-            class CustomDense(keras.layers.Dense):
-                def __init__(self, *args, **kwargs):
-                    # Remove quantization_config if it exists
-                    kwargs.pop('quantization_config', None)
-                    super().__init__(*args, **kwargs)
-            
-            # Load model with custom objects
-            disease_model = tf.keras.models.load_model(
-                str(DISEASE_MODEL_PATH),
-                custom_objects={
-                    'Dense': CustomDense,
-                    'quantization_config': None
-                },
-                compile=False
-            )
-            print("✅ Model loaded with custom Dense class")
-            
-        except Exception as e1:
-            print(f"⚠️ Method 1 failed: {e1}")
-            
-            # METHOD 2: Load with compile=False only
-            try:
-                disease_model = tf.keras.models.load_model(
-                    str(DISEASE_MODEL_PATH),
-                    compile=False
-                )
-                print("✅ Model loaded with compile=False")
-                
-            except Exception as e2:
-                print(f"⚠️ Method 2 failed: {e2}")
-                
-                # METHOD 3: Load with weights only (create new model)
-                try:
-                    from tensorflow.keras.applications import MobileNetV2
-                    from tensorflow.keras import layers, models
-                    
-                    # Recreate the model architecture
-                    base_model = MobileNetV2(
-                        input_shape=(128, 128, 3),
-                        include_top=False,
-                        weights='imagenet'
-                    )
-                    base_model.trainable = False
-                    
-                    x = base_model.output
-                    x = layers.GlobalAveragePooling2D()(x)
-                    x = layers.Dense(128, activation='relu')(x)
-                    
-                    # We need to know number of classes - load from file or use default
-                    CLASS_NAMES_PATH = Path(__file__).parent / "model" / "class_names.json"
-                    if CLASS_NAMES_PATH.exists():
-                        with open(CLASS_NAMES_PATH, 'r') as f:
-                            CLASS_NAMES = json.load(f)
-                            num_classes = len(CLASS_NAMES)
-                    else:
-                        num_classes = 38  # Default for plant disease dataset
-                    
-                    output = layers.Dense(num_classes, activation='softmax')(x)
-                    
-                    # Create new model
-                    temp_model = models.Model(inputs=base_model.input, outputs=output)
-                    
-                    # Load weights
-                    temp_model.load_weights(str(DISEASE_MODEL_PATH))
-                    disease_model = temp_model
-                    print("✅ Model loaded by rebuilding architecture and loading weights")
-                    
-                except Exception as e3:
-                    print(f"❌ All loading methods failed: {e3}")
-                    disease_model = None
         
-        if disease_model is not None:
-            print(f"✅ Disease detection model loaded successfully!")
-            print(f"Model input shape: {disease_model.input_shape}")
-            print(f"Model output shape: {disease_model.output_shape}")
-        else:
-            print("❌ Failed to load model - disease_model is None")
-            disease_model = None
-        
-        # Load class names
-        CLASS_NAMES_PATH = Path(__file__).parent / "model" / "class_names.json"
-        print(f"Looking for class names at: {CLASS_NAMES_PATH}")
-        print(f"File exists: {CLASS_NAMES_PATH.exists()}")
-        
-        if CLASS_NAMES_PATH.exists():
-            with open(CLASS_NAMES_PATH, 'r') as f:
-                CLASS_NAMES = json.load(f)
-            print(f"✅ Loaded {len(CLASS_NAMES)} disease classes")
-            print(f"First 5 classes: {CLASS_NAMES[:5]}")
-        else:
-            print(f"⚠️ Class names file not found! Using fallback classes.")
-            # Fallback classes - common plant diseases
-            CLASS_NAMES = [
-                "Apple___Apple_scab", "Apple___Black_rot", "Apple___Cedar_apple_rust", "Apple___healthy",
-                "Blueberry___healthy", "Cherry___Powdery_mildew", "Cherry___healthy",
-                "Corn___Cercospora_leaf_spot", "Corn___Common_rust", "Corn___Northern_Leaf_Blight", "Corn___healthy",
-                "Grape___Black_rot", "Grape___Esca", "Grape___Leaf_blight", "Grape___healthy",
-                "Orange___Haunglongbing", "Peach___Bacterial_spot", "Peach___healthy",
-                "Pepper___Bacterial_spot", "Pepper___healthy", "Potato___Early_blight", "Potato___Late_blight", "Potato___healthy",
-                "Raspberry___healthy", "Soybean___healthy", "Squash___Powdery_mildew",
-                "Strawberry___Leaf_scorch", "Strawberry___healthy", "Tomato___Bacterial_spot", "Tomato___Early_blight",
-                "Tomato___Late_blight", "Tomato___Leaf_Mold", "Tomato___Septoria_leaf_spot",
-                "Tomato___Spider_mites", "Tomato___Target_Spot", "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
-                "Tomato___Tomato_mosaic_virus", "Tomato___healthy"
-            ]
-            print(f"✅ Using {len(CLASS_NAMES)} fallback classes")
-            
-    else:
-        print(f"❌ Model file not found at: {DISEASE_MODEL_PATH}")
-        disease_model = None
-        CLASS_NAMES = []
-        
-except Exception as e:
-    print(f"❌ Unexpected error loading disease model: {e}")
-    import traceback
-    traceback.print_exc()
-    disease_model = None
-    CLASS_NAMES = []
-
-print("="*60 + "\n")
 # ========== DISEASE PREPROCESSING FUNCTION ==========
 def preprocess_disease_image(img):
     """Preprocess image for disease detection model"""
@@ -3221,6 +3097,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
