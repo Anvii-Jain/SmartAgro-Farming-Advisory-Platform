@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadCropsFromBackend() {
     try {
         console.log("Fetching crops from backend...");
-        const response = await fetch('http://127.0.0.1:5001/api/crops');
+        const response = await fetch('/api/crops');
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -569,7 +569,7 @@ async function loadCropsFromBackend() {
                 const selectedSeason = seasonSelect.value;
                 
                 // Build URL with ALL parameters
-                let url = 'http://127.0.0.1:5001/api/irrigation/tips';
+                let url = '/api/irrigation/tips';
                 const params = [];
                 
                 if (selectedCrop) {
@@ -662,7 +662,7 @@ document.getElementById('irrigationForm').addEventListener('submit', async funct
         // Make API call to Flask backend
         console.log("Calling irrigation API with:", {crop, soil, season, area});
         
-        const response = await fetch('http://127.0.0.1:5001/api/irrigation/plan', {
+        const response = await fetch('/api/irrigation/plan', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1156,3 +1156,4 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 </html>
+
