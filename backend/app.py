@@ -59,7 +59,13 @@ print("LOADING DISEASE DETECTION MODEL")
 print("="*60)
 
 try:
-    DISEASE_MODEL_PATH = Path(__file__).parent / "model" / "plant_disease_model.h5"
+    import os
+from tensorflow.keras.models import load_model
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
+
+model = load_model(MODEL_PATH)
     print(f"Looking for model at: {DISEASE_MODEL_PATH}")
     print(f"File exists: {DISEASE_MODEL_PATH.exists()}")
     
@@ -3206,3 +3212,4 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
