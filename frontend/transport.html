@@ -356,7 +356,7 @@ if (crop === 'OTHER') {
             submitBtn.innerHTML = '⏳ Submitting...';
             submitBtn.disabled = true;
 
-            fetch("http://127.0.0.1:5001/transport-request", {
+            fetch("/transport-request", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -390,7 +390,7 @@ if (crop === 'OTHER') {
         function loadTransportRequests() {
             console.log("📊 Loading requests...");
             
-            fetch("http://127.0.0.1:5001/transport-requests")
+            fetch("/transport-requests")
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -493,3 +493,4 @@ function toggleOtherCrop() {
     </script>
 </body>
 </html>
+
