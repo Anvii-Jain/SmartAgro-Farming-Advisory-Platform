@@ -50,11 +50,11 @@ SQLite
 
 -Mobile application development
 
+# live platform link - https://smartagro-farming-advisoryplatform.onrender.comhttps://smartagro-farming-advisoryplatform.onrender.com
+
 # Demo link -  https://drive.google.com/file/d/1iCDr5jdwpPl9ItBzcOOprOHBriJSF6MU/view?usp=sharing
 
 # Pitch video -  https://drive.google.com/file/d/1BHwVckTiJeBPKjDJ3zd4USx_yHj5fci_/view?usp=sharing
-
-# Live platform link-  https://smartagro-farmeradvisoryplatform.netlify.app/
 
 ppt link - https://drive.google.com/file/d/1IDcjblj-hwnOY1CwALy06GrxhAwPUyeq/view?usp=drivesdk
 
