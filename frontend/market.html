@@ -193,7 +193,7 @@
     <!-- JavaScript for Real-time Market Prices -->
     <script>
         // ==================== CONFIGURATION ====================
-        const BACKEND_URL = 'http://127.0.0.1:5001'; // Your Flask backend URL
+        const BACKEND_URL = window.location.origin; // Your Flask backend URL
         const API_ENDPOINTS = {
             prices: `${BACKEND_URL}/api/market/prices`,
             crops: `${BACKEND_URL}/api/market/crops`,
@@ -932,3 +932,4 @@ function generateSmartTips() {
     </script>
 </body>
 </html>
+
