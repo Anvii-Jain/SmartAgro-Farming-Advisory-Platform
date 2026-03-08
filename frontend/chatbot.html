@@ -292,7 +292,7 @@ function formatTextNicely(text) {
             const language = languageSelect ? languageSelect.value.toLowerCase() : 'english';
             
             // 4) Call backend
-            const API_BASE_URL = "/api"; {
+            const response = await fetch("/api/chat", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -409,4 +409,5 @@ function formatTextNicely(text) {
 </script>
 </body>
 </html>
+
 
