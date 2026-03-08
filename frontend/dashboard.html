@@ -416,7 +416,7 @@
                 document.getElementById('communityTrend').textContent = 'Loading...';
                 
                 // Fetch community stats from your backend
-                const response = await fetch('http://127.0.0.1:5001/api/community/stats');
+                const response = await fetch('/api/community/stats');
                 const data = await response.json();
                 
                 if (data.success) {
@@ -498,7 +498,7 @@ async function loadAIInsights() {
         const userId = userData.email || 'guest';
         
         // Call backend API
-        const response = await fetch(`http://127.0.0.1:5001/api/insights?city=${encodeURIComponent(userCity)}&state=${encodeURIComponent(userState)}&season=${season}&user_id=${encodeURIComponent(userId)}`);
+        const response = await fetch('/api/insights?city=${encodeURIComponent(userCity)}&state=${encodeURIComponent(userState)}&season=${season}&user_id=${encodeURIComponent(userId)}`);
         
         const data = await response.json();
         
@@ -965,3 +965,4 @@ async function loadAIInsights() {
     </script>
 </body>
 </html>
+
