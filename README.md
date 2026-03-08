@@ -50,9 +50,9 @@ SQLite
 
 -Mobile application development
 
-# Demo link - 
+# Demo link - https://drive.google.com/file/d/1iCDr5jdwpPl9ItBzcOOprOHBriJSF6MU/view?usp=sharing
 
-# Pitch video - 
+# Pitch video - https://drive.google.com/file/d/1BHwVckTiJeBPKjDJ3zd4USx_yHj5fci_/view?usp=sharing
 
 # Live platform link- 
 
