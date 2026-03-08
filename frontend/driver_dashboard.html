@@ -85,7 +85,7 @@
 
         // Load pending requests
         function loadPendingRequests() {
-            fetch("http://127.0.0.1:5001/pending-requests")
+            fetch("/pending-requests")
             .then(res => {
                 if (!res.ok) throw new Error('Failed to load');
                 return res.json();
@@ -137,7 +137,7 @@
             btn.innerHTML = '⏳ Accepting...';
             btn.disabled = true;
 
-            fetch("http://127.0.0.1:5001/accept-request/" + id, {
+            fetch("/accept-request/" + id, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -169,7 +169,7 @@
         function loadDriverRequests() {
             const user = JSON.parse(localStorage.getItem("smartagro_user"));
             
-            fetch("http://127.0.0.1:5001/driver-requests?driver=" + encodeURIComponent(user.name))
+            fetch("/driver-requests?driver=" + encodeURIComponent(user.name))
             .then(res => {
                 if (!res.ok) throw new Error('Failed to load');
                 return res.json();
@@ -228,3 +228,4 @@
 
 </body>
 </html>
+
