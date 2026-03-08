@@ -58,19 +58,27 @@ print("\n" + "="*60)
 print("LOADING DISEASE DETECTION MODEL")
 print("="*60)
 
-try:
-    import os
+# ======== DISEASE DETECTION MODEL ========
+
+import os
 from tensorflow.keras.models import load_model
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
+try:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
 
-model = load_model(MODEL_PATH)
-    print(f"Looking for model at: {DISEASE_MODEL_PATH}")
-    print(f"File exists: {DISEASE_MODEL_PATH.exists()}")
-    
-    if DISEASE_MODEL_PATH.exists():
-        print("📁 Model file found! Attempting to load...")
+    print(f"Looking for model at: {MODEL_PATH}")
+
+    if os.path.exists(MODEL_PATH):
+        disease_model = load_model(MODEL_PATH)
+        print("✅ Disease model loaded successfully")
+    else:
+       disease_model = None
+        print("❌ Model file not found")
+
+except Exception as e:
+    model = None
+    print("❌ Error loading disease model:", str(e))
         
         # METHOD 1: Load with custom_objects to ignore quantization_config
         try:
@@ -3212,4 +3220,5 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
