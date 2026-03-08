@@ -3,7 +3,7 @@
 SmartAgro is a technology-driven agriculture advisory platform that helps farmers make better decisions from crop planning to market selling.
 The platform integrates crop intelligence, AI disease detection, weather insights, market prices, logistics support, and a farmer community into one ecosystem.
 
-Features:
+# Features:
 
 Crop Recommendation – Suggests suitable crops based on soil and season.
 
@@ -21,7 +21,7 @@ Farmer Community – Platform for farmers to ask questions and share knowledge.
 
 AI Chatbot – Provides quick assistance for farming queries.
 
-Technologies Used:
+# Technologies Used:
 
 -Frontend-
 HTML
@@ -40,7 +40,7 @@ CNN for disease detection
 -Database-
 SQLite
 
-Future Enhancements:
+#Future Enhancements:
 
 -Regional language support
 
@@ -50,9 +50,11 @@ Future Enhancements:
 
 -Mobile application development
 
-Demo link - 
+#Demo link - 
 
-Pitch video - 
+#Pitch video - 
+
+#Live platform link- 
 
 Team HackSphere-
 
