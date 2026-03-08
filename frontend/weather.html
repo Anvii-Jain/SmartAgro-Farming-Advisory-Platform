@@ -386,7 +386,7 @@
         async function loadSeasonalityCrops() {
             try {
                 console.log("Fetching crops for seasonality...");
-               const response = await fetch('http://127.0.0.1:5001/api/crops/calendar');
+               const response = await fetch('/api/crops/calendar');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -453,7 +453,7 @@ async function getWeatherAdvice(event) {
         });
         
         // Make API call to Flask backend
-        const response = await fetch('http://127.0.0.1:5001/api/weather', {
+        const response = await fetch('/api/weather', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -539,7 +539,7 @@ async function checkSeasonality(event) {
         // STEP 1: Fetch weather for the region
         let weatherData = null;
         try {
-            const weatherResponse = await fetch('http://127.0.0.1:5001/api/weather/by-region', {
+            const weatherResponse = await fetch('/api/weather/by-region', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -574,7 +574,7 @@ async function checkSeasonality(event) {
         }
         
         // STEP 2: Make seasonality API call
-        const response = await fetch('http://127.0.0.1:5001/api/seasonality/check', {
+        const response = await fetch('/api/seasonality/check', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -781,7 +781,7 @@ let allCrops = []; // Store all crops globally
 // Load crops for calendar on page load
 async function loadCropCalendar() {
     try {
-       const response = await fetch('http://127.0.0.1:5001/api/crops/calendar');
+       const response = await fetch('/api/crops/calendar');
 const data = await response.json();
 console.log('Calendar data:', data);
 
@@ -1045,7 +1045,7 @@ async function loadForecast(city) {
     const forecastContainer = document.getElementById('forecastContainer');
     
     try {
-        const response = await fetch('http://127.0.0.1:5001/api/weather/forecast', {
+        const response = await fetch('/api/weather/forecast', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1110,7 +1110,7 @@ async function getAIRecommendations(region, month) {
     `;
     
     try {
-        const response = await fetch('http://127.0.0.1:5001/api/crops/recommend', {
+        const response = await fetch('/api/crops/recommend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1198,3 +1198,4 @@ async function getAIRecommendations(region, month) {
     </script>
 </body>
 </html>
+
