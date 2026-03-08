@@ -61,6 +61,7 @@ print("="*60)
 # ======== DISEASE DETECTION MODEL ========
 
 import os
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 try:
@@ -73,11 +74,11 @@ try:
         disease_model = load_model(MODEL_PATH)
         print("✅ Disease model loaded successfully")
     else:
-       disease_model = None
+        disease_model = None
         print("❌ Model file not found")
 
 except Exception as e:
-    model = None
+    disease_model = None
     print("❌ Error loading disease model:", str(e))
         
         # METHOD 1: Load with custom_objects to ignore quantization_config
@@ -3220,5 +3221,6 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
