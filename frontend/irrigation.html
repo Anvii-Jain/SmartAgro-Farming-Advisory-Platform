@@ -421,13 +421,18 @@
             });
         });
 
-       // Set default planting date and load crops
+    // Set default planting date and load crops
 document.addEventListener('DOMContentLoaded', function() {
+     document.getElementById("irrigationForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        updateDynamicValues();
+    });
     // Load crops from backend
     loadCropsFromBackend();
     
     // Load irrigation tips
     loadIrrigationTips();
+    
     
     // Set default planting date to 30 days ago
     const today = new Date();
@@ -673,38 +678,36 @@ document.getElementById('irrigationForm').addEventListener('submit', async funct
         const data = await response.json();
         console.log("API Response:", data);
         
-        if (data.success) {
-            // Update UI with real data from backend
-            updateDynamicValuesWithBackendData(data.plan);
-        } else {
-            alert('Error: ' + data.message);
-            // Fallback to local calculation
-            updateDynamicValues();
-        }
+       if (data.success && data.plan) {
+    // Update UI with real data from backend
+    updateDynamicValuesWithBackendData(data.plan);
+} else {
+    console.warn('Backend error, using fallback:', data);
+    // Fallback to local calculation
+    updateDynamicValues();
+}
         
     } catch (error) {
         console.error('Error:', error);
         alert('Failed to connect to backend. Using local data.');
         // Fallback to local calculation
         updateDynamicValues();
-    } finally {
-        // Hide loading, show results
+        } finally {
+        // Hide loading
         document.getElementById('loadingSection').classList.add('hidden');
-        document.getElementById('resultsSection').classList.remove('hidden');
         
-        // Smooth scroll to results
-        document.getElementById('resultsSection').scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-        });
-    }    // Prevent any accidental form resets
-    document.getElementById('irrigationForm').addEventListener('reset', function(event) {
-        event.preventDefault();
-        console.log("Form reset prevented");
-    });
+        // DON'T show results here - let the update function handle it
+        // The update function will show results when data is ready
+    }
+}); // ✅ CORRECT - Submit handler ends here
+
+// ✅ FIXED: Reset prevention is now OUTSIDE the submit handler
+document.getElementById('irrigationForm').addEventListener('reset', function(event) {
+    event.preventDefault();
+    console.log("🛑 Form reset prevented");
 });
 
-        // New function to update UI with backend data
+                     // New function to update UI with backend data
         function updateDynamicValuesWithBackendData(plan) {
             const area = plan.area;
             
@@ -718,7 +721,7 @@ document.getElementById('irrigationForm').addEventListener('submit', async funct
             const flower = plan.stages.flowering;
             const maturity = plan.stages.maturity;
             
-                          // Calculate dates using crop-specific durations from backend and user's planting date
+            // Calculate dates using crop-specific durations from backend and user's planting date
             const today = new Date();
             
             // Get planting date from user input (already stored in window.plantingDate)
@@ -796,12 +799,12 @@ document.getElementById('irrigationForm').addEventListener('submit', async funct
             const totalWater = plan.total_water;
 
             // Calculate different irrigation methods
-            const floodWater = totalWater; // Flood irrigation uses 100% of calculated water
-            const dripWater = Math.round(totalWater * 0.6); // Drip saves 40%
-            const sprinklerWater = Math.round(totalWater * 0.75); // Sprinkler saves 25%
+            const floodWater = totalWater;
+            const dripWater = Math.round(totalWater * 0.6);
+            const sprinklerWater = Math.round(totalWater * 0.75);
 
             // Calculate costs (₹2 per 1000 Liters)
-            const waterRate = 2; // ₹2 per 1000L
+            const waterRate = 2;
 
             const floodCost = Math.round(floodWater / 1000 * waterRate);
             const dripCost = Math.round(dripWater / 1000 * waterRate);
@@ -829,6 +832,15 @@ document.getElementById('irrigationForm').addEventListener('submit', async funct
                 savingsElement.classList.remove('hidden');
                 savingsElement.innerHTML = `💡 You save <span class="font-semibold">${waterSaved.toLocaleString()} L/acre</span> (₹<span class="font-semibold">${moneySaved}</span>) with drip irrigation compared to flood!`;
             }
+            
+            // ✅ CRITICAL: Show results ONLY after all data is populated
+            document.getElementById('resultsSection').classList.remove('hidden');
+            
+            // Smooth scroll to results
+            document.getElementById('resultsSection').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
         }
 
         // Function to update all dynamic values based on form inputs
@@ -1081,6 +1093,37 @@ const today = new Date(); // Keep this for highlighting today
     }
     header.innerHTML = `${monthNames[currentMonth]} ${currentYear}`;
 }
+
+// ✅ NEW: Save form data to session storage to prevent loss on page reload
+window.addEventListener('beforeunload', function() {
+    const formData = {
+        crop: document.getElementById('cropSelect').value,
+        soil: document.getElementById('soilSelect').value,
+        season: document.getElementById('seasonSelect').value,
+        area: document.getElementById('fieldArea').value,
+        plantingDate: document.getElementById('plantingDate').value
+    };
+    sessionStorage.setItem('irrigationFormData', JSON.stringify(formData));
+});
+
+// ✅ NEW: Restore form data on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const savedData = sessionStorage.getItem('irrigationFormData');
+    if (savedData) {
+        try {
+            const formData = JSON.parse(savedData);
+            document.getElementById('cropSelect').value = formData.crop || '';
+            document.getElementById('soilSelect').value = formData.soil || '';
+            document.getElementById('seasonSelect').value = formData.season || '';
+            document.getElementById('fieldArea').value = formData.area || 1;
+            document.getElementById('plantingDate').value = formData.plantingDate || '';
+            console.log("📋 Restored form data from session");
+        } catch (e) {
+            console.error("Error restoring form data:", e);
+        }
+    }
+});
+
  // ========== SIDEBAR ACTIVE STATE ==========
     document.addEventListener('DOMContentLoaded', function() {
         // Get current page filename (e.g., 'dashboard.html', 'crop.html')
@@ -1113,4 +1156,3 @@ const today = new Date(); // Keep this for highlighting today
     </script>
 </body>
 </html>
-
