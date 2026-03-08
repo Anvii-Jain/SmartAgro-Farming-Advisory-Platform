@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fertilizer & Disease Advisory – SmartAgro</title>
+      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside
+            class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40"
+        >
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold"
+                    >
+                        S
+                    </div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+</nav>
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header
+                class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4"
+            >
+                <h1 class="text-2xl font-bold text-gray-800">
+                    Fertilizer & Disease Advisory
+                </h1>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <!-- Crop Selector -->
+                    <div
+                        class="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md"
+                    >
+                        <label
+                            for="cropSelect"
+                            class="block text-sm font-semibold text-gray-700 mb-3"
+                            >Select Your Crop</label
+                        >
+                        <select
+                            id="cropSelect"
+                            class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
+                        >
+                            <option value="">Select a crop...</option>
+                            <!-- Options will be added dynamically -->
+                        </select>
+                    </div>
+
+                    <!-- Fertilizer Schedule -->
+                    <div
+                        class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md"
+                    >
+                        <h2
+                            id="fertilizerTitle"
+                            class="text-2xl font-bold text-gray-800 mb-4"
+                        >
+                            Fertilizer Schedule
+                        </h2>
+                        <div id="fertilizerContainer" class="space-y-4">
+                            <p class="text-sm text-gray-500">
+                                Please select a crop to view its fertilizer schedule.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pest Management  -->
+<div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span>🐛</span> Pest Management
+    </h2>
+    <div id="pestContainer" class="space-y-4">
+        <p class="text-sm text-gray-500">
+            Please select a crop to view common pests and their control measures.
+        </p>
+    </div>
+</div>
+
+                    <!-- Disease Prevention -->
+                    <div
+                        class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md"
+                    >
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                            Common Diseases &amp; Prevention
+                        </h2>
+                        <div id="diseaseContainer" class="space-y-4">
+                            <p class="text-sm text-gray-500">
+                                Please select a crop to view common diseases and their
+                                prevention.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JS at the END of body -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+           const API_BASE_URL = "http://127.0.0.1:5001/api";
+            const cropSelect = document.getElementById("cropSelect");
+            const fertilizerTitle = document.getElementById("fertilizerTitle");
+            const fertilizerContainer =
+                document.getElementById("fertilizerContainer");
+            const diseaseContainer = document.getElementById("diseaseContainer");
+
+            const CATEGORY_ORDER = [
+                "Cereal",
+                "Millet",
+                "Pulse",
+                "Oilseed",
+                "Vegetable",
+                "Fruit",
+                "Cash Crop",
+                "Other"
+            ];
+
+            const CATEGORY_EMOJI = {
+                Cereal: "🌾",
+                Millet: "🌿",
+                Pulse: "🫘",
+                Oilseed: "🌻",
+                Vegetable: "🥕",
+                Fruit: "🍉",
+                "Cash Crop": "💰",
+                Other: "🧪"
+            };
+
+            // -----------------------------
+            // API CALLS
+            // -----------------------------
+
+            async function fetchCropList() {
+                const res = await fetch(API_BASE_URL + "/crops");
+                if (!res.ok) {
+                    throw new Error("Failed to load crops: " + res.status);
+                }
+                return res.json();
+            }
+
+            async function fetchCropData(identifier) {
+                const url =
+                    API_BASE_URL + "/crops/" + encodeURIComponent(identifier);
+                const res = await fetch(url);
+                if (!res.ok) {
+                    throw new Error("API error " + res.status);
+                }
+                return res.json();
+            }
+
+            // -----------------------------
+            // UI HELPERS
+            // -----------------------------
+
+            function showInitialMessage() {
+                fertilizerTitle.textContent = "Fertilizer Schedule";
+                fertilizerContainer.innerHTML =
+                    '<p class="text-sm text-gray-500">Please select a crop to view its fertilizer schedule.</p>';
+                
+                // Update pest container
+                document.getElementById('pestContainer').innerHTML =
+                    '<p class="text-sm text-gray-500">Please select a crop to view common pests and their control measures.</p>';
+                
+                diseaseContainer.innerHTML =
+                    '<p class="text-sm text-gray-500">Please select a crop to view common diseases and their prevention.</p>';
+            }
+
+            function showLoading() {
+                fertilizerTitle.textContent = "Loading fertilizer schedule...";
+                fertilizerContainer.innerHTML = '<p class="text-sm text-gray-500">Please wait...</p>';
+                
+                // Update pest container
+                document.getElementById('pestContainer').innerHTML = '<p class="text-sm text-gray-500">Loading pests...</p>';
+                
+                diseaseContainer.innerHTML = '<p class="text-sm text-gray-500">Loading diseases...</p>';
+            }
+
+            function showError(message) {
+                fertilizerTitle.textContent = "Fertilizer Schedule";
+                fertilizerContainer.innerHTML =
+                    '<div class="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">' +
+                    (message || "Could not load fertilizer data. Please try again.") +
+                    "</div>";
+
+                // Update pest container
+                document.getElementById('pestContainer').innerHTML =
+                    '<div class="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">' +
+                    "Could not load pest data. Please try again." +
+                    "</div>";
+
+                diseaseContainer.innerHTML =
+                    '<div class="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">' +
+                    "Could not load disease data. Please try again." +
+                    "</div>";
+            }
+
+            // Populate <select> grouped by category
+            function populateCropSelect(crops) {
+                const groups = {};
+                crops.forEach((crop) => {
+                    const cat = crop.category || "Other";
+                    if (!groups[cat]) groups[cat] = [];
+                    groups[cat].push(crop);
+                });
+
+                let html = '<option value="">Select a crop...</option>';
+
+                CATEGORY_ORDER.forEach((cat) => {
+                    if (!groups[cat] || groups[cat].length === 0) return;
+                    html += `<optgroup label="${cat}">`;
+                    groups[cat].forEach((c) => {
+                        html += `<option value="${c.slug}">${c.name}</option>`;
+                    });
+                    html += "</optgroup>";
+                });
+
+                Object.keys(groups).forEach((cat) => {
+                    if (CATEGORY_ORDER.includes(cat)) return;
+                    html +=` <optgroup label="${cat}">`;
+                    groups[cat].forEach((c) => {
+                        html += `<option value="${c.slug}">${c.name}</option>`;
+                    });
+                    html += "</optgroup>";
+                });
+
+                cropSelect.innerHTML = html;
+            }
+
+            // -----------------------------
+            // RENDER FUNCTIONS
+            // -----------------------------
+
+            // ===== RENDER PESTS FUNCTION =====
+            function renderPests(pests) {
+                const pestContainer = document.getElementById('pestContainer');
+                
+                if (!pests || pests.length === 0) {
+                    pestContainer.innerHTML = '<p class="text-sm text-gray-500">No pest information available.</p>';
+                    return;
+                }
+                
+                let pestHtml = '<ol class="list-decimal list-inside space-y-4 text-gray-800">';
+                
+                pests.forEach(function(pest) {
+                    pestHtml += "<li>";
+                    pestHtml += '<p class="font-semibold text-base">' + (pest.name || "Pest") + '</p>';
+                    
+                    // Symptoms
+                    if (pest.symptoms) {
+                        pestHtml += '<p class="text-sm text-gray-700 mt-1">';
+                        pestHtml += '<span class="font-semibold">Symptoms:</span> ' + pest.symptoms;
+                        pestHtml += '</p>';
+                    }
+                    
+                    // Control measures
+                    if (pest.control && pest.control.length > 0) {
+                        pestHtml += '<div class="mt-2">';
+                        pestHtml += '<p class="text-sm font-semibold text-gray-700">Control:</p>';
+                        pestHtml += '<ul class="mt-1 list-disc list-inside text-sm text-gray-700 space-y-1">';
+                        pest.control.forEach(function(c) {
+                            pestHtml += '<li>' + c + '</li>';
+                        });
+                        pestHtml += '</ul>';
+                        pestHtml += '</div>';
+                    }
+                    
+                    // Prevention
+                    if (pest.prevention && pest.prevention.length > 0) {
+                        pestHtml += '<div class="mt-2">';
+                        pestHtml += '<p class="text-sm font-semibold text-gray-700">Prevention:</p>';
+                        pestHtml += '<ul class="mt-1 list-disc list-inside text-sm text-gray-700 space-y-1">';
+                        pest.prevention.forEach(function(p) {
+                            pestHtml += '<li>' + p + '</li>';
+                        });
+                        pestHtml += '</ul>';
+                        pestHtml += '</div>';
+                    }
+                    
+                    pestHtml += "</li>";
+                });
+                
+                pestHtml += "</ol>";
+                pestContainer.innerHTML = pestHtml;
+            }
+
+            function renderCropFromData(data) {
+                const cropName = data.name || "Selected Crop";
+                const category = data.category || "Other";
+                const emoji = CATEGORY_EMOJI[category] || "🧪";
+
+                // Fertilizer title with emoji
+                fertilizerTitle.textContent =
+                    `${emoji} Fertilizer Schedule for ${cropName}`;
+
+                // Fertilizer section
+                if (
+                    !data.fertilizerSchedule ||
+                    data.fertilizerSchedule.length === 0
+                ) {
+                    fertilizerContainer.innerHTML =
+                        '<p class="text-sm text-gray-500">No fertilizer schedule available.</p>';
+                } else {
+                    let fertHtml =
+                        '<ol class="list-decimal list-inside space-y-4 text-gray-800">';
+                    data.fertilizerSchedule.forEach(function (stage) {
+                        fertHtml += "<li>";
+                        fertHtml +=
+                            '<p class="font-semibold">' +
+                            (stage.title || "Stage") +
+                            "</p>";
+                        fertHtml +=
+                            '<ul class="mt-1 space-y-1 text-sm text-gray-700">';
+                        (stage.items || []).forEach(function (item) {
+                            fertHtml +=
+                                "<li>" +
+                                (item.name || "Input") +
+                                " → " +
+                                (item.dose || "-");
+                            if (item.note) {
+                                fertHtml += " (" + item.note + ")";
+                            }
+                            fertHtml += "</li>";
+                        });
+                        fertHtml += "</ul>";
+                        fertHtml += "</li>";
+                    });
+                    fertHtml += "</ol>";
+                    fertilizerContainer.innerHTML = fertHtml;
+                }
+
+                // Disease section with emoji based on category
+                const diseaseEmoji = CATEGORY_EMOJI[category] || "🩺";
+                const diseaseTitle =
+                    `${diseaseEmoji} Common ${cropName} Diseases & Prevention`;
+
+                const diseaseCardTitle =
+                    diseaseContainer.parentElement.querySelector("h2");
+                if (diseaseCardTitle) {
+                    diseaseCardTitle.textContent = diseaseTitle;
+                }
+
+                if (!data.diseases || data.diseases.length === 0) {
+                    diseaseContainer.innerHTML =
+                        '<p class="text-sm text-gray-500">No disease information available.</p>';
+                } else {
+                    let disHtml =
+                        '<ol class="list-decimal list-inside space-y-4 text-gray-800">';
+                    data.diseases.forEach(function (d) {
+                        disHtml += "<li>";
+                        disHtml +=
+                            '<p class="font-semibold">' +
+                            (d.name || "Disease") +
+                            "</p>";
+
+                        if (d.symptoms) {
+                            disHtml +=
+                                '<p class="text-sm text-gray-700">' +
+                                '<span class="font-semibold">Symptoms:</span> ' +
+                                d.symptoms +
+                                "</p>";
+                        }
+
+                        disHtml += '<div class="mt-1">';
+                        disHtml +=
+                            '<p class="text-sm font-semibold text-gray-700">Prevention:</p>';
+                        disHtml +=
+                            '<ul class="mt-1 list-disc list-inside text-sm text-gray-700 space-y-1">';
+                        (d.prevention || []).forEach(function (p) {
+                            disHtml += "<li>" + p + "</li>";
+                        });
+                        disHtml += "</ul>";
+                        disHtml += "</div>";
+                        disHtml += "</li>";
+                    });
+                    disHtml += "</ol>";
+                    diseaseContainer.innerHTML = disHtml;
+                }
+                
+                // PEST SECTION - Update pest card title
+                const pestCardTitle = document.querySelector('#pestContainer')?.parentElement?.querySelector('h2');
+                if (pestCardTitle) {
+                    pestCardTitle.innerHTML = `🐛 Common ${cropName} Pests & Control`;
+                }
+
+                // Render pests using the function
+                if (data.pests) {
+                    renderPests(data.pests);
+                } else {
+                    document.getElementById('pestContainer').innerHTML = '<p class="text-sm text-gray-500">No pest information available.</p>';
+                }
+            }
+            
+            async function renderCrop(identifier) {
+                if (!identifier) {
+                    showInitialMessage();
+                    return;
+                }
+
+                showLoading();
+                try {
+                    const data = await fetchCropData(identifier);
+                    renderCropFromData(data);
+                } catch (error) {
+                    console.error(error);
+                    showError(error.message);
+                }
+            }
+
+            // -----------------------------
+            // EVENT HANDLERS
+            // -----------------------------
+
+            cropSelect.addEventListener("change", function () {
+                const slug = cropSelect.value;
+                renderCrop(slug);
+            });
+
+            // -----------------------------
+            // INITIAL LOAD
+            // -----------------------------
+
+            (async function init() {
+                showInitialMessage();
+                try {
+                    const crops = await fetchCropList();
+                    populateCropSelect(crops);
+
+                    // Auto-select first crop (after placeholder), optional
+                    const firstRealOption = cropSelect.querySelector(
+                        "option[value]:not([value=''])"
+                    );
+                    if (firstRealOption) {
+                        cropSelect.value = firstRealOption.value;
+                        renderCrop(firstRealOption.value);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showError("Could not load crop list. Please refresh.");
+                }
+            })();
+        });
+
+        // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+
+     // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

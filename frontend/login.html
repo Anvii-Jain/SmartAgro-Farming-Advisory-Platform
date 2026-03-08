@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – SmartAgro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+        <span class="text-xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">SmartAgro</span>
+      </div>
+      <div class="hidden md:flex gap-8">
+        <a href="index.html" class="text-gray-700 hover:text-green-600 transition duration-200">Home</a>
+        <a href="features.html" class="text-gray-700 hover:text-green-600 transition duration-200">Features</a>
+        <a href="how-it-works.html" class="text-gray-700 hover:text-green-600 transition duration-200">How It Works</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Container -->
+  <div class="min-h-screen pt-20 flex items-center justify-center px-4 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-emerald-50 via-sky-50 to-teal-50 -z-10"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-green-300/20 to-teal-300/20 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-teal-300/20 to-blue-300/20 rounded-full blur-3xl -z-10"></div>
+
+    <!-- Centered glassmorphic login card -->
+    <div class="w-full max-w-md">
+      <div class="bg-white/70 backdrop-blur-md rounded-3xl p-8 border border-white/40 shadow-2xl shadow-green-300/20">
+        <h1 class="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">Login to SmartAgro</h1>
+        <p class="text-center text-gray-600 mb-8">Access your personalized farming dashboard</p>
+            
+        <div class="text-center mb-6">
+          <a href="index.html" class="text-sm text-green-600 hover:text-green-800 hover:underline">
+            ← Back to Home
+          </a>
+        </div>
+        
+        <!-- LOGIN FORM -->
+        <form id="loginForm" novalidate>
+          <!-- error box (hidden by default) -->
+          <div id="loginError" class="hidden mb-4 p-3 text-sm text-red-700 bg-red-100 border border-red-200 rounded"></div>
+
+          <!-- Email Field -->
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="your@email.com"
+                   class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
+                   required>
+          </div>
+
+          <!-- Password Field -->
+          <div class="mb-6">
+            <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+            <input id="password" name="password" type="password" placeholder="••••••••"
+                   class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
+                   required>
+          </div>
+
+          <!-- city field -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Your City/Farm Location</label>
+            <input type="text" id="loginCity" placeholder="e.g., Indore, Delhi, Mumbai" 
+                   class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
+                   required>
+          </div>
+          
+          <!-- User Type Selector -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">I am a</label>
+            <div class="flex gap-4">
+              <label class="flex items-center gap-2 cursor-pointer flex-1 p-3 bg-white/40 border border-white/60 rounded-lg hover:bg-white/60 transition">
+                <input type="radio" name="role" value="farmer" checked required class="w-4 h-4 text-green-600">
+                <span class="font-semibold text-gray-700">Farmer</span>
+              </label>
+
+              <label class="flex items-center gap-2 cursor-pointer flex-1 p-3 bg-white/40 border border-white/60 rounded-lg hover:bg-white/60 transition">
+                <input type="radio" name="role" value="driver" required class="w-4 h-4 text-green-600">
+                <span class="font-semibold text-gray-700">Driver</span>
+              </label>
+
+              <label class="flex items-center gap-2 cursor-pointer flex-1 p-3 bg-white/40 border border-white/60 rounded-lg hover:bg-white/60 transition">
+                <input type="radio" name="role" value="guest" required class="w-4 h-4 text-green-600">
+                <span class="font-semibold text-gray-700">Guest</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Login Button -->
+          <button type="submit" class="w-full py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold rounded-lg shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/50 hover:-translate-y-0.5 transition duration-200 mb-4">
+            Login to Dashboard
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="relative mb-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white/70 text-gray-600">or</span>
+          </div>
+        </div>
+
+        <!-- Continue as Guest -->
+        <a href="#" onclick="continueAsGuest()" class="block w-full text-center py-3 border-2 border-green-500 text-green-600 font-semibold rounded-lg hover:bg-green-50 transition duration-200 mb-4">
+          Continue as Guest
+        </a>
+
+        <!-- Sign Up Link -->
+        <p class="text-center text-gray-600">
+          New user?
+          <a href="signup.html" class="text-green-600 font-semibold hover:text-teal-600 transition">Create an account</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function for guest login
+    function continueAsGuest() {
+      // Create guest user with default values
+      const guestData = {
+        name: "Guest Farmer",
+        email: "guest@smartagro.com",
+        role: "guest",
+        city: "Indore",
+        state: "Madhya Pradesh"
+      };
+      
+      // Save in multiple formats
+      localStorage.setItem("smartagro_user", JSON.stringify(guestData));
+      localStorage.setItem("userCity", "Indore");
+      localStorage.setItem("userState", "Madhya Pradesh");
+      
+      console.log("✅ Guest login successful!");
+      window.location.href = "dashboard.html";
+    }
+
+    // Main login form handler
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const location = document.getElementById("loginCity").value.trim();
+      const role = document.querySelector("input[name='role']:checked").value;
+
+      if (!email || !password || !location) {
+        alert("Please enter email, password, and your city");
+        return;
+      }
+
+      // City to State mapping (comprehensive)
+      const cityToState = {
+        // Madhya Pradesh
+        'indore': 'Madhya Pradesh',
+        'bhopal': 'Madhya Pradesh',
+        'gwalior': 'Madhya Pradesh',
+        'jabalpur': 'Madhya Pradesh',
+        'ujjain': 'Madhya Pradesh',
+        'ratlam': 'Madhya Pradesh',
+        // Maharashtra
+        'mumbai': 'Maharashtra',
+        'pune': 'Maharashtra',
+        'nagpur': 'Maharashtra',
+        'nasik': 'Maharashtra',
+        'aurangabad': 'Maharashtra',
+        // Delhi
+        'delhi': 'Delhi',
+        'new delhi': 'Delhi',
+        // Karnataka
+        'bangalore': 'Karnataka',
+        'bengaluru': 'Karnataka',
+        'mysore': 'Karnataka',
+        // Tamil Nadu
+        'chennai': 'Tamil Nadu',
+        'coimbatore': 'Tamil Nadu',
+        'madurai': 'Tamil Nadu',
+        // West Bengal
+        'kolkata': 'West Bengal',
+        'howrah': 'West Bengal',
+        // Telangana
+        'hyderabad': 'Telangana',
+        'secunderabad': 'Telangana',
+        // Gujarat
+        'ahmedabad': 'Gujarat',
+        'surat': 'Gujarat',
+        'vadodara': 'Gujarat',
+        // Rajasthan
+        'jaipur': 'Rajasthan',
+        'jodhpur': 'Rajasthan',
+        'udaipur': 'Rajasthan',
+        // Uttar Pradesh
+        'lucknow': 'Uttar Pradesh',
+        'kanpur': 'Uttar Pradesh',
+        'varanasi': 'Uttar Pradesh',
+        'agra': 'Uttar Pradesh',
+        // Bihar
+        'patna': 'Bihar',
+        'gaya': 'Bihar',
+        // Punjab
+        'chandigarh': 'Punjab',
+        'ludhiana': 'Punjab',
+        'amritsar': 'Punjab'
+      };
+
+      const city = location;
+      const cityLower = city.toLowerCase();
+      const state = cityToState[cityLower] || 'Madhya Pradesh'; // Default to MP if not found
+
+      // Create user object
+      const userData = {
+        name: email.split('@')[0] || "Farmer",
+        email: email,
+        role: role,
+        city: city,
+        state: state
+      };
+      
+      // Save to localStorage - MULTIPLE FORMATS for compatibility
+      localStorage.setItem("smartagro_user", JSON.stringify(userData));
+      localStorage.setItem("userCity", city);
+      localStorage.setItem("userState", state);
+      
+      console.log("✅ Login successful!");
+      console.log("Saved user:", userData);
+      console.log("Saved city:", city);
+      console.log("Saved state:", state);
+
+      // Redirect to dashboard
+      if(role === "driver"){
+         window.location.href = "driver_dashboard.html";
+      }else{
+         window.location.href = "dashboard.html";
+      }
+    });
+  </script>
+</body>
+</html>

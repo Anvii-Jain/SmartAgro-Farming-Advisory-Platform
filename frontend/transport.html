@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Transport Support – SmartAgro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚛</text></svg>">
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <!-- Mobile Menu Toggle -->
+    <div id="mobileMenuBtn" class="fixed bottom-6 right-6 z-50 md:hidden bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-full shadow-lg cursor-pointer hover:shadow-xl transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <!-- Logo -->
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold text-xl">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                <!-- Features Section -->
+                <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+                    📋 Features
+                </div>
+                
+                <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+                <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+                <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+                <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+                <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+                <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+                <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+                <a href="transport.html" class="block px-4 py-3 rounded-lg bg-white/15 font-semibold hover:bg-white/25 transition">🚛 Transport Support</a>
+                <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+                <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+                
+                <!-- Large Spacer -->
+                <div class="h-8"></div>
+                
+                <!-- Account Section -->
+                <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10">
+                    👤 Account
+                </div>
+                
+                <div class="mt-2">
+                    <a href="settings.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⚙️ Settings</a>
+                    <a href="login.html" onclick="localStorage.removeItem('smartagro_user'); localStorage.removeItem('userCity'); localStorage.removeItem('userState');" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition text-red-200 hover:text-white">🚪 Logout</a>
+                </div>
+            </nav>
+
+            <!-- Footer -->
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Smart Transport Support</h1>
+                    <p class="text-sm text-gray-600">Connect with logistics partners and request crop transport to nearby mandis</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">🚛 Live</span>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-4xl mx-auto space-y-6">
+                    
+
+                    <!-- Main Form Card -->
+                    <form id="transportForm" onsubmit="submitTransportRequest(event)" class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md space-y-8">
+                        <!-- Section A: Crop Details -->
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">1</span>
+                                Crop Details
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Crop Selection with Other Option -->
+<div>
+    <label class="block text-sm font-semibold text-gray-700 mb-2">Select Crop</label>
+    
+    <!-- Dropdown for common crops -->
+    <select id="cropSelect" onchange="toggleOtherCrop()" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none bg-white mb-3" required>
+        <option value="">-- Select Crop --</option>
+        <option value="Wheat">🌾 Wheat</option>
+        <option value="Rice">🍚 Rice</option>
+        <option value="Maize">🌽 Maize</option>
+        <option value="Cotton">🧵 Cotton</option>
+        <option value="Sugarcane">🎋 Sugarcane</option>
+        <option value="Tomato">🍅 Tomato</option>
+        <option value="Onion">🧅 Onion</option>
+        <option value="Potato">🥔 Potato</option>
+        <option value="Bajra">🌾 Bajra</option>
+        <option value="Jowar">🌾 Jowar</option>
+        <option value="Groundnut">🥜 Groundnut</option>
+        <option value="Mustard">🟡 Mustard</option>
+        <option value="Chana">🫘 Chana</option>
+        <option value="OTHER">➕ Other (specify)</option>
+    </select>
+    
+    <!-- Text input for "Other" crop (hidden by default) -->
+    <div id="otherCropContainer" style="display: none;">
+        <input type="text" id="otherCrop" placeholder="Enter crop name" 
+               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none">
+        <p class="text-xs text-gray-500 mt-1">Please enter the crop name in English</p>
+    </div>
+</div>
+
+                                <!-- Quantity Input -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Quantity (quintals/tons)</label>
+                                    <input type="number" id="quantity" placeholder="e.g., 50" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none" required>
+                                </div>
+
+                                <!-- Packaging Type -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Packaging Type</label>
+                                    <div class="flex gap-4">
+                                        <label class="flex items-center gap-2">
+                                            <input type="radio" name="packaging" value="loose" checked class="w-4 h-4">
+                                            <span class="text-sm">Loose</span>
+                                        </label>
+                                        <label class="flex items-center gap-2">
+                                            <input type="radio" name="packaging" value="bagged" class="w-4 h-4">
+                                            <span class="text-sm">Bagged</span>
+                                        </label>
+                                        <label class="flex items-center gap-2">
+                                            <input type="radio" name="packaging" value="crate" class="w-4 h-4">
+                                            <span class="text-sm">Crate</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Expected Selling Price -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Expected Selling Price (₹)</label>
+                                    <input type="number" id="price" placeholder="e.g., 2450" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section B: Pickup & Delivery -->
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center text-white text-sm font-bold">2</span>
+                                Pickup & Delivery
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Pickup Location -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Pickup Location</label>
+                                    <input type="text" id="pickup" placeholder="Your village/farm address" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none" required>
+                                </div>
+
+                                <!-- Destination Mandi -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Destination Mandi</label>
+                                    <input type="text" id="destination" placeholder="Target mandi name" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none" required>
+                                </div>
+
+                                <!-- Preferred Date -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Preferred Date</label>
+                                    <input type="date" id="date" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none" required>
+                                </div>
+
+                                <!-- Contact Number -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Contact Number</label>
+                                    <input type="tel" id="contact" placeholder="10-digit mobile number" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition outline-none" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transport Options -->
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center text-white text-sm font-bold">3</span>
+                                Select Transport Option
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- Standard Truck -->
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="transport" value="standard" checked class="hidden peer">
+                                    <div class="bg-white/80 border-2 border-gray-300 peer-checked:border-green-500 peer-checked:bg-green-50 rounded-xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                                        <div class="text-4xl mb-3">🚛</div>
+                                        <h3 class="font-bold text-gray-800 mb-2">Standard Truck</h3>
+                                        <p class="text-sm text-gray-600 mb-3">Delivery: 2–3 days</p>
+                                        <p class="text-lg font-bold text-green-600">₹1,200/ton</p>
+                                        <div class="mt-4 w-4 h-4 bg-green-500 rounded-full mx-auto peer-checked:block hidden"></div>
+                                    </div>
+                                </label>
+
+                                <!-- Express Transport -->
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="transport" value="express" class="hidden peer">
+                                    <div class="bg-white/80 border-2 border-gray-300 peer-checked:border-green-500 peer-checked:bg-green-50 rounded-xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                                        <div class="text-4xl mb-3">⚡</div>
+                                        <h3 class="font-bold text-gray-800 mb-2">Express Transport</h3>
+                                        <p class="text-sm text-gray-600 mb-3">Delivery: 24 hours</p>
+                                        <p class="text-lg font-bold text-green-600">₹2,000/ton</p>
+                                        <div class="mt-4 w-4 h-4 bg-green-500 rounded-full mx-auto peer-checked:block hidden"></div>
+                                    </div>
+                                </label>
+
+                                <!-- Shared Farmer Transport -->
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="transport" value="shared" class="hidden peer">
+                                    <div class="bg-white/80 border-2 border-gray-300 peer-checked:border-green-500 peer-checked:bg-green-50 rounded-xl p-6 hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                                        <div class="text-4xl mb-3">👥</div>
+                                        <h3 class="font-bold text-gray-800 mb-2">Shared Farmer Transport</h3>
+                                        <p class="text-sm text-gray-600 mb-3">Cost-effective option</p>
+                                        <p class="text-lg font-bold text-green-600">₹600/ton</p>
+                                        <div class="mt-4 w-4 h-4 bg-green-500 rounded-full mx-auto peer-checked:block hidden"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="flex gap-4 pt-4">
+                            <button type="submit" id="submitBtn" class="flex-1 bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-4 rounded-xl hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                                Request Transport
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Recent Transport Requests -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Recent Transport Requests</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-300">
+                                        <th class="text-left px-4 py-3 font-semibold text-gray-700">Crop</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-gray-700">From</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-gray-700">To</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-gray-700">Status</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-gray-700">Driver</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="requestsTable">
+                                    <tr><td colspan="5" class="text-center py-8 text-gray-500">Loading requests...</td></tr>
+                                </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Close sidebar when a link is clicked (mobile)
+        sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Submit Transport Request
+        function submitTransportRequest(event) {
+            event.preventDefault();
+            console.log("📝 Form submitted!");
+
+            // Get form values with safe access
+           // Get crop value (either from dropdown or other input)
+let crop = document.getElementById('cropSelect')?.value;
+if (crop === 'OTHER') {
+    crop = document.getElementById('otherCrop')?.value;
+    if (!crop) {
+        alert("❌ Please enter the crop name");
+        return;
+    }
+}
+            const quantity = document.getElementById('quantity')?.value;
+            const packaging = document.querySelector("input[name='packaging']:checked")?.value;
+            const price = document.getElementById('price')?.value || 0;
+            const pickup = document.getElementById('pickup')?.value;
+            const destination = document.getElementById('destination')?.value;
+            const date = document.getElementById('date')?.value;
+            const contact = document.getElementById('contact')?.value;
+            const transport_type = document.querySelector("input[name='transport']:checked")?.value;
+
+            // Validate required fields
+            if (!crop) {
+                alert("❌ Please select a crop");
+                return;
+            }
+            if (!quantity) {
+                alert("❌ Please enter quantity");
+                return;
+            }
+            if (!pickup) {
+                alert("❌ Please enter pickup location");
+                return;
+            }
+            if (!destination) {
+                alert("❌ Please enter destination");
+                return;
+            }
+            if (!date) {
+                alert("❌ Please select a date");
+                return;
+            }
+            if (!contact || contact.length < 10) {
+                alert("❌ Please enter a valid 10-digit contact number");
+                return;
+            }
+            if (!transport_type) {
+                alert("❌ Please select a transport option");
+                return;
+            }
+
+            const data = {
+                crop: crop,
+                quantity: quantity,
+                packaging: packaging || "Standard",
+                price: price,
+                pickup: pickup,
+                destination: destination,
+                date: date,
+                contact: contact,
+                transport_type: transport_type
+            };
+
+            console.log("📦 Sending data:", data);
+
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⏳ Submitting...';
+            submitBtn.disabled = true;
+
+            fetch("http://127.0.0.1:5001/transport-request", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("✅ Response:", data);
+                alert("✅ Transport request submitted successfully!");
+                document.getElementById("transportForm").reset();
+                loadTransportRequests();
+            })
+            .catch(error => {
+                console.error("❌ Error:", error);
+                alert("❌ Failed to submit request. Please try again.");
+            })
+            .finally(() => {
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        // Load transport requests
+        function loadTransportRequests() {
+            console.log("📊 Loading requests...");
+            
+            fetch("http://127.0.0.1:5001/transport-requests")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("📊 Received data:", data);
+                
+                const table = document.getElementById("requestsTable");
+                if (!table) return;
+
+                table.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    table.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">🚫 No transport requests found</td></tr>';
+                    return;
+                }
+
+                data.forEach(request => {
+                    const statusColor = request.status === 'Delivered' ? 'bg-green-100 text-green-700' : 
+                                       request.status === 'In Transit' ? 'bg-blue-100 text-blue-700' : 
+                                       'bg-yellow-100 text-yellow-700';
+                    
+                    const row = `
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                        <td class="px-4 py-3 font-medium">${request.crop || 'N/A'}</td>
+                        <td class="px-4 py-3">${request.from || 'N/A'}</td>
+                        <td class="px-4 py-3">${request.to || 'N/A'}</td>
+                        <td class="px-4 py-3">
+                            <span class="${statusColor} px-3 py-1 rounded-full text-sm font-semibold">
+                                ${request.status || 'Pending'}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">${request.driver || '🚫 Not Assigned'}</td>
+                    </tr>
+                    `;
+                    table.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                console.error("❌ Error loading requests:", error);
+                const table = document.getElementById("requestsTable");
+                if (table) {
+                    table.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-red-500">❌ Failed to load requests. Make sure backend is running.</td></tr>';
+                }
+            });
+        }
+
+        // Load requests on page load
+        loadTransportRequests();
+
+        // Auto-refresh requests every 30 seconds
+        setInterval(() => {
+            loadTransportRequests();
+        }, 30000);
+
+        // ========== SIDEBAR ACTIVE STATE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current page filename
+            const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+            
+            console.log('📍 Current page:', currentPage);
+            
+            // Find all sidebar links
+            const sidebarLinks = document.querySelectorAll('#sidebar a');
+            
+            // Loop through links and highlight current page
+            sidebarLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                
+                // Remove any existing active classes
+                link.classList.remove('bg-white/15', 'font-semibold');
+                
+                // Check if this link matches current page
+                if (linkHref === currentPage) {
+                    link.classList.add('bg-white/15', 'font-semibold');
+                    console.log('✅ Highlighted:', linkHref);
+                }
+                
+                // Special case for empty URL (root)
+                if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                    link.classList.add('bg-white/15', 'font-semibold');
+                }
+            });
+        });
+        // Toggle other crop input field
+function toggleOtherCrop() {
+    const cropSelect = document.getElementById('cropSelect');
+    const otherContainer = document.getElementById('otherCropContainer');
+    
+    if (cropSelect.value === 'OTHER') {
+        otherContainer.style.display = 'block';
+        document.getElementById('otherCrop').required = true;
+    } else {
+        otherContainer.style.display = 'none';
+        document.getElementById('otherCrop').required = false;
+    }
+}
+    </script>
+</body>
+</html>

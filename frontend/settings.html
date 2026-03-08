@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings – SmartAgro</title>
+      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+    <!-- Large Spacer -->
+    <div class="h-8"></div>
+    
+    <!-- Account Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10">
+        👤 Account
+    </div>
+    
+    <div class="mt-2">
+        <a href="settings.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⚙️ Settings</a>
+        <a href="login.html" onclick="localStorage.removeItem('smartagro_user'); localStorage.removeItem('userCity'); localStorage.removeItem('userState');" 
+           class="block px-4 py-3 rounded-lg hover:bg-white/15 transition text-red-200 hover:text-white">
+           🚪 Logout
+        </a>
+    </div>
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4">
+                <h1 class="text-2xl font-bold text-gray-800">Settings</h1>
+                <p class="text-gray-600 text-sm mt-1">Manage your profile and preferences</p>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-2xl mx-auto space-y-6">
+                    <!-- Profile Section -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Profile Information</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="fullName" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition" placeholder="Enter your full name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition" placeholder="Enter your email">
+                            </div>
+                           
+                            <button id="saveProfileBtn" class="px-6 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition">
+                                Save Changes
+                            </button>
+                            <div id="profileMessage" class="hidden text-sm mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Theme Settings -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Appearance</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-white/40 backdrop-blur rounded-lg border border-white/50">
+                                <div>
+                                    <p class="font-semibold text-gray-800">Dark Mode</p>
+                                    <p class="text-sm text-gray-600">Enable dark theme for the dashboard</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="darkModeToggle" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language Settings -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Language & Region</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Preferred Language</label>
+                                <select id="languageSelect" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                    <option value="english">English</option>
+                                    <option value="hindi">हिंदी (Hindi)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">State</label>
+                                <select id="stateSelect" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                    <option value="">Select your state</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Notifications</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-white/40 backdrop-blur rounded-lg border border-white/50">
+                                <div>
+                                    <p class="font-semibold text-gray-800">Weather Alerts</p>
+                                    <p class="text-sm text-gray-600">Get notified about extreme weather</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="weatherAlertsToggle" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-white/40 backdrop-blur rounded-lg border border-white/50">
+                                <div>
+                                    <p class="font-semibold text-gray-800">Market Price Updates</p>
+                                    <p class="text-sm text-gray-600">Daily market price notifications</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="marketUpdatesToggle" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Actions Section -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Account</h2>
+                        <div class="space-y-3">
+                            <button onclick="changePassword()" class="w-full px-4 py-3 border-2 border-orange-500 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition">
+                                Change Password
+                            </button>
+                            <button onclick="logout()" class="w-full px-4 py-3 border-2 border-red-500 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition">
+                                Logout
+                            </button>
+                            <button onclick="deleteAccount()" class="w-full px-4 py-3 border-2 border-red-600 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition">
+                                Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadPreferences();
+            setupEventListeners();
+        });
+
+        // ==================== STEP 1: USER DATA ====================
+        function loadUserData() {
+            // Try to get user data from localStorage (set during login)
+            const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+            
+            // Fill profile fields
+            document.getElementById('fullName').value = userData.name || '';
+            document.getElementById('email').value = userData.email || '';
+            
+            
+            // If no user data found, show default placeholder text
+            if (!userData.name) {
+                document.getElementById('fullName').placeholder = 'Enter your full name';
+                document.getElementById('email').placeholder = 'Enter your email';
+              
+            }
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+           
+            
+            // Basic validation
+            if (!name || !email) {
+                showMessage('Please fill in at least name and email', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Get existing user data
+            let userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+            
+            // Update with new values
+            userData.name = name;
+            userData.email = email;
+           
+            
+            // Save back to localStorage
+            localStorage.setItem('smartagro_user', JSON.stringify(userData));
+            
+            showMessage('Profile saved successfully!', 'success');
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // ==================== STEP 2: PREFERENCES ====================
+        function loadPreferences() {
+            // Load theme preference
+            const darkMode = localStorage.getItem('smartagro_darkMode') === 'true';
+            document.getElementById('darkModeToggle').checked = darkMode;
+            
+            // Load language preference
+            const language = localStorage.getItem('smartagro_language') || 'english';
+            document.getElementById('languageSelect').value = language;
+            
+            // Load state preference
+            const state = localStorage.getItem('smartagro_state') || '';
+            document.getElementById('stateSelect').value = state;
+            
+            // Load notification preferences
+            const weatherAlerts = localStorage.getItem('smartagro_weatherAlerts') !== 'false'; // default true
+            const marketUpdates = localStorage.getItem('smartagro_marketUpdates') !== 'false'; // default true
+            
+            document.getElementById('weatherAlertsToggle').checked = weatherAlerts;
+            document.getElementById('marketUpdatesToggle').checked = marketUpdates;
+             
+            applyDarkMode(darkMode); // Apply dark mode on load
+        }
+
+        function savePreferences() {
+            // Save theme
+            const darkMode = document.getElementById('darkModeToggle').checked;
+            localStorage.setItem('smartagro_darkMode', darkMode);
+            
+            // Save language
+            const language = document.getElementById('languageSelect').value;
+            localStorage.setItem('smartagro_language', language);
+            
+          // Save state
+const state = document.getElementById('stateSelect').value;
+localStorage.setItem('smartagro_state', state);
+
+// ✅ Show state message FIRST
+if (state) {
+    showMessage(`State set to: ${state}. Will be used for weather, market prices, and schemes.`, 'info');
+}
+
+// ✅ Then show success message AFTER delay
+setTimeout(() => {
+    showMessage('Preferences saved successfully!', 'success');
+}, 3000); // Show after 3 seconds
+
+// ✅ ADD this block:
+if (state) {
+    showMessage(`State saved: ${state}. Will be used for weather, market prices, and schemes.`, 'info');
+}
+            
+            // Save notifications
+            const weatherAlerts = document.getElementById('weatherAlertsToggle').checked;
+            const marketUpdates = document.getElementById('marketUpdatesToggle').checked;
+            
+            localStorage.setItem('smartagro_weatherAlerts', weatherAlerts);
+            localStorage.setItem('smartagro_marketUpdates', marketUpdates);
+            
+            // Apply dark mode immediately
+            applyDarkMode(darkMode);
+            
+            showMessage('Preferences saved successfully!', 'success');
+        }
+
+  function applyDarkMode(isDark) {
+    if (isDark) {
+        document.body.classList.remove('bg-gradient-to-br', 'from-gray-50', 'to-emerald-50');
+        document.body.classList.add('bg-gray-900', 'text-white');
+        
+        // Make ALL text white
+        document.querySelectorAll('input, select, option').forEach(el => {
+            el.classList.add('text-white');
+            el.classList.remove('text-gray-900');
+        });
+    } else {
+        document.body.classList.add('bg-gradient-to-br', 'from-gray-50', 'to-emerald-50');
+        document.body.classList.remove('bg-gray-900', 'text-white');
+        
+        // Restore original text
+        document.querySelectorAll('input, select, option').forEach(el => {
+            el.classList.remove('text-white');
+            el.classList.add('text-gray-900');
+        });
+    }
+}
+        // ==================== STEP 3: BUTTON ACTIONS ====================
+        function changePassword() {
+    // Create a simple modal
+    const modalHTML = `
+        <div id="passwordModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+                <h3 class="text-xl font-bold mb-4">Change Password</h3>
+                <p class="text-gray-600 mb-6">This feature requires backend support. Coming soon!</p>
+                <div class="flex gap-3">
+                    <button onclick="document.getElementById('passwordModal').remove()" 
+                            class="flex-1 py-2 border border-gray-300 rounded-lg">
+                        Close
+                    </button>
+                    <button onclick="requestPasswordReset()" 
+                            class="flex-1 py-2 bg-green-500 text-white rounded-lg">
+                        Request Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function requestPasswordReset() {
+    alert('Password reset requested! (This would email a reset link in production)');
+    document.getElementById('passwordModal').remove();
+}
+
+       function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        // Clear ALL SmartAgro data (better than removing one by one)
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith('smartagro_')) {
+                keysToRemove.push(key);
+            }
+        }
+        
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+        
+        // Also clear sessionStorage
+        sessionStorage.clear();
+        
+        // Redirect to login page
+        window.location.href = 'login.html'; // Make sure this is your login page
+    }
+}
+
+        function deleteAccount() {
+    const confirmation = confirm(
+        '⚠️ WARNING: This will delete all your data!\n\n' +
+        '• Your profile information\n' +
+        '• Your saved preferences\n' +
+        '• Your settings\n\n' +
+        'This action cannot be undone!\n\n' +
+        'Are you absolutely sure?'
+    );
+    
+    if (confirmation) {
+        // Double check for safety
+        const finalConfirmation = prompt(
+            'Type "DELETE" to confirm account deletion:'
+        );
+        
+        if (finalConfirmation === 'DELETE') {
+            // Clear everything
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            alert('Account deleted. Redirecting to homepage.');
+            window.location.href = 'index.html';
+        } else {
+            alert('Account deletion cancelled.');
+        }
+    }
+}
+
+        // ==================== HELPER FUNCTIONS ====================
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('profileMessage');
+            messageDiv.textContent = text;
+            messageDiv.className = 'text-sm mt-2';
+            
+            if (type === 'success') {
+                messageDiv.classList.add('text-green-600', 'bg-green-50', 'p-2', 'rounded');
+            } else if (type === 'error') {
+                messageDiv.classList.add('text-red-600', 'bg-red-50', 'p-2', 'rounded');
+            } else {
+                messageDiv.classList.add('text-blue-600', 'bg-blue-50', 'p-2', 'rounded');
+            }
+            
+            messageDiv.classList.remove('hidden');
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 3000);
+        }
+
+        function setupEventListeners() {
+            // Save Profile button
+            document.getElementById('saveProfileBtn').addEventListener('click', function() {
+                saveProfile();
+                savePreferences(); // Also save preferences when profile is saved
+            });
+            
+            // Auto-save preferences when toggles change
+            document.getElementById('darkModeToggle').addEventListener('change', savePreferences);
+            document.getElementById('languageSelect').addEventListener('change', savePreferences);
+            document.getElementById('stateSelect').addEventListener('change', savePreferences);
+            document.getElementById('weatherAlertsToggle').addEventListener('change', savePreferences);
+            document.getElementById('marketUpdatesToggle').addEventListener('change', savePreferences);
+            
+            // Apply dark mode on toggle
+            document.getElementById('darkModeToggle').addEventListener('change', function() {
+                applyDarkMode(this.checked);
+            });
+        }
+         // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

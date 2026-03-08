@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Driver Dashboard – SmartAgro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚛</text></svg>">
+</head>
+<body class="bg-gray-100 p-6 md:p-10">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">🚚 Driver Transport Dashboard</h1>
+            <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                🚪 Logout
+            </button>
+        </div>
+
+        <!-- Available Requests Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                <span>🚛</span> Available Requests
+                <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full ml-auto">Live</span>
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-3 text-left">Crop</th>
+                            <th class="p-3 text-left">Pickup</th>
+                            <th class="p-3 text-left">Destination</th>
+                            <th class="p-3 text-left">Phone</th>
+                            <th class="p-3 text-left">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="driverTable">
+                        <tr><td colspan="5" class="text-center py-8 text-gray-500">Loading available requests...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- My Deliveries Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                <span>📦</span> My Deliveries
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-3 text-left">Crop</th>
+                            <th class="p-3 text-left">Pickup</th>
+                            <th class="p-3 text-left">Destination</th>
+                            <th class="p-3 text-left">Phone</th>
+                            <th class="p-3 text-left">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myDeliveries">
+                        <tr><td colspan="5" class="text-center py-8 text-gray-500">Loading your deliveries...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in and is a driver
+        const user = JSON.parse(localStorage.getItem("smartagro_user"));
+
+        if (!user || user.role !== "driver") {
+            alert("⚠️ Access denied. Drivers only.");
+            window.location.href = "login.html";
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('smartagro_user');
+            localStorage.removeItem('userCity');
+            localStorage.removeItem('userState');
+            window.location.href = 'login.html';
+        }
+
+        // Load pending requests
+        function loadPendingRequests() {
+            fetch("http://127.0.0.1:5001/pending-requests")
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to load');
+                return res.json();
+            })
+            .then(data => {
+                const table = document.getElementById("driverTable");
+                table.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    table.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">🚫 No pending requests available</td></tr>';
+                    return;
+                }
+
+                data.forEach(req => {
+                    const row = `
+                    <tr class="border-b hover:bg-gray-50 transition">
+                        <td class="p-3 font-medium">${req.crop || 'N/A'}</td>
+                        <td class="p-3">${req.from || 'N/A'}</td>
+                        <td class="p-3">${req.to || 'N/A'}</td>
+                        <td class="p-3">
+                            <a href="tel:${req.phone}" class="text-green-600 font-semibold hover:underline">
+                                📞 ${req.phone || 'N/A'}
+                            </a>
+                        </td>
+                        <td class="p-3">
+                            <button onclick="acceptRequest(${req.id}, this)"
+                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition flex items-center gap-2">
+                                ✅ Accept
+                            </button>
+                        </td>
+                    </tr>
+                    `;
+                    table.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                console.error('Error loading pending requests:', error);
+                document.getElementById("driverTable").innerHTML = 
+                    '<tr><td colspan="5" class="text-center py-8 text-red-500">❌ Failed to load requests. Make sure backend is running.</td></tr>';
+            });
+        }
+
+        // Accept a request
+        function acceptRequest(id, btn) {
+            const user = JSON.parse(localStorage.getItem("smartagro_user"));
+            
+            // Show loading on button
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Accepting...';
+            btn.disabled = true;
+
+            fetch("http://127.0.0.1:5001/accept-request/" + id, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    driver: user.name
+                })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to accept');
+                return res.json();
+            })
+            .then(data => {
+                alert("✅ Request Accepted!");
+                loadPendingRequests();
+                loadDriverRequests();
+            })
+            .catch(error => {
+                console.error('Error accepting request:', error);
+                alert("❌ Failed to accept request. Please try again.");
+            })
+            .finally(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        // Load driver's accepted deliveries
+        function loadDriverRequests() {
+            const user = JSON.parse(localStorage.getItem("smartagro_user"));
+            
+            fetch("http://127.0.0.1:5001/driver-requests?driver=" + encodeURIComponent(user.name))
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to load');
+                return res.json();
+            })
+            .then(data => {
+                const table = document.getElementById("myDeliveries");
+                table.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    table.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">📭 No deliveries assigned yet</td></tr>';
+                    return;
+                }
+
+                data.forEach(req => {
+                    const statusColor = req.status === 'Delivered' ? 'bg-green-100 text-green-700' : 
+                                       req.status === 'In Transit' ? 'bg-blue-100 text-blue-700' : 
+                                       'bg-yellow-100 text-yellow-700';
+                    
+                    const row = `
+                    <tr class="border-b hover:bg-gray-50 transition">
+                        <td class="p-3 font-medium">${req.crop || 'N/A'}</td>
+                        <td class="p-3">${req.from || 'N/A'}</td>
+                        <td class="p-3">${req.to || 'N/A'}</td>
+                        <td class="p-3">
+                            <a href="tel:${req.phone}" class="text-green-600 font-semibold hover:underline">
+                                📞 ${req.phone || 'N/A'}
+                            </a>
+                        </td>
+                        <td class="p-3">
+                            <span class="${statusColor} px-3 py-1 rounded-full text-sm font-semibold">
+                                ${req.status || 'In Transit'}
+                            </span>
+                        </td>
+                    </tr>
+                    `;
+                    table.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                console.error('Error loading driver requests:', error);
+                document.getElementById("myDeliveries").innerHTML = 
+                    '<tr><td colspan="5" class="text-center py-8 text-red-500">❌ Failed to load deliveries</td></tr>';
+            });
+        }
+
+        // Load initial data
+        loadPendingRequests();
+        loadDriverRequests();
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadPendingRequests();
+            loadDriverRequests();
+        }, 30000);
+    </script>
+
+</body>
+</html>

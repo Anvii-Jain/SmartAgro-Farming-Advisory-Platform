@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crop Recommendation – SmartAgro</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Add initialization script to load user data -->
+    <script>
+        (function() {
+            // Check if user is logged in
+            const userRaw = localStorage.getItem('smartagro_user');
+            if (!userRaw) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Set user initials in sidebar
+            try {
+                const user = JSON.parse(userRaw);
+                window.addEventListener('DOMContentLoaded', function() {
+                    const initialsEl = document.getElementById('sidebarInitials');
+                    const sidebarNameEl = document.getElementById('sidebarName');
+                    
+                    if (initialsEl && user.name) {
+                        const parts = user.name.trim().split(/\s+/);
+                        let initials = parts[0]?.[0] || '';
+                        if (parts.length > 1) {
+                            initials += parts[parts.length - 1]?.[0] || '';
+                        }
+                        initialsEl.textContent = initials.toUpperCase();
+                    }
+                    
+                    if (sidebarNameEl && user.name) {
+                        sidebarNameEl.textContent = user.name;
+                    }
+                });
+            } catch (e) {
+                console.error('Error parsing user data', e);
+            }
+        })();
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <!-- Mobile Menu Toggle -->
+    <div id="mobileMenuBtn" class="fixed bottom-6 right-6 z-50 md:hidden bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-full shadow-lg cursor-pointer hover:shadow-xl transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar - UPDATED to match dashboard -->
+        <aside id="sidebar" class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <!-- Logo -->
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+
+     <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+</nav>
+
+            <!-- Footer with User Info -->
+            <div class="border-t border-white/10 p-4">
+                <div class="flex items-center gap-3">
+                    <div id="sidebarInitials" class="w-10 h-10 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-semibold text-sm"></div>
+                    <div class="text-sm text-white/90">
+                        <p id="sidebarName" class="font-semibold">Loading...</p>
+                        <p class="text-xs text-white/70">Farmer</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Crop Recommendation</h1>
+                <div class="flex items-center gap-3">
+                    <span id="userCityDisplay" class="text-sm text-gray-600">📍 Loading...</span>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-4xl mx-auto space-y-6">
+
+                    <!-- Input Form Card -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Enter Your Field Data</h2>
+
+                        <form id="cropForm" onsubmit="handleCropSubmit(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nitrogen (N) mg/kg</label>
+                                    <input id="nitrogen" type="number" placeholder="60" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Phosphorus (P) mg/kg</label>
+                                    <input id="phosphorus" type="number" placeholder="45" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Potassium (K) mg/kg</label>
+                                    <input id="potassium" type="number" placeholder="50" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Soil pH</label>
+                                    <input id="soilPh" type="number" placeholder="6.8" step="0.1" min="0" max="14" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Temperature (°C)</label>
+                                    <input id="temperature" type="number" placeholder="28" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Humidity (%)</label>
+                                    <input id="humidity" type="number" placeholder="70" min="0" max="100" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Rainfall (mm)</label>
+                                    <input id="rainfall" type="number" placeholder="200" class="w-full px-4 py-3 bg-white/50 border border-white/60 rounded-lg" required>
+                                </div>
+                            </div>
+
+                            <button id="cropFormBtn" type="submit" class="w-full py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold rounded-lg shadow-lg">
+                                Get Crop Recommendation
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Results Card (API output) -->
+                    <div id="resultBox" class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md hidden">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Recommended Crop</h2>
+                        <div class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-green-200/50">
+                            <p class="text-gray-600 text-sm font-semibold mb-2">Best Match:</p>
+                            <div class="flex items-center gap-3 mb-2">
+                                <p id="resultCrop" class="text-4xl font-bold text-green-700">–</p>
+                                <!-- Confidence badge -->
+                                <span id="confidenceBadge" class="px-3 py-1 rounded-full text-sm font-semibold text-white hidden">0%</span>
+                            </div>
+                            <p id="resultReason" class="text-sm text-gray-700 mt-2">Fill the soil data and click "Get Crop Recommendation" to see suggestions.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile menu script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Display user city
+        function displayUserCity() {
+            const city = localStorage.getItem('userCity') || 'Indore';
+            const state = localStorage.getItem('userState') || 'Madhya Pradesh';
+            const displayEl = document.getElementById('userCityDisplay');
+            if (displayEl) {
+                displayEl.textContent = `📍 ${city}, ${state}`;
+            }
+        }
+        
+        displayUserCity();
+    </script>
+
+    <!-- JS for crop recommendation -->
+    <script>
+        function setBadgeColorByValue(badgeEl, value) {
+            const v = Number(value || 0);
+            if (v >= 90) {
+                badgeEl.style.backgroundImage = "linear-gradient(to right, #16a34a, #059669)";
+            } else if (v >= 70) {
+                badgeEl.style.backgroundImage = "linear-gradient(to right, #f59e0b, #f97316)";
+            } else {
+                badgeEl.style.backgroundImage = "linear-gradient(to right, #ef4444, #b91c1c)";
+            }
+        }
+
+        async function handleCropSubmit(event) {
+            event.preventDefault();
+
+            const N = Number(document.getElementById("nitrogen").value);
+            const P = Number(document.getElementById("phosphorus").value);
+            const K = Number(document.getElementById("potassium").value);
+            const pH = Number(document.getElementById("soilPh").value);
+            const temperature = Number(document.getElementById("temperature").value);
+            const humidity = Number(document.getElementById("humidity").value);
+            const rainfall = Number(document.getElementById("rainfall").value);
+
+            const btn = document.getElementById("cropFormBtn");
+            const resultBox = document.getElementById("resultBox");
+            const resultCrop = document.getElementById("resultCrop");
+            const resultReason = document.getElementById("resultReason");
+            const badge = document.getElementById("confidenceBadge");
+
+            btn.disabled = true;
+            btn.textContent = "Analyzing...";
+            resultBox.classList.remove("hidden");
+            resultCrop.textContent = "Analyzing…";
+            resultReason.textContent = "Please wait while SmartAgro processes your field data.";
+            badge.classList.add("hidden");
+
+            try {
+                const res = await fetch("http://127.0.0.1:5001/api/crop-recommend", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        N: N,
+                        P: P,
+                        K: K,
+                        pH: pH,
+                        temperature: temperature,
+                        humidity: humidity,
+                        rainfall: rainfall
+                    })
+                });
+
+                const data = await res.json().catch(e => ({ success:false, message: "Invalid JSON response" }));
+
+                console.log("crop-recommend response:", data);
+
+                if (data && data.success) {
+                    resultCrop.textContent = data.crop || "—";
+                    resultReason.textContent = data.reason || "";
+
+                    if (typeof data.confidence !== "undefined") {
+                        const conf = Number(data.confidence);
+                        badge.textContent = (isNaN(conf) ? "—" : conf + "%");
+                        setBadgeColorByValue(badge, conf);
+                        badge.classList.remove("hidden");
+                    }
+                } else {
+                    resultCrop.textContent = "No clear recommendation";
+                    resultReason.textContent = data.message || "Please adjust the inputs and try again.";
+                }
+            } catch (err) {
+                console.error("fetch error:", err);
+                resultCrop.textContent = "Demo: Maize";
+                resultReason.textContent = "Backend not reachable. Showing demo recommendation.";
+                badge.textContent = "Demo";
+                setBadgeColorByValue(badge, 92);
+                badge.classList.remove("hidden");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Get Crop Recommendation";
+            }
+        }
+         // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

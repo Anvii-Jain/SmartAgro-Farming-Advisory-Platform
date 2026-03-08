@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigation Guide – SmartAgro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        /* Loading spinner animation */
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #10b981;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Active stage highlight */
+        .stage-active {
+            background-color: #d1fae5;
+            border: 2px solid #10b981;
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <!-- Mobile Menu Toggle -->
+    <div id="mobileMenuBtn" class="fixed bottom-6 right-6 z-50 md:hidden bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-full shadow-lg cursor-pointer hover:shadow-xl transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <!-- Logo -->
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+                <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+</nav>
+            <!-- Footer -->
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Smart Irrigation Guide</h1>
+                    <p class="text-sm text-gray-600 mt-1">Optimized irrigation schedules based on crop, soil type, and season</p>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <!-- Irrigation Recommendation Form (UPDATED with IDs) -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-8 border border-white/40 shadow-md hover:shadow-lg transition duration-300">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Generate Your Irrigation Plan</h2>
+                        <form id="irrigationForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                               <!-- Crop Dropdown - Will be populated from backend -->
+<div>
+    <label class="block text-sm font-semibold text-gray-700 mb-2">Crop Type</label>
+    <select id="cropSelect" class="w-full px-4 py-3 rounded-lg bg-white/50 border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 outline-none transition">
+        <option value="">Loading crops...</option>
+    </select>
+</div>
+
+                                <!-- Soil Type Dropdown - ADDED ID -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Soil Type</label>
+                                    <select id="soilSelect" class="w-full px-4 py-3 rounded-lg bg-white/50 border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 outline-none transition">
+                                        <option value="">Select Soil...</option>
+                                        <option value="sandy">Sandy</option>
+                                        <option value="loamy">Loamy</option>
+                                        <option value="clay">Clay</option>
+                                        <option value="black">Black Soil</option>
+                                    </select>
+                                </div>
+
+                                <!-- Season Dropdown - ADDED ID -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Season</label>
+                                    <select id="seasonSelect" class="w-full px-4 py-3 rounded-lg bg-white/50 border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 outline-none transition">
+                                        <option value="">Select Season...</option>
+                                        <option value="kharif">Kharif</option>
+                                        <option value="rabi">Rabi</option>
+                                        <option value="summer">Summer</option>
+                                    </select>
+                                </div>
+
+                                <!-- Field Area Input - ADDED ID -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Field Area (Acres)</label>
+                                    <input type="number" id="fieldArea" value="1" placeholder="Enter field area" class="w-full px-4 py-3 rounded-lg bg-white/50 border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 outline-none transition">
+                                </div>
+
+                                <!-- Planting Date -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Planting Date *</label>
+            <input type="date" id="plantingDate" name="plantingDate" required class="w-full px-4 py-3 rounded-lg bg-white/50 border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 outline-none transition">
+        </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold py-3 rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition duration-300 mt-6">
+                                Generate Irrigation Plan
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- NEW: Loading State (Hidden by default) -->
+                    <div id="loadingSection" class="hidden bg-white/60 backdrop-blur-md rounded-2xl p-12 border border-white/40 shadow-md">
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="loading-spinner"></div>
+                            <p class="mt-4 text-gray-600 font-medium">Calculating your optimal irrigation schedule...</p>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Irrigation Schedule Result (UPDATED with dynamic IDs) -->
+                    <div id="resultsSection" class="bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-md rounded-2xl p-8 border border-green-200/50 shadow-md">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Recommended Irrigation Schedule</h2>
+                           
+                        </div>
+                        
+                        <!-- Summary Cards (UPDATED with dynamic IDs) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-white/60 backdrop-blur rounded-xl p-6 border border-white/40">
+                                <p class="text-sm text-gray-600 font-semibold">Total Water Requirement</p>
+                                <p class="text-3xl font-bold text-green-600 mt-2" id="totalWater">45,000 L</p>
+                                <p class="text-xs text-gray-500 mt-2">For <span id="displayArea">1</span> acre(s)</p>
+                            </div>
+                            <div class="bg-white/60 backdrop-blur rounded-xl p-6 border border-white/40">
+                                <p class="text-sm text-gray-600 font-semibold">Irrigation Frequency</p>
+                                <p class="text-3xl font-bold text-teal-600 mt-2" id="irrigationFrequency">Every 7–10 Days</p>
+                                <p class="text-xs text-gray-500 mt-2">Depends on crop & soil</p>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Growth Stage Visualizer (Added above existing breakdown) -->
+                        <div class="mb-8">
+                            <h3 class="font-bold text-gray-800 text-lg mb-4">🌱 Crop Growth Timeline</h3>
+                            <div class="relative">
+                                <div class="absolute top-5 w-full h-1 bg-gray-200 rounded"></div>
+                                <div class="flex justify-between relative">
+                                    <div id="stageVegetative" class="stage-card text-center p-3 bg-white rounded-lg shadow transition-all" style="width: 30%">
+                                        <span class="text-3xl block mb-2">🌱</span>
+                                        <p class="font-semibold">Vegetative</p>
+                                        <p class="text-xs text-gray-500" id="vegDates">-- to --</p>
+                                    </div>
+                                    <div id="stageFlowering" class="stage-card text-center p-3 bg-white rounded-lg shadow transition-all" style="width: 30%">
+                                        <span class="text-3xl block mb-2">🌸</span>
+                                        <p class="font-semibold">Flowering</p>
+                                        <p class="text-xs text-gray-500" id="flowerDates">-- to --</p>
+                                    </div>
+                                    <div id="stageMaturity" class="stage-card text-center p-3 bg-white rounded-lg shadow transition-all" style="width: 30%">
+                                        <span class="text-3xl block mb-2">🌾</span>
+                                        <p class="font-semibold">Maturity</p>
+                                        <p class="text-xs text-gray-500" id="maturityDates">-- to --</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Growth Stage Breakdown (Your original content - PRESERVED but with dynamic IDs) -->
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-gray-800 text-lg">Growth Stage Breakdown</h3>
+                            
+                            <div class="bg-white/60 backdrop-blur rounded-xl p-5 border border-white/40">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-2xl">🌱</span>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between">
+                                            <p class="font-semibold text-gray-800">Vegetative Stage</p>
+                                            <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded" id="vegCurrent">Current Stage</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mt-1" id="vegDescription">Water every 7–8 days. Soil should remain moist but not waterlogged. Apply 30–40mm of water per irrigation.</p>
+                                        <div class="grid grid-cols-2 gap-4 mt-3">
+                                            <div>
+                                                <p class="text-xs text-gray-500">Water per irrigation</p>
+                                                <p class="font-semibold text-green-700" id="vegWater">30-40mm</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Frequency</p>
+                                                <p class="font-semibold text-green-700" id="vegFreq">7-8 days</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/60 backdrop-blur rounded-xl p-5 border border-white/40">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-2xl">🌸</span>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between">
+                                            <p class="font-semibold text-gray-800">Flowering Stage</p>
+                                            <span class="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded" id="flowerStatus">Upcoming</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mt-1" id="flowerDescription">Higher water requirement. Irrigate every 5–6 days. Apply 40–50mm per irrigation. Critical stage for crop yield.</p>
+                                        <div class="grid grid-cols-2 gap-4 mt-3">
+                                            <div>
+                                                <p class="text-xs text-gray-500">Water per irrigation</p>
+                                                <p class="font-semibold text-teal-700" id="flowerWater">40-50mm</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Frequency</p>
+                                                <p class="font-semibold text-teal-700" id="flowerFreq">5-6 days</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/60 backdrop-blur rounded-xl p-5 border border-white/40">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-2xl">🌾</span>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between">
+                                            <p class="font-semibold text-gray-800">Maturity Stage</p>
+                                            <span class="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded" id="maturityStatus">Upcoming</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mt-1" id="maturityDescription">Reduce irrigation frequency. Water every 10–12 days. Apply 20–30mm per irrigation to prevent grain cracking.</p>
+                                        <div class="grid grid-cols-2 gap-4 mt-3">
+                                            <div>
+                                                <p class="text-xs text-gray-500">Water per irrigation</p>
+                                                <p class="font-semibold text-amber-700" id="maturityWater">20-30mm</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Frequency</p>
+                                                <p class="font-semibold text-amber-700" id="maturityFreq">10-12 days</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Water Requirement Chart -->
+                        <div class="mt-8 mb-6">
+                            <h3 class="font-bold text-gray-800 text-lg mb-4">📊 Water Per Irrigation by Growth Stage</h3>
+                            <div class="bg-white rounded-xl p-4" style="height: 250px;">
+                                <canvas id="waterChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Calendar View - Monthly Calendar -->
+<div class="mb-6">
+    <h3 class="font-bold text-gray-800 text-lg mb-4">📅 Irrigation Calendar - <span id="calendarHeader"></span></h3>
+    <div class="grid grid-cols-7 gap-1 text-center text-xs mb-2 font-semibold">
+        <div class="text-red-600">Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+        <div class="text-red-600">Sun</div>
+    </div>
+    <div class="grid grid-cols-7 gap-1" id="calendarGrid">
+        <!-- Generated by JavaScript -->
+    </div>
+    <div class="text-xs text-gray-500 mt-2 text-center">
+        💧 = Irrigation day | 🔵 = Today
+    </div>
+</div>
+                    </div>
+
+                   <!-- Smart Tips Section - Now Dynamic -->
+<div>
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Smart Irrigation Tips</h2>
+    <div id="tipsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Tips will be loaded dynamically from backend -->
+        <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 border border-white/40 shadow-md">
+            <div class="flex justify-center">
+                <div class="loading-spinner w-8 h-8"></div>
+            </div>
+            <p class="text-center text-gray-500 mt-2">Loading tips...</p>
+        </div>
+    </div>
+</div>
+
+                    <!-- Water Usage Comparison - Now Dynamic -->
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Irrigation Method Comparison</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gradient-to-br from-red-500/10 to-orange-500/10 backdrop-blur-md rounded-xl p-6 border border-red-200/50 shadow-md">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <div class="w-6 h-6 bg-red-500 rounded-full"></div>
+                                    <h3 class="font-bold text-gray-800">Traditional Flood Irrigation</h3>
+                                </div>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-red-500 font-bold">✗</span>
+                                        <span>Water usage: <span id="floodWater" class="font-semibold">50,000</span> L/acre</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-red-500 font-bold">✗</span>
+                                        <span>Lower water efficiency</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-red-500 font-bold">✗</span>
+                                        <span>Higher weed growth</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-md rounded-xl p-6 border border-green-200/50 shadow-md">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full"></div>
+                                    <h3 class="font-bold text-gray-800">Drip Irrigation</h3>
+                                </div>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-green-500 font-bold">✓</span>
+                                        <span><span id="dripSavings">40</span>% water saving: <span id="dripWater" class="font-semibold">30,000</span> L/acre</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-green-500 font-bold">✓</span>
+                                        <span>Higher water efficiency</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-green-500 font-bold">✓</span>
+                                        <span>Better yield & crop quality</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-md rounded-xl p-6 border border-blue-200/50 shadow-md">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <div class="w-6 h-6 bg-blue-500 rounded-full"></div>
+                                    <h3 class="font-bold text-gray-800">Sprinkler Irrigation</h3>
+                                </div>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-blue-500 font-bold">✓</span>
+                                        <span>Water usage: <span id="sprinklerWater" class="font-semibold">35,000</span> L/acre</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-blue-500 font-bold">✓</span>
+                                        <span>Good for sandy soils</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-blue-500 font-bold">✓</span>
+                                        <span>Covers large area quickly</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Savings Summary -->
+                        <div id="savingsSummary" class="mt-4 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg hidden">
+                            <!-- Will be filled by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Seasonal Advisory Alert (COMPLETELY PRESERVED) -->
+                    <div class="bg-gradient-to-br from-blue-500/15 to-cyan-500/15 backdrop-blur-md rounded-xl p-6 border border-blue-200/50 shadow-md">
+                        <div class="flex items-start gap-4">
+                            <div class="text-3xl">⚡</div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-2">Seasonal Irrigation Advisory</h3>
+                                <p class="text-sm text-gray-700" id="advisoryText">Low rainfall expected this week in Indore region. Increase irrigation frequency by 10% and monitor soil moisture closely. Drip irrigation users should extend irrigation duration by 30 minutes every 2–3 days.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Note (COMPLETELY PRESERVED) -->
+                    <div class="text-center text-xs text-gray-500 border-t border-gray-200 pt-4">
+                        <p>SmartAgro irrigation recommendations are based on standard agronomic practices and regional data. Customize further through backend integration with your local weather and soil databases.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile Menu Script (PRESERVED)
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+            });
+        });
+
+       // Set default planting date and load crops - SINGLE VERSION (duplicate removed)
+document.addEventListener('DOMContentLoaded', function() {
+    // Load crops from backend
+    loadCropsFromBackend();
+    
+    // Load irrigation tips
+    loadIrrigationTips();
+    
+    // Set default planting date to 30 days ago (more reasonable default)
+    const today = new Date();
+    const defaultPlantingDate = new Date(today);
+    defaultPlantingDate.setDate(today.getDate() - 30); // Default to 30 days ago
+    
+    // Store planting date for calculations
+    window.plantingDate = defaultPlantingDate;
+    
+    // Make planting date input visible and set default value
+    const plantingDateInput = document.getElementById('plantingDate');
+    if (plantingDateInput) {
+        plantingDateInput.valueAsDate = defaultPlantingDate;
+        plantingDateInput.style.display = 'block'; // Ensure it's visible
+        plantingDateInput.style.marginTop = '8px'; // Add some spacing
+    }
+    
+    // Generate initial chart with default values
+    setTimeout(() => {
+        if (document.getElementById('cropSelect').value) {
+            updateDynamicValues();
+        }
+    }, 500);
+});
+// Add this function to load crops from backend
+async function loadCropsFromBackend() {
+    try {
+        console.log("Fetching crops from backend...");
+        const response = await fetch('http://127.0.0.1:5001/api/crops');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const crops = await response.json();
+        console.log("Crops received:", crops);
+        
+        const cropSelect = document.getElementById('cropSelect');
+        // Clear loading message
+        cropSelect.innerHTML = '<option value="">Select Crop...</option>';
+        
+        // Add all crops from backend
+        crops.forEach(crop => {
+            const option = document.createElement('option');
+            option.value = crop.slug;
+            option.textContent = crop.name;
+            cropSelect.appendChild(option);
+        });
+        
+        console.log(`✅ Loaded ${crops.length} crops from backend`);
+    } catch (error) {
+        console.error('❌ Error loading crops:', error);
+        
+        // ===== IMPROVED FALLBACK =====
+        // Instead of just 6 crops, show ALL crops from your crops.json
+        // Since we can't fetch from backend, use a hardcoded list of ALL crops
+        const cropSelect = document.getElementById('cropSelect');
+        cropSelect.innerHTML = `
+            <option value="">Select Crop...</option>
+            <option value="wheat">Wheat</option>
+            <option value="rice">Rice</option>
+            <option value="maize">Maize</option>
+            <option value="barley">Barley</option>
+            <option value="sorghum">Sorghum</option>
+            <option value="pearl-millet">Pearl Millet</option>
+            <option value="finger-millet">Finger Millet</option>
+            <option value="foxtail-millet">Foxtail Millet</option>
+            <option value="little-millet">Little Millet</option>
+            <option value="barnyard-millet">Barnyard Millet</option>
+            <option value="chickpea">Chickpea (Gram)</option>
+            <option value="pigeon-pea">Pigeon Pea (Tur/Arhar)</option>
+            <option value="green-gram">Green Gram (Moong)</option>
+            <option value="black-gram">Black Gram (Urad)</option>
+            <option value="lentil">Lentil (Masoor)</option>
+            <option value="kidney-bean">Kidney Beans (Rajma)</option>
+            <option value="peas">Peas</option>
+            <option value="soybean">Soybean</option>
+            <option value="groundnut">Groundnut</option>
+            <option value="mustard">Mustard</option>
+            <option value="sunflower">Sunflower</option>
+            <option value="sesame">Sesame (Til)</option>
+            <option value="safflower">Safflower</option>
+            <option value="linseed">Linseed (Flaxseed)</option>
+            <option value="potato">Potato</option>
+            <option value="tomato">Tomato</option>
+            <option value="onion">Onion</option>
+            <option value="brinjal">Brinjal (Eggplant)</option>
+            <option value="chilli">Chilli</option>
+            <option value="okra">Okra (Ladyfinger)</option>
+            <option value="cabbage">Cabbage</option>
+            <option value="cauliflower">Cauliflower</option>
+            <option value="carrot">Carrot</option>
+            <option value="spinach">Spinach</option>
+            <option value="banana">Banana</option>
+            <option value="papaya">Papaya</option>
+            <option value="grapes">Grapes</option>
+            <option value="mango">Mango</option>
+            <option value="guava">Guava</option>
+            <option value="pomegranate">Pomegranate</option>
+            <option value="watermelon">Watermelon</option>
+            <option value="sugarcane">Sugarcane</option>
+            <option value="cotton">Cotton</option>
+        `;
+        alert('Using offline crop list - backend connection failed');
+    }
+}
+
+        // Reload tips when ANY selection changes
+        document.getElementById('cropSelect').addEventListener('change', function() {
+            loadIrrigationTips();
+        });
+
+        document.getElementById('soilSelect').addEventListener('change', function() {
+            loadIrrigationTips();
+        });
+
+        document.getElementById('seasonSelect').addEventListener('change', function() {
+            loadIrrigationTips();
+        });
+
+        /// Add this function to load irrigation tips from backend
+        async function loadIrrigationTips() {
+            try {
+                // Get ALL selected values
+                const cropSelect = document.getElementById('cropSelect');
+                const soilSelect = document.getElementById('soilSelect');
+                const seasonSelect = document.getElementById('seasonSelect');
+                
+                const selectedCrop = cropSelect.value;
+                const selectedSoil = soilSelect.value;
+                const selectedSeason = seasonSelect.value;
+                
+                // Build URL with ALL parameters
+                let url = 'http://127.0.0.1:5001/api/irrigation/tips';
+                const params = [];
+                
+                if (selectedCrop) {
+                    params.push('crop=' + encodeURIComponent(selectedCrop));
+                }
+                if (selectedSoil) {
+                    params.push('soil=' + encodeURIComponent(selectedSoil));
+                }
+                if (selectedSeason) {
+                    params.push('season=' + encodeURIComponent(selectedSeason));
+                }
+                
+                if (params.length > 0) {
+                    url += '?' + params.join('&');
+                }
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tipsContainer = document.getElementById('tipsContainer');
+                    tipsContainer.innerHTML = ''; // Clear loading spinner
+                    
+                    // Display all tips (should be 3)
+                    data.tips.forEach(tip => {
+                        const tipCard = `
+                            <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                                <div class="text-3xl mb-3">${tip.icon}</div>
+                                <h3 class="font-bold text-gray-800 mb-2">${tip.title}</h3>
+                                <p class="text-sm text-gray-600">${tip.description}</p>
+                            </div>
+                        `;
+                        tipsContainer.innerHTML += tipCard;
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading tips:', error);
+                // Fallback to hardcoded tips if backend fails
+                const tipsContainer = document.getElementById('tipsContainer');
+                tipsContainer.innerHTML = `
+                    <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                        <div class="text-3xl mb-3">💧</div>
+                        <h3 class="font-bold text-gray-800 mb-2">Drip Irrigation Recommended</h3>
+                        <p class="text-sm text-gray-600">Drip systems deliver water directly to plant roots, reducing evaporation and water waste by up to 50%.</p>
+                    </div>
+                    <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                        <div class="text-3xl mb-3">🌍</div>
+                        <h3 class="font-bold text-gray-800 mb-2">Monitor Soil Moisture</h3>
+                        <p class="text-sm text-gray-600">Use soil moisture sensors to measure actual water content. Irrigate when moisture drops below 50% of field capacity.</p>
+                    </div>
+                    <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                        <div class="text-3xl mb-3">⚠️</div>
+                        <h3 class="font-bold text-gray-800 mb-2">Avoid Overwatering</h3>
+                        <p class="text-sm text-gray-600">Excess water causes root diseases and nutrient loss. Check weather forecasts and adjust irrigation schedule accordingly.</p>
+                    </div>
+                `;
+            }
+        }
+
+              // Irrigation Plan Form Handler - CONNECTED TO BACKEND
+        document.getElementById('irrigationForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const crop = document.getElementById('cropSelect').value;
+            const soil = document.getElementById('soilSelect').value;
+            const season = document.getElementById('seasonSelect').value;
+            const area = parseFloat(document.getElementById('fieldArea').value) || 1;
+            const plantingDate = document.getElementById('plantingDate').value; // ADD THIS LINE
+            
+            if (!crop || !soil || !season) {
+                alert('Please select all options');
+                return;
+            }
+            
+            // Update planting date based on user selection
+            if (plantingDate) {
+                window.plantingDate = new Date(plantingDate); // ADD THIS LINE
+            }
+            
+            // Show loading, hide results
+            document.getElementById('loadingSection').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            
+            try {
+                // Make API call to Flask backend
+                const response = await fetch('http://127.0.0.1:5001/api/irrigation/plan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        crop: crop,
+                        soil: soil,
+                        season: season,
+                        area: area
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update UI with real data from backend
+                    updateDynamicValuesWithBackendData(data.plan);
+                } else {
+                    alert('Error: ' + data.message);
+                    // Fallback to local calculation
+                    updateDynamicValues();
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to backend. Using local data.');
+                // Fallback to local calculation
+                updateDynamicValues();
+            }
+            
+            // Hide loading, show results
+            document.getElementById('loadingSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // New function to update UI with backend data
+        function updateDynamicValuesWithBackendData(plan) {
+            const area = plan.area;
+            
+            // Update summary cards
+            document.getElementById('totalWater').textContent = plan.total_water.toLocaleString() + ' L';
+            document.getElementById('displayArea').textContent = area;
+            document.getElementById('irrigationFrequency').textContent = `Every ${plan.avg_frequency} Days`;
+            
+            // Get stage data
+            const veg = plan.stages.vegetative;
+            const flower = plan.stages.flowering;
+            const maturity = plan.stages.maturity;
+            
+                          // Calculate dates using crop-specific durations from backend and user's planting date
+            const today = new Date();
+            
+            // Get planting date from user input (already stored in window.plantingDate)
+            const plantDate = window.plantingDate || new Date(today.setDate(today.getDate() - 30));
+            
+            // Use durations from backend, or fallback to defaults
+            const vegDuration = plan.durations?.veg || 45;
+            const flowerDuration = plan.durations?.flower || 30;
+            const maturityDuration = plan.durations?.maturity || 40;
+            
+            // Calculate stage end dates
+            const vegEnd = new Date(plantDate);
+            vegEnd.setDate(plantDate.getDate() + vegDuration);
+            
+            const flowerEnd = new Date(vegEnd);
+            flowerEnd.setDate(vegEnd.getDate() + flowerDuration);
+            
+            const maturityEnd = new Date(flowerEnd);
+            maturityEnd.setDate(flowerEnd.getDate() + maturityDuration);
+            
+            // Log for debugging
+            console.log(`Planting date: ${plantDate.toLocaleDateString()}`);
+            console.log(`Growth stages: Veg=${vegDuration} days, Flower=${flowerDuration} days, Maturity=${maturityDuration} days`);
+            
+            const formatDate = (date) => {
+                return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+            };
+            
+            // Update stage dates
+            document.getElementById('vegDates').textContent = `${formatDate(plantDate)} - ${formatDate(vegEnd)}`;
+            document.getElementById('flowerDates').textContent = `${formatDate(vegEnd)} - ${formatDate(flowerEnd)}`;
+            document.getElementById('maturityDates').textContent = `${formatDate(flowerEnd)} - ${formatDate(maturityEnd)}`;
+            
+            // Update water values
+            document.getElementById('vegWater').textContent = veg.water.toLocaleString() + ' L/acre';
+            document.getElementById('flowerWater').textContent = flower.water.toLocaleString() + ' L/acre';
+            document.getElementById('maturityWater').textContent = maturity.water.toLocaleString() + ' L/acre';
+            
+            // Update frequencies
+            document.getElementById('vegFreq').textContent = `Every ${veg.frequency} days`;
+            document.getElementById('flowerFreq').textContent = `Every ${flower.frequency} days`;
+            document.getElementById('maturityFreq').textContent = `Every ${maturity.frequency} days`;
+            
+            // Update descriptions
+            document.getElementById('vegDescription').innerHTML = veg.description;
+            document.getElementById('flowerDescription').innerHTML = flower.description;
+            document.getElementById('maturityDescription').innerHTML = maturity.description;
+            
+            // Update comparison
+            document.getElementById('floodWater').textContent = plan.total_water.toLocaleString();
+            document.getElementById('dripWater').textContent = Math.round(plan.total_water * 0.6).toLocaleString();
+            
+            // Update advisory based on season
+            const season = document.getElementById('seasonSelect').value;
+            if (season === 'kharif') {
+                document.getElementById('advisoryText').innerHTML = 'Monsoon season: Monitor rainfall and avoid over-irrigation. Rice requires standing water, but other crops need good drainage.';
+            } else if (season === 'rabi') {
+                document.getElementById('advisoryText').innerHTML = 'Winter season: Irrigation in morning hours preferred. Protect crops from frost. Wheat requires 4-5 irrigations.';
+            } else if (season === 'summer') {
+                document.getElementById('advisoryText').innerHTML = 'Summer season: Increase irrigation frequency. Consider mulching to reduce evaporation. Irrigate during early morning or evening.';
+            }
+            
+            // Create chart
+            createWaterChart(
+                veg.water * area,
+                flower.water * area,
+                maturity.water * area
+            );
+            
+            // Generate calendar
+            generateCalendar(plan.avg_frequency);
+
+            // ========== DYNAMIC COMPARISON TABLE ==========
+            // Get the total water from the plan
+            const totalWater = plan.total_water;
+
+            // Calculate different irrigation methods
+            const floodWater = totalWater; // Flood irrigation uses 100% of calculated water
+            const dripWater = Math.round(totalWater * 0.6); // Drip saves 40%
+            const sprinklerWater = Math.round(totalWater * 0.75); // Sprinkler saves 25%
+
+            // Calculate costs (₹2 per 1000 Liters)
+            const waterRate = 2; // ₹2 per 1000L
+
+            const floodCost = Math.round(floodWater / 1000 * waterRate);
+            const dripCost = Math.round(dripWater / 1000 * waterRate);
+            const sprinklerCost = Math.round(sprinklerWater / 1000 * waterRate);
+
+            // Calculate savings
+            const waterSaved = floodWater - dripWater;
+            const moneySaved = floodCost - dripCost;
+            const savingsPercent = 40;
+
+            // Update the comparison table
+            document.getElementById('floodWater').textContent = floodWater.toLocaleString();
+            document.getElementById('dripWater').textContent = dripWater.toLocaleString();
+            document.getElementById('dripSavings').textContent = savingsPercent;
+            
+            // Update sprinkler if the element exists
+            const sprinklerElement = document.getElementById('sprinklerWater');
+            if (sprinklerElement) {
+                sprinklerElement.textContent = sprinklerWater.toLocaleString();
+            }
+
+            // Update savings summary
+            const savingsElement = document.getElementById('savingsSummary');
+            if (savingsElement) {
+                savingsElement.classList.remove('hidden');
+                savingsElement.innerHTML = `💡 You save <span class="font-semibold">${waterSaved.toLocaleString()} L/acre</span> (₹<span class="font-semibold">${moneySaved}</span>) with drip irrigation compared to flood!`;
+            }
+        }
+
+        // Function to update all dynamic values based on form inputs
+        function updateDynamicValues() {
+            // Get form values
+            const crop = document.getElementById('cropSelect').value;
+            const soil = document.getElementById('soilSelect').value;
+            const season = document.getElementById('seasonSelect').value;
+            const area = parseFloat(document.getElementById('fieldArea').value) || 1;
+            
+            // Skip if no crop selected
+            if (!crop) return;
+            
+            // Crop water requirements (liters per acre)
+            const cropData = {
+                wheat: { total: 45000, veg: 30000, flower: 40000, maturity: 20000, vegFreq: 8, flowerFreq: 5, maturityFreq: 12 },
+                rice: { total: 120000, veg: 80000, flower: 100000, maturity: 60000, vegFreq: 3, flowerFreq: 2, maturityFreq: 5 },
+                soybean: { total: 40000, veg: 25000, flower: 35000, maturity: 15000, vegFreq: 7, flowerFreq: 4, maturityFreq: 10 },
+                chickpea: { total: 30000, veg: 20000, flower: 25000, maturity: 12000, vegFreq: 10, flowerFreq: 7, maturityFreq: 14 },
+                tomato: { total: 50000, veg: 35000, flower: 45000, maturity: 25000, vegFreq: 5, flowerFreq: 3, maturityFreq: 7 },
+                maize: { total: 55000, veg: 40000, flower: 50000, maturity: 30000, vegFreq: 6, flowerFreq: 4, maturityFreq: 10 },
+                cotton: { total: 70000, veg: 50000, flower: 65000, maturity: 35000, vegFreq: 7, flowerFreq: 5, maturityFreq: 12 },
+                sugarcane: { total: 200000, veg: 150000, flower: 180000, maturity: 100000, vegFreq: 5, flowerFreq: 4, maturityFreq: 10 }
+            };
+            
+            // Soil factors
+            const soilFactors = {
+                sandy: 1.3,
+                loamy: 1.0,
+                clay: 0.8,
+                black: 0.9
+            };
+            
+            // Season factors
+            const seasonFactors = {
+                kharif: 0.9,
+                rabi: 1.1,
+                summer: 1.4
+            };
+            
+            // Get base data
+            const base = cropData[crop] || cropData.wheat;
+            const soilFactor = soilFactors[soil] || 1.0;
+            const seasonFactor = seasonFactors[season] || 1.0;
+            
+            // Calculate total water
+            const totalWater = Math.round(base.total * area * soilFactor * seasonFactor);
+            document.getElementById('totalWater').textContent = totalWater.toLocaleString() + ' L';
+            document.getElementById('displayArea').textContent = area;
+            
+            // Calculate frequencies
+            const avgFreq = Math.round((base.vegFreq + base.flowerFreq + base.maturityFreq) / 3);
+            document.getElementById('irrigationFrequency').textContent = `Every ${avgFreq} Days`;
+            
+            // Calculate stage dates
+            const today = new Date();
+            const plantDate = window.plantingDate || new Date(today.setDate(today.getDate() - 45));
+            
+            const vegEnd = new Date(plantDate);
+            vegEnd.setDate(plantDate.getDate() + 45);
+            
+            const flowerEnd = new Date(vegEnd);
+            flowerEnd.setDate(vegEnd.getDate() + 30);
+            
+            const maturityEnd = new Date(flowerEnd);
+            maturityEnd.setDate(flowerEnd.getDate() + 40);
+            
+            // Format dates
+            const formatDate = (date) => {
+                return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+            };
+            
+            document.getElementById('vegDates').textContent = `${formatDate(plantDate)} - ${formatDate(vegEnd)}`;
+            document.getElementById('flowerDates').textContent = `${formatDate(vegEnd)} - ${formatDate(flowerEnd)}`;
+            document.getElementById('maturityDates').textContent = `${formatDate(flowerEnd)} - ${formatDate(maturityEnd)}`;
+            
+            // Update water values
+            document.getElementById('vegWater').textContent = Math.round(base.veg * soilFactor * seasonFactor).toLocaleString() + ' L/acre';
+            document.getElementById('flowerWater').textContent = Math.round(base.flower * soilFactor * seasonFactor).toLocaleString() + ' L/acre';
+            document.getElementById('maturityWater').textContent = Math.round(base.maturity * soilFactor * seasonFactor).toLocaleString() + ' L/acre';
+            
+            document.getElementById('vegFreq').textContent = `Every ${base.vegFreq} days`;
+            document.getElementById('flowerFreq').textContent = `Every ${base.flowerFreq} days`;
+            document.getElementById('maturityFreq').textContent = `Every ${base.maturityFreq} days`;
+            
+            // Update descriptions
+            document.getElementById('vegDescription').innerHTML = `Keep soil moist. Apply ${Math.round(base.veg * soilFactor * seasonFactor).toLocaleString()}L per acre every ${base.vegFreq} days.`;
+            document.getElementById('flowerDescription').innerHTML = `Critical stage! Apply ${Math.round(base.flower * soilFactor * seasonFactor).toLocaleString()}L per acre every ${base.flowerFreq} days.`;
+            document.getElementById('maturityDescription').innerHTML = `Reduce water. Apply ${Math.round(base.maturity * soilFactor * seasonFactor).toLocaleString()}L per acre every ${base.maturityFreq} days.`;
+            
+            // Update comparison
+            document.getElementById('floodWater').textContent = totalWater.toLocaleString();
+            document.getElementById('dripWater').textContent = Math.round(totalWater * 0.6).toLocaleString();
+            
+            // Update advisory based on season
+            if (season === 'kharif') {
+                document.getElementById('advisoryText').innerHTML = 'Monsoon season: Monitor rainfall and avoid over-irrigation. Rice requires standing water, but other crops need good drainage.';
+            } else if (season === 'rabi') {
+                document.getElementById('advisoryText').innerHTML = 'Winter season: Irrigation in morning hours preferred. Protect crops from frost. Wheat requires 4-5 irrigations.';
+            } else if (season === 'summer') {
+                document.getElementById('advisoryText').innerHTML = 'Summer season: Increase irrigation frequency. Consider mulching to reduce evaporation. Irrigate during early morning or evening.';
+            }
+            
+            // Create chart
+            createWaterChart(
+                Math.round(base.veg * soilFactor * seasonFactor * area),
+                Math.round(base.flower * soilFactor * seasonFactor * area),
+                Math.round(base.maturity * soilFactor * seasonFactor * area)
+            );
+            
+            // Generate calendar
+            generateCalendar(avgFreq);
+        }
+
+      // Chart Creation
+let waterChart = null;
+
+function createWaterChart(veg, flower, maturity) {
+    const ctx = document.getElementById('waterChart').getContext('2d');
+    
+    if (waterChart) {
+        waterChart.destroy();
+    }
+    
+    waterChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Vegetative', 'Flowering', 'Maturity'],
+            datasets: [{
+                label: 'Water Per Irrigation (L)',
+                data: [veg, flower, maturity],
+                backgroundColor: [
+                    'rgba(34, 197, 94, 0.7)',
+                    'rgba(20, 184, 166, 0.7)',
+                    'rgba(245, 158, 11, 0.7)'
+                ],
+                borderColor: [
+                    'rgb(34, 197, 94)',
+                    'rgb(20, 184, 166)',
+                    'rgb(245, 158, 11)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false  // ← THIS REMOVES THE GREEN COLOR BOX
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            let value = context.raw;
+                            return label + ': ' + value.toLocaleString() + ' L';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Liters'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Water Per Irrigation'  // ← THIS ADDS LABEL BELOW X-AXIS
+                    }
+                }
+            }
+        }
+    });
+}
+/// Calendar Generator - Shows proper monthly calendar
+function generateCalendar(frequency) {
+    const calendarGrid = document.getElementById('calendarGrid');
+    calendarGrid.innerHTML = '';
+    
+    // Use planting date to determine which month to show
+const plantingDate = window.plantingDate || new Date();
+const currentMonth = plantingDate.getMonth();
+const currentYear = plantingDate.getFullYear();
+const today = new Date(); // Keep this for highlighting today
+    
+    // Get first day of month and total days in month
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const totalDays = lastDay.getDate();
+    
+    // Get day of week for first day (0 = Sunday, 1 = Monday, etc.)
+    let startDay = firstDay.getDay();
+    // Convert to Monday-based (0 = Monday, 6 = Sunday)
+    startDay = startDay === 0 ? 6 : startDay - 1;
+    
+    // 🔥 ONLY CHANGE HERE: Use planting date instead of today for irrigation start
+    const irrigationStart = new Date(window.plantingDate || today);
+    
+    // Create array of 42 cells (6 rows × 7 days)
+    const totalCells = 42;
+    
+    for (let i = 0; i < totalCells; i++) {
+        const cellDate = i - startDay + 1;
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'p-2 text-center rounded-lg text-sm border';
+        
+        if (cellDate >= 1 && cellDate <= totalDays) {
+            // This is a valid date in the month
+            const date = new Date(currentYear, currentMonth, cellDate);
+            dayDiv.textContent = cellDate;
+            
+            // Check if this is today
+            if (cellDate === today.getDate() && 
+                currentMonth === today.getMonth() && 
+                currentYear === today.getFullYear()) {
+                dayDiv.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+            }
+            
+            // Check if this is an irrigation day
+            const daysSinceStart = Math.floor((date - irrigationStart) / (1000 * 60 * 60 * 24));
+            if (daysSinceStart >= 0 && daysSinceStart % frequency === 0) {
+                dayDiv.classList.add('bg-green-100', 'text-green-800', 'font-bold', 'border-green-300');
+                dayDiv.innerHTML = `${cellDate}<br><span class="text-xs">💧</span>`;
+            }
+        } else {
+            // Empty cell (days from previous/next month)
+            dayDiv.classList.add('bg-gray-100', 'text-gray-400');
+            dayDiv.textContent = '';
+        }
+        
+        calendarGrid.appendChild(dayDiv);
+    }
+    
+    // Add month and year header
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Check if header already exists
+    let header = document.getElementById('calendarHeader');
+    if (!header) {
+        header = document.createElement('div');
+        header.id = 'calendarHeader';
+        header.className = 'text-center font-bold text-gray-700 mb-2';
+        calendarGrid.parentNode.insertBefore(header, calendarGrid);
+    }
+    header.innerHTML = `${monthNames[currentMonth]} ${currentYear}`;
+}
+ // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

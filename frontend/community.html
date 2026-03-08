@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Farmers Community – SmartAgro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .typing-indicator { display: flex; gap: 4px; }
+        .typing-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: typing 1.4s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        .online-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; border: 2px solid white; }
+        .trend-up { color: #10b981; font-size: 12px; }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+        .mobile-nav { display: none; }
+        @media (max-width: 768px) { .mobile-nav { display: flex; } }
+        @media (max-width: 768px) {
+            main {
+                padding-bottom: 70px;
+            }
+        }
+        .reply-form {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+        .reply-form.show {
+            display: block;
+        }
+        /* Hide search and filter elements */
+.search-container,
+.filter-section,
+#locationFilter {
+    display: none !important;
+}
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <!-- Mobile Menu Toggle -->
+    <div id="mobileMenuBtn" class="fixed bottom-6 right-6 z-50 md:hidden bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-full shadow-lg cursor-pointer hover:shadow-xl transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold text-xl">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+
+                 <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+</nav>
+
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Enhanced Top Bar with Real-time Elements -->
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-4 md:px-6 py-3">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Farmers Community</h1>
+                            <p class="text-xs md:text-sm text-gray-600">Ask, share, and grow together</p>
+                        </div>
+                        
+                        <!-- Mobile Header Icons -->
+                        <div class="flex items-center gap-3 md:hidden">
+                            <div class="relative">
+                                <i class="fas fa-bell text-gray-600 text-xl"></i>
+                                <span class="notification-badge">3</span>
+                            </div>
+                            <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold" id="mobileUserInitials">
+                                ?
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Header Elements -->
+                    <div class="hidden md:flex items-center gap-4">
+                        <!-- Online Counter -->
+                        <div class="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full">
+                            <div class="flex -space-x-2">
+                                <div class="w-6 h-6 rounded-full bg-green-600 border-2 border-white flex items-center justify-center text-white text-xs">👤</div>
+                                <div class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center text-white text-xs">👤</div>
+                                <div class="w-6 h-6 rounded-full bg-yellow-600 border-2 border-white flex items-center justify-center text-white text-xs">👤</div>
+                            </div>
+                            <span class="text-sm font-semibold text-gray-700"><span class="text-green-600">142</span> online now</span>
+                        </div>
+
+
+                        <!-- Notifications -->
+                        <div class="relative">
+                            <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-green-600 transition"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+
+                        <!-- User Profile - DYNAMIC NOW -->
+                        <div class="flex items-center gap-2 cursor-pointer group">
+                            <div class="relative">
+                                <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold" id="userInitials">
+                                    ?
+                                </div>
+                                <div class="online-dot absolute bottom-0 right-0"></div>
+                            </div>
+                            <div class="hidden lg:block">
+                                <p class="text-sm font-semibold" id="userName">Loading...</p>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-xs text-gray-500" id="userRole">Farmer</span>
+                                    <span class="text-yellow-500 text-xs" id="userLocation"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar with Filters -->
+                <div class="mt-4 flex flex-col md:flex-row gap-3">
+                   <div class="search-container flex-1 relative">
+    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+    <input type="text" id="searchInput" placeholder="Search questions, crops, diseases..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-green-400 bg-white/50">
+</div>
+                    <div class="filter-section flex gap-2 overflow-x-auto pb-2 md:pb-0">
+    <input type="text" id="cropFilter" placeholder="Filter by crop..." 
+           class="bg-white/50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-green-400 min-w-[150px]">
+                       
+                        <button class="bg-green-50 text-green-600 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap border border-green-200 hover:bg-green-100 transition" onclick="applyFilters()">
+        <i class="fas fa-sliders-h mr-1"></i> Filters
+    </button>
+                    </div>
+                </div>
+
+                <!-- Feed Tabs -->
+                <div class="flex gap-4 mt-4 border-b border-gray-200 overflow-x-auto pb-1">
+                    <button class="tab-btn text-green-600 border-b-2 border-green-600 px-2 py-1 font-semibold text-sm whitespace-nowrap" data-filter="trending">🔥 Trending</button>
+                    <button class="tab-btn text-gray-600 hover:text-green-600 px-2 py-1 text-sm whitespace-nowrap" data-filter="latest">⏱️ Latest</button>
+                    <button class="tab-btn text-gray-600 hover:text-green-600 px-2 py-1 text-sm whitespace-nowrap" data-filter="unanswered">❓ Unanswered</button>
+                    <button class="tab-btn text-gray-600 hover:text-green-600 px-2 py-1 text-sm whitespace-nowrap" data-filter="expert">👑 Expert Verified</button>
+                    <button class="tab-btn text-gray-600 hover:text-green-600 px-2 py-1 text-sm whitespace-nowrap" data-filter="near">📍 Near Me</button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-6">
+                <div class="max-w-6xl mx-auto space-y-6">
+                    <!-- Enhanced Stats Section with Live Data -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                        <div class="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/40 shadow-md hover:shadow-lg transition duration-300 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-20 h-20 bg-green-500/10 rounded-full -mr-10 -mt-10"></div>
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-xs text-gray-600 font-semibold">Total Questions</p>
+                                    <p class="text-2xl md:text-3xl font-bold text-gray-800 mt-1" id="totalQuestions">0</p>
+                                    <span class="text-xs text-green-600" id="questionsTrend">↑12% today</span>
+                                </div>
+                                <div class="text-2xl md:text-3xl">❓</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/40 shadow-md hover:shadow-lg transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-xs text-gray-600 font-semibold">Active Farmers</p>
+                                    <p class="text-2xl md:text-3xl font-bold text-green-600 mt-1" id="activeFarmers">0</p>
+                                    <span class="text-xs text-green-600" id="farmersTrend">↑8% this week</span>
+                                </div>
+                                <div class="text-2xl md:text-3xl">👨‍🌾</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/40 shadow-md hover:shadow-lg transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-xs text-gray-600 font-semibold">Expert Answers</p>
+                                    <p class="text-2xl md:text-3xl font-bold text-blue-600 mt-1" id="expertAnswers">0</p>
+                                    <span class="text-xs text-green-600" id="answersTrend">↑142 today</span>
+                                </div>
+                                <div class="text-2xl md:text-3xl">✅</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/40 shadow-md hover:shadow-lg transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-xs text-gray-600 font-semibold">Online Now</p>
+                                    <p class="text-2xl md:text-3xl font-bold text-purple-600 mt-1" id="onlineNow">142</p>
+                                    <span class="text-xs text-gray-500" id="expertsOnline">24 experts online</span>
+                                </div>
+                                <div class="relative">
+                                    <div class="text-2xl md:text-3xl">🟢</div>
+                                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Activity Feed -->
+                    <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-4 border border-blue-100">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-2 h-2 bg-green-500 rounded-full pulse"></div>
+                            <h3 class="text-sm font-semibold text-gray-700">LIVE ACTIVITY</h3>
+                        </div>
+                        <div class="flex flex-col gap-2 text-sm" id="liveActivity">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <span class="text-green-600">🌾</span>
+                                <span><strong>Loading activities...</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ask Question Section -->
+                    <div class="bg-gradient-to-br from-green-500/20 to-teal-500/20 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-green-200/50 shadow-md">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg md:text-xl font-bold text-gray-800">Ask the Community</h2>
+                        </div>
+                        
+                        <form id="askQuestionForm" class="space-y-4" onsubmit="postQuestion(event)">
+                            <div class="relative">
+                                <input type="text" id="questionTitle" placeholder="e.g., How to control bacterial wilt in tomato plants?" 
+                                       class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition pr-12" required>
+                                
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <input type="text" id="questionCrop" placeholder="e.g., Wheat, Rice, Tomato, or local name" 
+       class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition" required>
+                                
+                                <input type="text" id="questionLocation" placeholder="Your location" value="Maharashtra, India"
+                                       class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400" required>
+                                
+                                <select id="questionPriority" class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400">
+                                    <option value="normal">Normal priority</option>
+                                    <option value="urgent" class="text-red-600">🔴 Urgent</option>
+                                    <option value="medium" class="text-yellow-600">🟡 Medium</option>
+                                    <option value="low" class="text-green-600">🟢 Low</option>
+                                </select>
+                            </div>
+
+                            <textarea id="questionDescription" placeholder="Describe your issue in detail... (Include symptoms, soil type, weather conditions)" 
+                                      rows="3" class="w-full px-4 py-3 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition resize-none" required></textarea>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="border-2 border-dashed border-green-400/50 rounded-lg p-4">
+    <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-gray-700">Attach Images</span>
+        <span class="text-xs text-gray-500">Max 5 photos</span>
+    </div>
+    
+    <!-- Image Preview Grid -->
+    <div id="imagePreviewContainer" class="grid grid-cols-4 gap-2 mb-3 hidden">
+        <!-- Preview images will be added here -->
+    </div>
+    
+    <!-- Upload Button -->
+    <div class="border-2 border-dashed border-green-400/50 rounded-lg p-4 text-center cursor-pointer hover:border-green-400 transition group" onclick="document.getElementById('imageUpload').click()">
+        <i class="fas fa-cloud-upload-alt text-2xl text-gray-400 group-hover:text-green-500"></i>
+        <p class="text-sm text-gray-600 mt-1">Click to upload or drag & drop</p>
+        <p class="text-xs text-gray-400 mt-1">PNG, JPG, JPEG up to 5MB</p>
+        <input type="file" id="imageUpload" class="hidden" accept="image/*" multiple onchange="handleImageUpload(event)">
+    </div>
+    
+    <!-- Upload Progress (hidden by default) -->
+    <div id="uploadProgress" class="hidden mt-3">
+        <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
+            <span>Uploading...</span>
+            <span id="uploadPercent">0%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+            <div id="uploadProgressBar" class="bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+        </div>
+    </div>
+</div>
+                                
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="anonymous" class="rounded text-green-500">
+                                    <label for="anonymous" class="text-sm text-gray-600">Post anonymously</label>
+                                </div>
+                            </div>
+
+                            <!-- Similar Questions Preview -->
+                            <div id="similarQuestions" class="bg-yellow-50 rounded-lg p-3 border border-yellow-200 hidden">
+                                <p class="text-xs text-yellow-700 mb-2"><i class="fas fa-lightbulb mr-1"></i> Similar questions found:</p>
+                                <div class="text-xs text-gray-600 space-y-1" id="similarQuestionsList"></div>
+                            </div>
+
+                            <div class="flex gap-3">
+                                <button type="submit" class="flex-1 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold py-3 rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition duration-300">
+                                    Post Question <span class="text-xs ml-2">(~5min response)</span>
+                                </button>
+                                <button type="button" class="px-4 bg-white/70 border border-gray-200 rounded-lg hover:bg-white transition" onclick="saveDraft()">
+                                    <i class="far fa-save"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Community Feed -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg md:text-xl font-bold text-gray-800">Community Feed</h2>
+                            <select id="sortSelect" class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white/50" onchange="changeSort(this.value)">
+                                <option value="recent">Most Recent</option>
+                                <option value="upvotes">Most Upvoted</option>
+                                <option value="replies">Most Replies</option>
+                                <option value="expert">Expert Verified</option>
+                            </select>
+                        </div>
+
+                        <!-- Loading State -->
+                        <div id="loadingState" class="text-center py-8 hidden">
+                            <i class="fas fa-spinner fa-spin text-3xl text-green-600"></i>
+                            <p class="mt-2 text-gray-600">Loading questions...</p>
+                        </div>
+
+                        <!-- Questions Feed -->
+                        <div class="space-y-4" id="communityFeed"></div>
+
+                        <!-- No Results -->
+                        <div id="noResults" class="text-center py-8 hidden">
+                            <p class="text-gray-500">No questions found</p>
+                        </div>
+
+                        <!-- Load More -->
+                        <div class="text-center mt-6" id="loadMoreContainer">
+                            <button onclick="loadMoreQuestions()" class="bg-white/70 border border-gray-200 px-6 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-white hover:shadow-md transition">
+                                Load More Questions <i class="fas fa-chevron-down ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Enhanced Right Sidebar -->
+        <aside class="hidden xl:flex w-80 bg-white/40 backdrop-blur-md border-l border-white/20 flex-col p-6 overflow-y-auto">
+            <!-- Online Experts -->
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full pulse"></span>
+                    Online Experts (24)
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full"></div>
+                            <div class="online-dot absolute bottom-0 right-0"></div>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm">Dr. Sharma</p>
+                            <p class="text-xs text-gray-600">Agronomist • 5 min response</p>
+                        </div>
+                        <button class="ml-auto text-green-600 text-sm">Chat</button>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-green-600 rounded-full"></div>
+                            <div class="online-dot absolute bottom-0 right-0"></div>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm">Dr. Patel</p>
+                            <p class="text-xs text-gray-600">Plant Pathologist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending Topics -->
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">🔥 Trending Topics</h3>
+                <div class="space-y-3">
+                    <div class="bg-white/60 rounded-xl p-4 border border-white/40 hover:shadow-lg transition cursor-pointer group">
+                        <div class="flex justify-between items-center">
+                            <p class="font-semibold text-gray-800 group-hover:text-green-600">🌱 Organic Farming</p>
+                            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">+342</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-2 text-xs">
+                            <span class="text-gray-500">1.2k discussions</span>
+                            <span class="trend-up">↑12% today</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/60 rounded-xl p-4 border border-white/40 hover:shadow-lg transition cursor-pointer group">
+                        <div class="flex justify-between items-center">
+                            <p class="font-semibold text-gray-800 group-hover:text-green-600">🐛 Pest Control</p>
+                            <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full">+289</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-2 text-xs">
+                            <span class="text-gray-500">856 discussions</span>
+                            <span class="trend-up">↑8% today</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/60 rounded-xl p-4 border border-white/40 hover:shadow-lg transition cursor-pointer group">
+                        <div class="flex justify-between items-center">
+                            <p class="font-semibold text-gray-800 group-hover:text-green-600">💧 Water Conservation</p>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">+156</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-2 text-xs">
+                            <span class="text-gray-500">423 discussions</span>
+                            <span class="trend-up">↑5% today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mini Leaderboard -->
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">🏆 Top Contributors</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                        <span class="text-yellow-500 font-bold">1</span>
+                        <div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full"></div>
+                        <div>
+                            <p class="font-semibold text-sm">Farmer Rajesh</p>
+                            <p class="text-xs text-gray-500">2,847 points</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                        <span class="text-gray-400 font-bold">2</span>
+                        <div class="w-8 h-8 bg-gradient-to-r from-gray-300 to-gray-500 rounded-full"></div>
+                        <div>
+                            <p class="font-semibold text-sm">Dr. Sharma</p>
+                            <p class="text-xs text-gray-500">2,156 points</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                        <span class="text-amber-600 font-bold">3</span>
+                        <div class="w-8 h-8 bg-gradient-to-r from-amber-400 to-amber-600 rounded-full"></div>
+                        <div>
+                            <p class="font-semibold text-sm">Farmer Priya</p>
+                            <p class="text-xs text-gray-500">1,934 points</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-nav fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-200 px-4 py-2 z-40 md:hidden">
+        <div class="flex justify-around items-center">
+            <a href="#" class="flex flex-col items-center text-green-600">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-600">
+                <i class="fas fa-plus-circle text-xl"></i>
+                <span class="text-xs">Ask</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-600 relative">
+                <i class="fas fa-bell text-xl"></i>
+                <span class="notification-badge -top-1 -right-2">3</span>
+                <span class="text-xs">Alerts</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-600">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // ========== GLOBAL VARIABLES ==========
+        let allQuestions = [];
+        let displayedQuestions = [];
+        let currentPage = 1;
+        const QUESTIONS_PER_PAGE = 3;
+        let currentFilter = 'trending';
+        let currentCrop = '';
+        let currentLocation = '';
+        let currentSort = 'recent';
+        let searchTimeout;
+        const API_BASE = 'http://127.0.0.1:5001';
+
+        // ========== LOAD USER DATA ==========
+        function loadUserData() {
+            try {
+                const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+                const userName = userData.name || 'Guest Farmer';
+                const userRole = userData.role || 'Farmer';
+                const userCity = userData.city || '';
+                
+                document.getElementById('userName').textContent = userName;
+                
+                const initials = userName.split(' ')
+                    .map(n => n[0])
+                    .join('')
+                    .substring(0, 2)
+                    .toUpperCase();
+                document.getElementById('userInitials').textContent = initials;
+                document.getElementById('mobileUserInitials').textContent = initials;
+                
+                document.getElementById('userRole').textContent = 
+                    userRole.charAt(0).toUpperCase() + userRole.slice(1);
+                
+                if (userCity) {
+                    document.getElementById('userLocation').textContent = `📍 ${userCity}`;
+                }
+                
+                return userData;
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                return null;
+            }
+        }
+
+        // ========== LOAD QUESTIONS ==========
+        async function loadQuestions() {
+            try {
+                document.getElementById('loadingState').classList.remove('hidden');
+                document.getElementById('communityFeed').innerHTML = '';
+                
+                const response = await fetch(`${API_BASE}/api/community/questions`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allQuestions = data.questions;
+                    displayedQuestions = [...allQuestions];
+                    currentPage = 1;
+                    displayQuestions();
+                    updateStats();
+                    updateLiveActivity();
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                document.getElementById('communityFeed').innerHTML = '<p class="text-center text-red-500">Error loading questions. Make sure backend is running.</p>';
+            } finally {
+                document.getElementById('loadingState').classList.add('hidden');
+            }
+        }
+
+        // ========== DISPLAY QUESTIONS ==========
+        function displayQuestions() {
+            const feed = document.getElementById('communityFeed');
+            const end = currentPage * QUESTIONS_PER_PAGE;
+            const questionsToShow = displayedQuestions.slice(0, end);
+            
+            if (questionsToShow.length === 0) {
+                document.getElementById('noResults').classList.remove('hidden');
+                document.getElementById('loadMoreContainer').classList.add('hidden');
+                return;
+            }
+            
+            document.getElementById('noResults').classList.add('hidden');
+            
+            if (end >= displayedQuestions.length) {
+                document.getElementById('loadMoreContainer').classList.add('hidden');
+            } else {
+                document.getElementById('loadMoreContainer').classList.remove('hidden');
+            }
+            
+            feed.innerHTML = '';
+            questionsToShow.forEach(q => {
+                feed.appendChild(createQuestionCard(q));
+            });
+        }
+
+        // ========== CREATE QUESTION CARD ==========
+        function createQuestionCard(q) {
+            const card = document.createElement('div');
+            card.className = 'bg-white/60 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-white/40 shadow-md hover:shadow-lg transition duration-300 group';
+            card.setAttribute('data-question-id', q.id);
+            
+            const userInitials = q.user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            // Fix the UTC date parsing
+// Fix UTC time parsing
+const utcDate = new Date(q.created_at + ' UTC'); // Tell JS it's UTC
+const localDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000)); // Convert to IST
+const timeAgo = getTimeAgo(localDate);
+            
+            const answersHtml = q.answers && q.answers.length > 0 ? 
+                q.answers.map(a => `
+                    <div class="mt-2 p-2 bg-gray-50 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-sm">${a.user.name}</span>
+                            ${a.is_expert_verified ? '<span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Expert ✓</span>' : ''}
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">${a.content}</p>
+                        <div class="flex items-center justify-between mt-1">
+                            <span class="text-xs text-gray-400">👍 ${a.upvotes}</span>
+                            <span class="text-xs text-gray-400">${getTimeAgo(new Date(a.created_at))}</span>
+                        </div>
+                    </div>
+                `).join('') : '<p class="text-sm text-gray-500 italic mt-2">No answers yet. Be the first to reply!</p>';
+            
+            card.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full flex items-center gap-1">
+                            <i class="fas fa-seedling"></i> ${q.crop || 'General'}
+                        </span>
+                        <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full flex items-center gap-1">
+                            <i class="fas fa-map-marker-alt"></i> ${q.location || 'Unknown'}
+                        </span>
+                        ${q.priority === 'urgent' ? '<span class="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full flex items-center gap-1"><i class="fas fa-exclamation-circle"></i> Urgent</span>' : ''}
+                    </div>
+                    <div class="relative">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center text-white text-sm font-bold">
+                            ${userInitials}
+                        </div>
+                        ${q.user.is_expert ? '<div class="online-dot absolute bottom-0 right-0"></div>' : ''}
+                    </div>
+                </div>
+
+                <h3 class="text-base md:text-lg font-bold text-gray-800 mb-2 group-hover:text-green-600 transition">
+                    ${q.title}
+                </h3>
+                
+                <p class="text-sm text-gray-600 mb-4 line-clamp-2 md:line-clamp-3">
+                    ${q.description}
+                </p>
+
+                                ${q.images && q.images.length > 0 ? `
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 my-3">
+                    ${q.images.map(img => `
+                        <div class="relative group cursor-pointer" onclick="openImageModal('${img}')">
+                            <img src="${img}" class="w-full h-24 object-cover rounded-lg border border-gray-200 hover:opacity-90 transition">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition rounded-lg"></div>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+
+                <div class="flex flex-wrap items-center justify-between text-xs text-gray-500 mb-4">
+                    <div class="flex items-center gap-3 md:gap-4">
+                        <span class="flex items-center gap-1">
+                            <i class="far fa-thumbs-up text-green-600"></i> 
+                            <span class="font-semibold">${q.upvotes || 0}</span>
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i class="far fa-comment text-blue-600"></i> 
+                            <span class="font-semibold">${q.answer_count || 0}</span>
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i class="far fa-eye text-gray-600"></i> 
+                            <span class="font-semibold">${q.views || 0}</span>
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2 md:mt-0">
+                        <span class="text-green-600 text-xs">👤 ${q.user.name}</span>
+                        <span class="text-gray-400 text-xs">• ${timeAgo}</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-white/30">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-sm font-semibold text-gray-700">${q.answers?.length || 0} Answers</p>
+                        <button onclick="toggleReplyForm(${q.id})" class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full hover:bg-green-200 transition">
+                            <i class="fas fa-reply mr-1"></i> Reply
+                        </button>
+                    </div>
+                    <div id="answers-${q.id}">
+                        ${answersHtml}
+                    </div>
+                    
+                    <div id="reply-form-${q.id}" class="reply-form mt-4">
+                        <textarea id="reply-content-${q.id}" placeholder="Write your answer..." rows="2" class="w-full px-3 py-2 rounded-lg bg-white/70 border border-white/50 focus:outline-none focus:border-green-400 transition resize-none text-sm"></textarea>
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-green-600"><i class="far fa-image"></i></button>
+                                <button class="text-gray-500 hover:text-green-600"><i class="fas fa-microphone"></i></button>
+                            </div>
+                            <button onclick="postReply(${q.id})" class="bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold px-4 py-1.5 rounded-lg text-sm hover:shadow-lg transition">
+                                Post Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // ========== TOGGLE REPLY FORM ==========
+        function toggleReplyForm(questionId) {
+            const form = document.getElementById(`reply-form-${questionId}`);
+            if (form) {
+                form.classList.toggle('show');
+            }
+        }
+
+        // ========== POST REPLY ==========
+        async function postReply(questionId) {
+            const content = document.getElementById(`reply-content-${questionId}`).value;
+            
+            if (!content.trim()) {
+                alert('Please write something in your reply');
+                return;
+            }
+            
+            const replyBtn = document.querySelector(`#reply-form-${questionId} button[onclick*="postReply"]`);
+            const originalText = replyBtn.innerHTML;
+            replyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+            replyBtn.disabled = true;
+            
+            try {
+                const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+                
+                const replyData = {
+                    content: content,
+                    user_name: userData.name || 'Guest Farmer',
+                    user_email: userData.email || 'guest@smartagro.com'
+                };
+                
+                const response = await fetch(`${API_BASE}/api/community/questions/${questionId}/answers`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(replyData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ Reply posted successfully!');
+                    document.getElementById(`reply-content-${questionId}`).value = '';
+                    toggleReplyForm(questionId);
+                    await loadQuestions();
+                } else {
+                    alert('❌ Error: ' + (data.error || 'Failed to post reply'));
+                }
+            } catch (error) {
+                console.error('Error posting reply:', error);
+                alert('❌ Failed to post reply. Make sure backend is running.');
+            } finally {
+                replyBtn.innerHTML = originalText;
+                replyBtn.disabled = false;
+            }
+        }
+
+ function getTimeAgo(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    
+    if (diffMins < 1) return 'just now';
+    if (diffMins < 60) return diffMins + ' minutes ago';
+    if (diffMins < 1440) return Math.floor(diffMins / 60) + ' hours ago';
+    return Math.floor(diffMins / 1440) + ' days ago';
+}
+        // ========== UPDATE STATS ==========
+        function updateStats() {
+            const totalQ = document.getElementById('totalQuestions');
+            const activeFarmers = document.getElementById('activeFarmers');
+            const expertAnswers = document.getElementById('expertAnswers');
+            
+            if (totalQ) totalQ.textContent = allQuestions.length;
+            
+            const uniqueFarmers = new Set();
+            allQuestions.forEach(q => {
+                uniqueFarmers.add(q.user.name);
+                if (q.answers) {
+                    q.answers.forEach(a => uniqueFarmers.add(a.user.name));
+                }
+            });
+            if (activeFarmers) activeFarmers.textContent = uniqueFarmers.size;
+            
+            let expertCount = 0;
+            allQuestions.forEach(q => {
+                if (q.answers) {
+                    expertCount += q.answers.filter(a => a.is_expert_verified).length;
+                }
+            });
+            if (expertAnswers) expertAnswers.textContent = expertCount;
+        }
+
+        // ========== UPDATE LIVE ACTIVITY ==========
+        function updateLiveActivity() {
+            const liveDiv = document.getElementById('liveActivity');
+            if (!liveDiv) return;
+            
+            const recent = [...allQuestions].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 3);
+            
+            if (recent.length === 0) {
+                liveDiv.innerHTML = '<div class="text-gray-500">No recent activity</div>';
+                return;
+            }
+            
+            liveDiv.innerHTML = recent.map(q => `
+                <div class="flex items-center gap-2 text-gray-600">
+                    <span class="text-green-600">🌾</span>
+                    <span><strong>${q.user.name}</strong> asked about ${q.crop}</span>
+                    <span class="text-xs text-gray-400">${getTimeAgo(new Date(q.created_at + ' UTC'))}</span>
+                </div>
+            `).join('');
+        }
+
+        // ========== FILTERS AND SORT ==========
+        function applyFilters() {
+            currentCrop = document.getElementById('cropFilter').value;
+            
+            
+            displayedQuestions = allQuestions.filter(q => {
+                let match = true;
+                if (currentCrop && q.crop !== currentCrop) match = false;
+                if (currentLocation && !q.location?.toLowerCase().includes(currentLocation.toLowerCase())) match = false;
+                return match;
+            });
+            
+            currentPage = 1;
+            displayQuestions();
+        }
+
+        function changeSort(value) {
+            currentSort = value;
+            switch(value) {
+                case 'upvotes':
+                    displayedQuestions.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+                    break;
+                case 'replies':
+                    displayedQuestions.sort((a, b) => (b.answer_count || 0) - (a.answer_count || 0));
+                    break;
+                case 'expert':
+                    displayedQuestions.sort((a, b) => {
+                        const aExpert = a.answers?.some(ans => ans.is_expert_verified) ? 1 : 0;
+                        const bExpert = b.answers?.some(ans => ans.is_expert_verified) ? 1 : 0;
+                        return bExpert - aExpert;
+                    });
+                    break;
+                default:
+                    displayedQuestions.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            }
+            currentPage = 1;
+            displayQuestions();
+        }
+
+        // ========== TAB FILTERS ==========
+        function setupTabFilters() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => {
+                        b.classList.remove('text-green-600', 'border-b-2', 'border-green-600');
+                        b.classList.add('text-gray-600');
+                    });
+                    this.classList.remove('text-gray-600');
+                    this.classList.add('text-green-600', 'border-b-2', 'border-green-600');
+                    
+                    const filter = this.dataset.filter;
+                    
+                    if (filter === 'trending') {
+                        displayedQuestions = [...allQuestions].sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+                    } 
+                    else if (filter === 'latest') {
+                        displayedQuestions = [...allQuestions].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    } 
+                    else if (filter === 'unanswered') {
+                        displayedQuestions = allQuestions.filter(q => q.answer_count === 0);
+                    } 
+                    else if (filter === 'expert') {
+                        displayedQuestions = allQuestions.filter(q => q.answers?.some(a => a.is_expert_verified));
+                    } 
+                    else if (filter === 'near') {
+                        const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+                        const userState = userData.state || '';
+                        
+                        if (userState) {
+                            displayedQuestions = allQuestions.filter(q => 
+                                q.location?.toLowerCase().includes(userState.toLowerCase())
+                            );
+                        } else {
+                            alert('Please login with your location to use Near Me filter');
+                            displayedQuestions = [...allQuestions];
+                        }
+                    }
+                    
+                    currentPage = 1;
+                    displayQuestions();
+                });
+            });
+        }
+
+        // ========== LOAD MORE ==========
+        function loadMoreQuestions() {
+            currentPage++;
+            displayQuestions();
+        }
+
+        // ========== SEARCH ==========
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const term = e.target.value.toLowerCase();
+                if (term.length < 2) {
+                    displayedQuestions = [...allQuestions];
+                } else {
+                    displayedQuestions = allQuestions.filter(q => 
+                        q.title.toLowerCase().includes(term) ||
+                        q.description.toLowerCase().includes(term) ||
+                        q.crop?.toLowerCase().includes(term)
+                    );
+                }
+                currentPage = 1;
+                displayQuestions();
+            }, 500);
+        });
+
+        // ========== POST QUESTION WITH IMAGES ==========
+async function postQuestion(event) {
+    event.preventDefault();
+    
+    const title = document.getElementById('questionTitle').value;
+    const description = document.getElementById('questionDescription').value;
+    const crop = document.getElementById('questionCrop').value;
+    const location = document.getElementById('questionLocation').value;
+    const priority = document.getElementById('questionPriority').value;
+    const anonymous = document.getElementById('anonymous').checked;
+    
+    if (!title || !description || !crop || !location) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    const btn = event.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+    btn.disabled = true;
+    
+    try {
+        const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+        
+        const questionData = {
+            title: title,
+            description: description,
+            crop: crop,
+            location: location,
+            priority: priority,
+            anonymous: anonymous,
+            user_name: userData.name || 'Guest Farmer',
+            user_email: userData.email || 'guest@smartagro.com',
+            images: uploadedImages // Add uploaded images to the question data
+        };
+        
+        const response = await fetch(`${API_BASE}/api/community/questions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(questionData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('✅ Question posted successfully!');
+            document.getElementById('askQuestionForm').reset();
+            
+            // Clear uploaded images
+            uploadedImages = [];
+            document.getElementById('imagePreviewContainer').innerHTML = '';
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            
+            await loadQuestions();
+        } else {
+            alert('❌ Error: ' + (data.error || 'Failed to post question'));
+        }
+    } catch (error) {
+        console.error('Error posting question:', error);
+        alert('❌ Failed to post question. Check console for details.');
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
+
+        // ========== SAVE DRAFT ==========
+        function saveDraft() {
+            alert('📝 Draft saved! (Demo)');
+        }
+
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadQuestions();
+            setupTabFilters();
+            
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.getElementById('sidebar');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.add('-translate-x-full');
+                    }
+                });
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('-translate-x-full');
+                }
+            });
+        });
+
+        // ========== IMAGE UPLOAD FUNCTIONALITY ==========
+let uploadedImages = []; // Store uploaded image URLs
+
+async function handleImageUpload(event) {
+    const files = event.target.files;
+    
+    if (files.length === 0) return;
+    
+    if (files.length > 5) {
+        alert('Maximum 5 photos allowed');
+        return;
+    }
+    
+    // Show progress bar
+    document.getElementById('uploadProgress').classList.remove('hidden');
+    const progressBar = document.getElementById('uploadProgressBar');
+    const percentText = document.getElementById('uploadPercent');
+    
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // Check file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+            alert(`File ${file.name} is too large. Maximum size is 5MB`);
+            continue;
+        }
+        
+        // Update progress
+        const progress = ((i + 1) / files.length) * 100;
+        progressBar.style.width = progress + '%';
+        percentText.textContent = Math.round(progress) + '%';
+        
+        // Create form data
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        try {
+            const response = await fetch(`${API_BASE}/api/community/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                uploadedImages.push(data.image_url);
+                addImagePreview(data.image_url, file.name);
+            } else {
+                alert('Error uploading ' + file.name + ': ' + data.error);
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            alert('Failed to upload ' + file.name);
+        }
+    }
+    
+    // Hide progress bar after completion
+    setTimeout(() => {
+        document.getElementById('uploadProgress').classList.add('hidden');
+    }, 1000);
+    
+    // Clear input
+    event.target.value = '';
+}
+
+function addImagePreview(imageUrl, fileName) {
+    const container = document.getElementById('imagePreviewContainer');
+    container.classList.remove('hidden');
+    
+    const previewDiv = document.createElement('div');
+    previewDiv.className = 'relative group';
+    previewDiv.innerHTML = `
+        <img src="${imageUrl}" class="w-full h-16 object-cover rounded-lg border border-gray-200">
+        <button onclick="removeImage('${imageUrl}')" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    container.appendChild(previewDiv);
+}
+
+function removeImage(imageUrl) {
+    uploadedImages = uploadedImages.filter(url => url !== imageUrl);
+    
+    // Remove preview element
+    const container = document.getElementById('imagePreviewContainer');
+    const previews = container.children;
+    for (let i = 0; i < previews.length; i++) {
+        const img = previews[i].querySelector('img');
+        if (img && img.src.includes(imageUrl)) {
+            previews[i].remove();
+            break;
+        }
+    }
+    
+    // Hide container if no images left
+    if (container.children.length === 0) {
+        container.classList.add('hidden');
+    }
+}// ========== IMAGE MODAL FOR FULL-SIZE VIEW ==========
+function openImageModal(imageUrl) {
+    // Create modal element
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4';
+    modal.onclick = function(e) {
+        if (e.target === modal) this.remove();
+    };
+    
+    modal.innerHTML = `
+        <div class="relative max-w-4xl max-h-[90vh]">
+            <img src="${imageUrl}" class="w-full h-full object-contain rounded-lg">
+            <button onclick="this.parentElement.parentElement.remove()" class="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <button onclick="downloadImage('${imageUrl}')" class="absolute bottom-4 right-4 text-white bg-green-600 hover:bg-green-700 rounded-full w-10 h-10 flex items-center justify-center transition">
+                <i class="fas fa-download text-xl"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Optional: Download image function
+function downloadImage(imageUrl) {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = imageUrl.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+ // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

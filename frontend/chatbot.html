@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot – SmartAgro</title>
+      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+    /* Better text formatting for bot messages */
+    .bot-message p {
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+    }
+    
+    .bot-message ul, .bot-message ol {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .bot-message li {
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+    }
+    
+    .bot-message strong {
+        color: #059669; /* green-600 */
+        font-weight: 600;
+    }
+    
+    .bot-message .emoji {
+        display: inline-block;
+        margin-right: 0.25rem;
+    }
+    
+    /* Better spacing for the chat container */
+    #chatWindow > div {
+        margin-bottom: 1rem;
+    }
+</style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+                <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+</nav>
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">SmartAgro AI Chatbot</h1>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-semibold text-gray-700">Language:</label>
+                    <select class="px-3 py-2 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 text-sm">
+                        <option>English</option>
+                        <option>हिंदी</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-transparent to-emerald-50/30">
+                <div id="chatWindow" class="max-w-4xl mx-auto w-full space-y-4">
+                    <!-- Bot Message -->
+                    <div class="flex justify-start">
+                        <div class="bg-white/60 backdrop-blur-md rounded-2xl p-4 border border-white/40 shadow-md max-w-xs">
+                            <p class="text-gray-800">👋 Hello! I'm SmartAgro AI Assistant. How can I help you with your farming today?</p>
+                        </div>
+                    </div>
+
+                    <!-- User Message -->
+                    <div class="flex justify-end">
+                        <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-2xl p-4 shadow-md max-w-xs">
+                            <p>What's the best crop to plant in my field?</p>
+                        </div>
+                    </div>
+
+                    <!-- Bot Message -->
+                    <div class="flex justify-start">
+                        <div class="bg-white/60 backdrop-blur-md rounded-2xl p-4 border border-white/40 shadow-md max-w-md">
+                            <p class="text-gray-800 mb-3">To recommend the best crop, I need some information about your field:</p>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• What is your soil's NPK ratio?</li>
+                                <li>• What's the pH level?</li>
+                                <li>• Average temperature and rainfall in your region?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- User Message -->
+                    <div class="flex justify-end">
+                        <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-2xl p-4 shadow-md max-w-xs">
+                            <p>N: 60, P: 45, K: 50, pH: 6.8, Temp: 28°C, Rain: 200mm</p>
+                        </div>
+                    </div>
+
+                    <!-- Bot Message -->
+                    <div class="flex justify-start">
+                        <div class="bg-white/60 backdrop-blur-md rounded-2xl p-4 border border-white/40 shadow-md max-w-md">
+                            <p class="text-gray-800 mb-3">🌾 <strong>Excellent! Based on your data, I recommend:</strong></p>
+                            <div class="bg-green-50 rounded-lg p-3 mb-3">
+                                <p class="font-semibold text-green-700">Maize (Corn)</p>
+                                <p class="text-sm text-gray-700">Confidence: 94% - Perfect match for your conditions</p>
+                            </div>
+                            <p class="text-sm text-gray-700">Your soil NPK levels and climate are ideal for maize cultivation. Expected yield: 50-60 quintals/hectare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="bg-white/80 backdrop-blur-md border-t border-white/20 p-4">
+                <div class="max-w-4xl mx-auto">
+                    <form id="chatForm" class="flex gap-3">
+                        <input type="text" placeholder="Ask me anything about farming..." class="flex-1 px-4 py-3 bg-white/50 border border-white/60 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition" required>
+                        <button type="submit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition">
+                            Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+   <!-- Put this RIGHT BEFORE </body> -->
+<script>
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing chatbot...');
+    
+    // ========== FUNCTION DEFINITIONS ==========
+    
+    // Helper to create message bubbles
+   function createBubble(text, who = "bot") {
+    const wrapper = document.createElement('div');
+    wrapper.className = who === "user" ? 'flex justify-end' : 'flex justify-start';
+
+    const box = document.createElement('div');
+    if (who === "user") {
+        box.className = 'bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-2xl p-4 shadow-md max-w-xs';
+        box.innerHTML = `<p class="text-white">${escapeHtml(text)}</p>`;
+    } else {
+        box.className = 'bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-white/40 shadow-md max-w-2xl';
+        
+        // Simple formatting: Split by sentences and create paragraphs
+        const formattedText = formatTextNicely(text);
+        box.innerHTML = formattedText;
+    }
+    
+    wrapper.appendChild(box);
+    return wrapper;
+}
+
+function formatTextNicely(text) {
+    // Escape HTML first
+    let safeText = escapeHtml(text);
+    
+    // Split by common separators
+    const parts = safeText.split(/(?<=[.!?])\s+|(?<=\n)\s*|\*\s+/);
+    
+    let html = '<div class="space-y-3">';
+    
+    parts.forEach(part => {
+        part = part.trim();
+        if (!part) return;
+        
+        // Check if it's a numbered item
+        if (/^\d+\./.test(part)) {
+            html += `<div class="ml-4"><span class="font-semibold text-green-700">${part}</span></div>`;
+        }
+        // Check if it's a bold section
+        else if (part.includes('**')) {
+            const boldText = part.replace(/\*\*(.*?)\*\*/g, '<span class="font-semibold text-green-700">$1</span>');
+            html += `<p class="text-gray-700">${boldText}</p>`;
+        }
+        // Check if it starts with emoji
+        else if (/^[🌾💧🧪⛅💰🌱🍚🍅🌿💦🌟👍💚🤝🙏]/.test(part)) {
+            html += `<p class="text-gray-700 flex items-start"><span class="mr-2 text-lg">${part.charAt(0)}</span><span>${part.slice(1)}</span></p>`;
+        }
+        // Regular text
+        else {
+            html += `<p class="text-gray-700">${part}</p>`;
+        }
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+    // Scroll to bottom of chat
+    function scrollChatToBottom() {
+        const container = document.querySelector('.overflow-y-auto');
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    // HTML escape utility
+    function escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    // Main function to send chat message
+    async function sendChatMessage(event) {
+        console.log('sendChatMessage called');
+        
+        if (event && event.preventDefault) {
+            event.preventDefault();
+        }
+        
+        // Get form elements
+        const form = document.getElementById('chatForm');
+        const input = form.querySelector('input[type="text"]');
+        const languageSelect = document.querySelector('select');
+        
+        if (!input || !form) {
+            console.error('Form or input not found!');
+            return false;
+        }
+        
+        const message = input.value.trim();
+        console.log('Message:', message);
+        
+        if (!message) {
+            console.log('Empty message, returning');
+            return false;
+        }
+        
+        const chatWindow = document.getElementById('chatWindow');
+        if (!chatWindow) {
+            console.error('chatWindow not found!');
+            return false;
+        }
+        
+        // 1) Show user bubble
+        const userBubble = createBubble(message, 'user');
+        chatWindow.appendChild(userBubble);
+        scrollChatToBottom();
+        
+        // 2) Clear input & disable
+        input.value = '';
+        input.disabled = true;
+        const sendBtn = form.querySelector('button[type="submit"]');
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Sending...';
+        
+        // 3) Show loading bubble
+        const loadingBubble = createBubble('Typing...', 'bot');
+        const loadingText = loadingBubble.querySelector('p');
+        loadingText.classList.add('opacity-60', 'italic');
+        chatWindow.appendChild(loadingBubble);
+        scrollChatToBottom();
+        
+        try {
+            console.log('Sending request to backend...');
+            
+            // Get language
+            const language = languageSelect ? languageSelect.value.toLowerCase() : 'english';
+            
+            // 4) Call backend
+            const response = await fetch("http://127.0.0.1:5001/api/chat", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message,
+                    language: language
+                })
+            });
+            
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Response data:', data);
+            
+            const botText = data.bot || 'Sorry, I could not process your request.';
+            
+            // 5) Replace loading bubble with actual response
+            loadingBubble.remove();
+            const botBubble = createBubble(botText, 'bot');
+            chatWindow.appendChild(botBubble);
+            
+        } catch (error) {
+            console.error('Error sending message:', error);
+            
+            // Replace loading bubble with error message
+            loadingBubble.remove();
+            const errorBubble = createBubble('Oops! Something went wrong. Please try again.', 'bot');
+            chatWindow.appendChild(errorBubble);
+            
+        } finally {
+            // 6) Re-enable input and button
+            if (input) input.disabled = false;
+            if (sendBtn) {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+            }
+            if (input) input.focus();
+            scrollChatToBottom();
+        }
+        
+        return false;
+    }
+    
+    // ========== EVENT LISTENER SETUP ==========
+    
+    const form = document.getElementById('chatForm');
+    if (form) {
+        console.log('Form found with id="chatForm", attaching event listener');
+        form.addEventListener('submit', sendChatMessage);
+        
+        // Also allow Enter key in input
+        const input = form.querySelector('input[type="text"]');
+        if (input) {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendChatMessage(e);
+                }
+            });
+        }
+    } else {
+        console.error('Form with id="chatForm" not found! Looking for any form...');
+        // Fallback to any form
+        const anyForm = document.querySelector('form');
+        if (anyForm) {
+            console.log('Found a form (fallback), attaching event listener');
+            anyForm.addEventListener('submit', sendChatMessage);
+        }
+    }
+    
+    // Test that functions are available globally
+    window.createBubble = createBubble;
+    window.sendChatMessage = sendChatMessage;
+    window.scrollChatToBottom = scrollChatToBottom;
+    
+    console.log('Chatbot initialized successfully!');
+    console.log('Available functions: createBubble, sendChatMessage');
+});
+
+ // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+</script>
+</body>
+</html>

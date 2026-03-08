@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – SmartAgro</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+    </style>
+    
+    <!-- CRITICAL: Initialize localStorage before anything else -->
+    <script>
+        (function() {
+            console.log('🚀 Dashboard initializing...');
+            
+            // Check if user exists
+            const userRaw = localStorage.getItem('smartagro_user');
+            const userCity = localStorage.getItem('userCity');
+            const userState = localStorage.getItem('userState');
+            
+            console.log('Current localStorage:', {
+                smartagro_user: userRaw,
+                userCity: userCity,
+                userState: userState
+            });
+            
+            // If no user, create a demo one for testing
+            if (!userRaw) {
+                console.log('⚠️ No user found, creating demo user');
+                const demoUser = {
+                    name: 'Demo Farmer',
+                    email: 'demo@smartagro.com',
+                    role: 'farmer',
+                    city: 'Indore',
+                    state: 'Madhya Pradesh'
+                };
+                
+                localStorage.setItem('smartagro_user', JSON.stringify(demoUser));
+                localStorage.setItem('userCity', 'Indore');
+                localStorage.setItem('userState', 'Madhya Pradesh');
+                console.log('✅ Demo user created');
+            }
+            
+            // If user exists but no city/state, fix it
+            if (userRaw && (!userCity || !userState)) {
+                try {
+                    const user = JSON.parse(userRaw);
+                    if (user.city && !userCity) {
+                        localStorage.setItem('userCity', user.city);
+                    }
+                    if (user.state && !userState) {
+                        localStorage.setItem('userState', user.state);
+                    }
+                    console.log('✅ Fixed missing city/state');
+                } catch (e) {
+                    console.error('Error parsing user:', e);
+                }
+            }
+            
+            console.log('✅ Dashboard ready');
+        })();
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-emerald-50 text-gray-900">
+    <!-- Mobile Menu Toggle -->
+    <div id="mobileMenuBtn" class="fixed bottom-6 right-6 z-50 md:hidden bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-full shadow-lg cursor-pointer hover:shadow-xl transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-gradient-to-b from-green-900 via-emerald-800 to-teal-900 text-white fixed md:static h-full flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0 z-40">
+            <!-- Logo -->
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold">S</div>
+                    <span class="text-xl font-bold">SmartAgro</span>
+                </div>
+            </div>
+
+           <!-- Navigation Links -->
+<nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+    <!-- Features Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10 mb-2">
+        📋 Features
+    </div>
+    
+    <a href="dashboard.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">📊 Dashboard</a>
+    <a href="crop.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🌾 Crop Advisory</a>
+    <a href="advisory.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🧪 Pest & Fertilizer</a>
+    <a href="disease.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🔍 Disease Detection</a>
+    <a href="weather.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⛅ Weather & Season</a>
+    <a href="irrigation.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💧 Irrigation</a>
+    <a href="market.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">💰 Market Prices</a>
+    <a href="transport.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🚛 Transport Support</a>
+    <a href="community.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">👥 Farmers Community</a>
+    <a href="chatbot.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">🤖 AI Chatbot</a>
+    
+    <!-- Large Spacer -->
+    <div class="h-8"></div>
+    
+    <!-- Account Section -->
+    <div class="text-xs uppercase tracking-wider text-white/50 px-4 pb-2 font-semibold border-b border-white/10">
+        👤 Account
+    </div>
+    
+    <div class="mt-2">
+        <a href="settings.html" class="block px-4 py-3 rounded-lg hover:bg-white/15 transition">⚙️ Settings</a>
+        <a href="login.html" onclick="localStorage.removeItem('smartagro_user'); localStorage.removeItem('userCity'); localStorage.removeItem('userState');" 
+           class="block px-4 py-3 rounded-lg hover:bg-white/15 transition text-red-200 hover:text-white">
+           🚪 Logout
+        </a>
+    </div>
+</nav>
+
+            <!-- Footer -->
+            <div class="border-t border-white/10 p-4 text-sm text-white/70">
+                <p class="text-center">Empowering farmers with AI</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm px-6 py-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Welcome to SmartAgro Dashboard</h1>
+                    <p id="userWelcome" class="text-gray-600 text-sm mt-1"></p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <!-- SIGNUP/LOGIN BUTTONS (Hidden when logged in) -->
+                    <div id="authButtons" class="hidden flex gap-2">
+                        <a href="signup.html" class="px-3 py-1.5 text-sm bg-white/80 hover:bg-white border border-white/60 rounded-lg transition text-gray-800">Sign Up</a>
+                        <a href="login.html" class="px-3 py-1.5 text-sm bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 rounded-lg transition text-white">Login</a>
+                    </div>
+                    
+                    <!-- USER PROFILE (Shown when logged in) -->
+                    <div id="userProfile" class="hidden">
+                        <span id="userCityDisplay" class="text-sm text-gray-600">📍 Loading...</span>
+                        <div class="hidden sm:flex items-center gap-3">
+                            <div id="sidebarInitials" class="w-10 h-10 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-semibold"></div>
+                            <div class="text-sm">
+                                <p id="sidebarName" class="font-semibold"></p>
+                                <p id="sidebarRole" class="text-sm"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-7xl mx-auto space-y-6">
+                    <!-- Quick Stats - 4 cards in a row -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Weather Card -->
+                        <a href="weather.html" class="block bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-semibold">Weather & Season Advisory</p>
+                                    <p class="text-3xl font-bold text-sky-600 mt-2" id="dashboardTemp">28°C</p>
+                                    <div class="flex gap-4 mt-1 text-xs">
+                                        <span id="dashboardHumidity">65% Humid</span>
+                                        <span id="dashboardWind">12 km/h Wind</span>
+                                    </div>
+                                </div>
+                                <div class="text-3xl">⛅</div>
+                            </div>
+                            <p class="text-xs mt-4 font-medium text-sky-700" id="weatherTip">
+                                Suitable conditions for irrigation & sowing activities
+                            </p>
+                            <div class="mt-2 text-xs text-right text-gray-400 group-hover:text-gray-600">
+                                Click for details →
+                            </div>
+                        </a>
+
+                        <!-- AI Crop Intelligence Card -->
+                        <a href="crop.html" class="block bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-semibold">AI Crop Intelligence</p>
+                                    <p class="text-3xl font-bold text-emerald-700 mt-2" id="quickCropName">Soybean</p>
+                                    <p class="text-xs text-gray-600 mt-1" id="quickCropReason">
+                                        Optimized for current season & soil conditions
+                                    </p>
+                                </div>
+                                <div class="text-3xl" id="quickCropIcon">🌾</div>
+                            </div>
+                            <p class="text-xs mt-4 font-medium text-emerald-600" id="quickCropSeason">
+                                High market demand • Profitable this season
+                            </p>
+                            <div class="mt-2 text-xs text-right text-gray-400 group-hover:text-gray-600">
+                                Get detailed advisory →
+                            </div>
+                        </a>
+
+                        <!-- Market Card -->
+                        <a href="market.html" class="block bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-semibold">Market Price</p>
+                                    <p class="text-3xl font-bold text-green-600 mt-2" id="dashboardMarketPrice">--</p>
+                                    <p class="text-xs text-gray-600" id="dashboardMarketCrop">Loading...</p>
+                                </div>
+                                <div class="text-3xl">📈</div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-4" id="dashboardMarketTrend">Fetching data...</p>
+                            <div class="mt-2 text-xs text-right text-gray-400 group-hover:text-gray-600">
+                                View all markets →
+                            </div>
+                        </a>
+
+                        <!-- Community Card -->
+                        <a href="community.html" class="block bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-semibold">Farmers Community</p>
+                                    <div class="flex items-baseline gap-2">
+                                        <p class="text-3xl font-bold text-emerald-600 mt-2" id="dashboardCommunityCount">--</p>
+                                        <span class="text-xs text-green-600" id="communityTrend">↑ --% today</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-1" id="dashboardCommunityDesc">Active Discussions</p>
+                                </div>
+                                <div class="text-3xl relative">
+                                    👥
+                                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full pulse"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between text-xs">
+                                <span id="onlineNowBadge" class="bg-green-100 text-green-700 px-2 py-1 rounded-full">🔴 Loading online...</span>
+                                <span class="text-gray-400 group-hover:text-gray-600">View community →</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Two Column Layout for AI Crop Recommendation and Transport Support -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- AI Crop Recommendation Card -->
+                        <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-md rounded-2xl p-6 border border-green-200/50 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="text-4xl">🌾</div>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full" id="cropSeasonBadge">Loading...</span>
+                            </div>
+                            
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">AI Crop Recommendation</h3>
+                            <p class="text-sm text-gray-600 mb-4">Best crop for your location & season</p>
+                            
+                            <!-- Auto-loading recommendation -->
+                            <div id="cropRecommendation" class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white/40 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                                            <span class="text-xl" id="cropIcon">🌱</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-gray-800 text-lg" id="cropName">--</p>
+                                            <p class="text-xs text-gray-600" id="cropLocation">Based on your location</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-semibold text-green-700" id="cropProfit">--</p>
+                                        <p class="text-xs text-gray-500">Expected profit</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-xs text-gray-700 space-y-1">
+                                    <div class="flex justify-between">
+                                        <span>🌱 Best planting:</span>
+                                        <span id="cropPlantingTime">--</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>⏳ Harvest in:</span>
+                                        <span id="cropHarvestTime">-- days</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>💰 Market demand:</span>
+                                        <span id="cropMarketDemand" class="font-medium">--</span>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="loadCropRecommendation()" class="w-full mt-2 px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition flex items-center justify-center gap-2">
+                                    <span>🔄</span> Update Recommendation
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Transport Support Card -->
+                        <a href="transport.html" class="group bg-gradient-to-br from-blue-500/20 to-indigo-500/20 backdrop-blur-md rounded-2xl p-6 border border-blue-200/50 shadow-md hover:shadow-lg hover:-translate-y-1 transition duration-300 cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="text-4xl">🚛</div>
+                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                                    Logistics Support
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">
+                                Smart Transport Support
+                            </h3>
+                            
+                            <p class="text-sm text-gray-600 mb-4">
+                                Connect with logistics providers and request crop pickup to nearby mandis
+                            </p>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-700">📦 Supported Crops:</span>
+                                    <span class="font-semibold">Wheat, Rice, Soybean</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-700">⚡ Response Time:</span>
+                                    <span class="font-semibold text-blue-700">Within 24 hrs</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-white/30 rounded-lg">
+                                <p class="text-xs font-semibold text-gray-800 mb-1">💡 Benefit:</p>
+                                <p class="text-xs text-gray-700">
+                                    Reduce post-harvest losses and optimize market timing
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- AI Insights Section - REPLACES Recent Activity -->
+                    <div class="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/40 shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800">🤖 AI Insights For Your Farm</h2>
+                                <p class="text-xs text-gray-500 mt-1">Personalized recommendations based on your data</p>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full animate-pulse">
+                                Live
+                            </span>
+                        </div>
+                        
+                        <!-- Insights Container -->
+                        <div id="aiInsightsContainer" class="space-y-4">
+                            <!-- Insights will be loaded here dynamically -->
+                            <div class="text-center py-8">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
+                                <p class="mt-2 text-sm text-gray-500">Loading personalized insights...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Helper functions
+        function getWeatherCity() {
+            let city = localStorage.getItem('userCity');
+            if (!city) {
+                try {
+                    const user = JSON.parse(localStorage.getItem('smartagro_user'));
+                    city = user?.city || 'Indore';
+                } catch (e) {
+                    city = 'Indore';
+                }
+            }
+            return city;
+        }
+
+        function getMarketState() {
+            let state = localStorage.getItem('userState');
+            if (!state) {
+                try {
+                    const user = JSON.parse(localStorage.getItem('smartagro_user'));
+                    state = user?.state || 'Madhya Pradesh';
+                } catch (e) {
+                    state = 'Madhya Pradesh';
+                }
+            }
+            return state;
+        }
+
+        function getCurrentSeason() {
+            const month = new Date().getMonth() + 1;
+            if (month >= 3 && month <= 5) return 'Summer';
+            if (month >= 6 && month <= 9) return 'Monsoon';
+            if (month >= 10 && month <= 11) return 'Autumn';
+            return 'Winter';
+        }
+
+        // ========== LOAD REAL-TIME COMMUNITY DATA ==========
+        async function loadCommunityData() {
+            try {
+                // Show loading state
+                document.getElementById('dashboardCommunityCount').textContent = '...';
+                document.getElementById('communityTrend').textContent = 'Loading...';
+                
+                // Fetch community stats from your backend
+                const response = await fetch('http://127.0.0.1:5001/api/community/stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update main count
+                    const count = data.stats.total_questions || 1248;
+                    document.getElementById('dashboardCommunityCount').textContent = 
+                        count.toLocaleString();
+                    
+                    // Update trend
+                    const trend = data.stats.trend || '+12';
+                    document.getElementById('communityTrend').textContent = 
+                        `${trend}% today`;
+                    
+                    // Update description with active users
+                    const activeUsers = data.stats.active_users || 142;
+                    document.getElementById('dashboardCommunityDesc').textContent = 
+                        `${activeUsers} active now • ${data.stats.total_farmers || '1.2k'} farmers`;
+                    
+                    // Update online badge
+                    const onlineNow = data.stats.online_now || 142;
+                    document.getElementById('onlineNowBadge').innerHTML = 
+                        `🟢 ${onlineNow} online now`;
+                    
+                    // Color code trend
+                    const trendValue = parseInt(trend);
+                    const trendEl = document.getElementById('communityTrend');
+                    if (trendValue > 0) {
+                        trendEl.className = 'text-xs text-green-600';
+                    } else if (trendValue < 0) {
+                        trendEl.className = 'text-xs text-red-600';
+                    } else {
+                        trendEl.className = 'text-xs text-gray-600';
+                    }
+                } else {
+                    throw new Error('Failed to load community data');
+                }
+            } catch (error) {
+                console.error('Error loading community data:', error);
+                simulateCommunityData(); // Fallback
+            }
+        }
+
+        // ========== SIMULATE COMMUNITY DATA (Fallback) ==========
+        function simulateCommunityData() {
+            const totalQuestions = Math.floor(Math.random() * 500) + 1000;
+            const onlineNow = Math.floor(Math.random() * 100) + 50;
+            const trend = (Math.random() * 20 - 5).toFixed(1);
+            
+            document.getElementById('dashboardCommunityCount').textContent = 
+                totalQuestions.toLocaleString();
+            document.getElementById('communityTrend').textContent = 
+                `${trend > 0 ? '↑' : '↓'} ${Math.abs(trend)}% today`;
+            document.getElementById('dashboardCommunityDesc').textContent = 
+                `${onlineNow} active now • ${Math.floor(totalQuestions * 0.8)} farmers`;
+            document.getElementById('onlineNowBadge').innerHTML = 
+                `🟢 ${onlineNow} online now`;
+            
+            const trendEl = document.getElementById('communityTrend');
+            trendEl.className = `text-xs ${trend > 0 ? 'text-green-600' : 'text-red-600'}`;
+        }
+
+        // ========== LOAD AI INSIGHTS FROM BACKEND ==========
+async function loadAIInsights() {
+    try {
+        // Show loading state
+        document.getElementById('aiInsightsContainer').innerHTML = `
+            <div class="text-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
+                <p class="mt-2 text-sm text-gray-500">Loading personalized insights...</p>
+            </div>
+        `;
+        
+        const userCity = getWeatherCity();
+        const userState = getMarketState();
+        const season = getCurrentSeason();
+        
+        // Get user from localStorage
+        const userData = JSON.parse(localStorage.getItem('smartagro_user') || '{}');
+        const userId = userData.email || 'guest';
+        
+        // Call backend API
+        const response = await fetch(`http://127.0.0.1:5001/api/insights?city=${encodeURIComponent(userCity)}&state=${encodeURIComponent(userState)}&season=${season}&user_id=${encodeURIComponent(userId)}`);
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            displayInsights(data.insights);
+        } else {
+            throw new Error(data.error || 'Failed to load insights');
+        }
+        
+    } catch (error) {
+        console.error('Error loading insights:', error);
+        // Show error with retry button
+        document.getElementById('aiInsightsContainer').innerHTML = `
+            <div class="text-center py-8 bg-red-50 rounded-lg">
+                <p class="text-red-600">⚠️ Failed to load insights</p>
+                <p class="text-xs text-gray-500 mt-1">${error.message}</p>
+                <button onclick="loadAIInsights()" class="mt-3 px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition">
+                    🔄 Retry
+                </button>
+            </div>
+        `;
+    }
+}
+        // ========== GENERATE INSIGHTS (Simulated AI) ==========
+        function generateInsights(city, state, season) {
+            // This simulates AI-generated insights
+            // In production, this would come from your backend
+            
+            const insights = [];
+            
+            // Insight 1: Weather-based (always show)
+            insights.push({
+                id: 1,
+                type: 'weather',
+                icon: '💧',
+                title: 'Irrigation Advisory',
+                description: `Soil moisture levels are optimal in ${city}. No irrigation needed for the next 3 days based on forecast.`,
+                action: 'View Details',
+                actionLink: 'weather.html',
+                bgColor: 'from-blue-50 to-sky-50',
+                borderColor: 'border-blue-200',
+                textColor: 'text-blue-700',
+                priority: 'info'
+            });
+            
+            // Insight 2: Market-based
+            const marketInsights = {
+                'Madhya Pradesh': {
+                    crop: 'Soybean',
+                    trend: 'up',
+                    change: 12,
+                    advice: 'Consider waiting 5-7 days for better prices.'
+                },
+                'Maharashtra': {
+                    crop: 'Cotton',
+                    trend: 'up',
+                    change: 8,
+                    advice: 'Good time to sell as prices are rising.'
+                },
+                'Delhi': {
+                    crop: 'Wheat',
+                    trend: 'stable',
+                    change: 2,
+                    advice: 'Prices are stable. You can sell anytime.'
+                }
+            };
+            
+            const marketInfo = marketInsights[state] || {
+                crop: 'Maize',
+                trend: 'up',
+                change: 10,
+                advice: 'Market showing positive trend.'
+            };
+            
+            insights.push({
+                id: 2,
+                type: 'market',
+                icon: '💰',
+                title: `${marketInfo.crop} Market Opportunity`,
+                description: `${marketInfo.crop} prices in ${city} expected to rise ${marketInfo.change}% next week. ${marketInfo.advice}`,
+                action: 'View Price Trend',
+                actionLink: 'market.html',
+                bgColor: 'from-green-50 to-emerald-50',
+                borderColor: 'border-green-200',
+                textColor: 'text-green-700',
+                priority: marketInfo.trend === 'up' ? 'success' : 'info'
+            });
+            
+            // Insight 3: Pest/Disease warning (based on season)
+            const pestInsights = {
+                'Monsoon': {
+                    pest: 'Blight',
+                    crop: 'Tomato/Potato',
+                    warning: 'High humidity increases blight risk. Apply preventive fungicide.'
+                },
+                'Summer': {
+                    pest: 'Aphids',
+                    crop: 'Vegetables',
+                    warning: 'Aphids active in warm weather. Monitor regularly.'
+                },
+                'Winter': {
+                    pest: 'Powdery Mildew',
+                    crop: 'Wheat',
+                    warning: 'Cool nights favor mildew development.'
+                }
+            };
+            
+            const pestInfo = pestInsights[season] || {
+                pest: 'Fall Armyworm',
+                crop: 'Maize',
+                warning: 'Regular monitoring recommended.'
+            };
+            
+            insights.push({
+                id: 3,
+                type: 'pest',
+                icon: '🐛',
+                title: `⚠️ Pest Warning: ${pestInfo.pest}`,
+                description: `${pestInfo.pest} risk in ${pestInfo.crop} crops. ${pestInfo.warning}`,
+                action: 'View Control Measures',
+                actionLink: 'advisory.html',
+                bgColor: 'from-amber-50 to-orange-50',
+                borderColor: 'border-amber-200',
+                textColor: 'text-amber-700',
+                priority: 'warning'
+            });
+            
+            return insights;
+        }
+
+        // ========== DISPLAY INSIGHTS ==========
+        function displayInsights(insights) {
+            const container = document.getElementById('aiInsightsContainer');
+            
+            let html = '';
+            insights.forEach(insight => {
+                html += `
+                    <div class="bg-gradient-to-r ${insight.bgColor} rounded-xl p-4 border ${insight.borderColor} hover:shadow-md transition duration-300">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl">${insight.icon}</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-800">${insight.title}</h3>
+                                    <span class="text-xs ${insight.textColor} bg-white/60 px-2 py-1 rounded-full">
+                                        ${insight.priority === 'warning' ? 'Urgent' : insight.priority === 'success' ? 'Opportunity' : 'Info'}
+                                    </span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">${insight.description}</p>
+                                <div class="mt-2">
+                                    <a href="${insight.actionLink}" class="text-xs ${insight.textColor} hover:underline flex items-center gap-1">
+                                        ${insight.action} <span>→</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ========== FALLBACK INSIGHTS ==========
+        function getFallbackInsights() {
+            return [
+                {
+                    id: 1,
+                    type: 'weather',
+                    icon: '💧',
+                    title: 'Irrigation Advisory',
+                    description: 'Optimal soil moisture levels. No irrigation needed for next 3 days.',
+                    action: 'View Details',
+                    actionLink: 'weather.html',
+                    bgColor: 'from-blue-50 to-sky-50',
+                    borderColor: 'border-blue-200',
+                    textColor: 'text-blue-700',
+                    priority: 'info'
+                },
+                {
+                    id: 2,
+                    type: 'market',
+                    icon: '💰',
+                    title: 'Market Opportunity',
+                    description: 'Soybean prices showing upward trend. Consider waiting for better rates.',
+                    action: 'View Price Trend',
+                    actionLink: 'market.html',
+                    bgColor: 'from-green-50 to-emerald-50',
+                    borderColor: 'border-green-200',
+                    textColor: 'text-green-700',
+                    priority: 'success'
+                },
+                {
+                    id: 3,
+                    type: 'pest',
+                    icon: '🐛',
+                    title: '⚠️ Pest Advisory',
+                    description: 'Monitor for Fall Armyworm in maize crops this week.',
+                    action: 'View Control Measures',
+                    actionLink: 'advisory.html',
+                    bgColor: 'from-amber-50 to-orange-50',
+                    borderColor: 'border-amber-200',
+                    textColor: 'text-amber-700',
+                    priority: 'warning'
+                }
+            ];
+        }
+
+        // Toggle auth buttons based on login status
+        function toggleAuthButtons() {
+            const authButtons = document.getElementById('authButtons');
+            const userProfile = document.getElementById('userProfile');
+            const user = JSON.parse(localStorage.getItem('smartagro_user'));
+            
+            if (user) {
+                if (authButtons) authButtons.classList.add('hidden');
+                if (userProfile) {
+                    userProfile.classList.remove('hidden');
+                    const nameEl = document.getElementById('sidebarName');
+                    if (nameEl) nameEl.textContent = user.name || 'Farmer';
+                    
+                    // Set role
+                    const roleEl = document.getElementById('sidebarRole');
+                    if (roleEl) roleEl.textContent = user.role === 'farmer' ? '👨‍🌾 Farmer' : '👤 Guest';
+                }
+            } else {
+                if (authButtons) authButtons.classList.remove('hidden');
+                if (userProfile) userProfile.classList.add('hidden');
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardWeather() {
+            const city = getWeatherCity();
+            
+            // Simulated weather data based on city
+            const weatherData = {
+                'Indore': { temp: 28, humid: 65, wind: 12, condition: 'sunny' },
+                'Mumbai': { temp: 32, humid: 80, wind: 15, condition: 'humid' },
+                'Delhi': { temp: 35, humid: 45, wind: 10, condition: 'hot' },
+                'Bangalore': { temp: 24, humid: 70, wind: 8, condition: 'pleasant' },
+                'Chennai': { temp: 34, humid: 75, wind: 18, condition: 'windy' },
+                'Kolkata': { temp: 31, humid: 85, wind: 12, condition: 'humid' },
+                'Hyderabad': { temp: 30, humid: 55, wind: 14, condition: 'sunny' },
+                'Pune': { temp: 29, humid: 60, wind: 16, condition: 'sunny' }
+            };
+            
+            const data = weatherData[city] || { temp: 27, humid: 60, wind: 10, condition: 'moderate' };
+            
+            // Update UI
+            document.getElementById('dashboardTemp').textContent = data.temp + '°C';
+            document.getElementById('dashboardHumidity').textContent = data.humid + '% Humid';
+            document.getElementById('dashboardWind').textContent = data.wind + ' km/h Wind';
+            
+            // Generate tip
+            let tip = '';
+            if (data.condition === 'sunny') tip = '☀️ Good day for harvesting. Ensure adequate irrigation.';
+            else if (data.condition === 'humid') tip = '💧 High humidity. Watch for fungal diseases.';
+            else if (data.condition === 'hot') tip = '🔥 Hot weather. Increase irrigation frequency.';
+            else if (data.condition === 'windy') tip = '💨 Strong winds. Protect young plants.';
+            else tip = '🌤️ Moderate weather. Good for farming activities.';
+            
+            document.getElementById('weatherTip').textContent = tip;
+        }
+
+        function displayUserCity() {
+            const city = getWeatherCity();
+            const state = getMarketState();
+            const displayEl = document.getElementById('userCityDisplay');
+            if (displayEl) {
+                displayEl.textContent = `📍 ${city}, ${state}`;
+            }
+        }
+
+        function loadMarketData() {
+            const userState = getMarketState();
+            const userCity = getWeatherCity();
+            
+            // Simulated market data
+            const marketData = {
+                'Madhya Pradesh': { crop: 'Soybean', price: 4200, trend: 'up', change: 2.5 },
+                'Maharashtra': { crop: 'Cotton', price: 6500, trend: 'up', change: 1.8 },
+                'Delhi': { crop: 'Wheat', price: 2450, trend: 'stable', change: 0.2 },
+                'Karnataka': { crop: 'Ragi', price: 3200, trend: 'down', change: 1.2 },
+                'Tamil Nadu': { crop: 'Rice', price: 3800, trend: 'up', change: 3.1 },
+                'West Bengal': { crop: 'Jute', price: 5200, trend: 'stable', change: 0.5 },
+                'Telangana': { crop: 'Maize', price: 2100, trend: 'up', change: 1.5 },
+                'Gujarat': { crop: 'Groundnut', price: 5500, trend: 'up', change: 2.2 },
+                'Rajasthan': { crop: 'Bajra', price: 1950, trend: 'down', change: 0.8 },
+                'Uttar Pradesh': { crop: 'Sugarcane', price: 3500, trend: 'stable', change: 0.3 }
+            };
+            
+            const data = marketData[userState] || { crop: 'Maize', price: 2000, trend: 'stable', change: 0 };
+            
+            document.getElementById('dashboardMarketPrice').textContent = `₹${data.price}/qtl`;
+            document.getElementById('dashboardMarketCrop').textContent = `${data.crop} @ ${userCity}`;
+            
+            const trendIcon = data.trend === 'up' ? '↗' : data.trend === 'down' ? '↘' : '→';
+            const trendColor = data.trend === 'up' ? 'text-green-600' : data.trend === 'down' ? 'text-red-600' : 'text-gray-600';
+            
+            document.getElementById('dashboardMarketTrend').textContent = `${trendIcon} ${data.change}% • ${userState}`;
+            document.getElementById('dashboardMarketTrend').className = `text-xs ${trendColor} mt-4`;
+        }
+
+        function loadCropRecommendation() {
+            const userCity = getWeatherCity();
+            const userState = getMarketState();
+            const season = getCurrentSeason();
+            
+            document.getElementById('cropSeasonBadge').textContent = season;
+            
+            // Crop database
+            const cropData = {
+                'Madhya Pradesh': {
+                    Summer: { crop: 'Maize', icon: '🌽', profit: '₹35,000/acre', planting: 'Mar-Apr', harvest: 90, demand: 'High' },
+                    Monsoon: { crop: 'Soybean', icon: '🫘', profit: '₹42,000/acre', planting: 'Jun-Jul', harvest: 100, demand: 'Very High' },
+                    Autumn: { crop: 'Wheat', icon: '🌾', profit: '₹38,000/acre', planting: 'Nov-Dec', harvest: 120, demand: 'High' },
+                    Winter: { crop: 'Chickpea', icon: '🥜', profit: '₹45,000/acre', planting: 'Oct-Nov', harvest: 110, demand: 'Medium' }
+                },
+                'Maharashtra': {
+                    Summer: { crop: 'Cotton', icon: '🧵', profit: '₹50,000/acre', planting: 'Apr-May', harvest: 180, demand: 'High' },
+                    Monsoon: { crop: 'Rice', icon: '🍚', profit: '₹40,000/acre', planting: 'Jun-Jul', harvest: 120, demand: 'Very High' },
+                    Autumn: { crop: 'Sugarcane', icon: '🎋', profit: '₹60,000/acre', planting: 'Sep-Oct', harvest: 365, demand: 'Medium' },
+                    Winter: { crop: 'Wheat', icon: '🌾', profit: '₹35,000/acre', planting: 'Nov-Dec', harvest: 120, demand: 'High' }
+                },
+                'Delhi': {
+                    Summer: { crop: 'Vegetables', icon: '🥬', profit: '₹55,000/acre', planting: 'Mar-Apr', harvest: 60, demand: 'Very High' },
+                    Monsoon: { crop: 'Maize', icon: '🌽', profit: '₹30,000/acre', planting: 'Jul-Aug', harvest: 90, demand: 'High' },
+                    Autumn: { crop: 'Mustard', icon: '🟡', profit: '₹40,000/acre', planting: 'Oct-Nov', harvest: 110, demand: 'Medium' },
+                    Winter: { crop: 'Wheat', icon: '🌾', profit: '₹38,000/acre', planting: 'Nov-Dec', harvest: 120, demand: 'High' }
+                }
+            };
+            
+            const defaultCrops = {
+                Summer: { crop: 'Maize', icon: '🌽', profit: '₹32,000/acre', planting: 'Mar-May', harvest: 90, demand: 'Medium' },
+                Monsoon: { crop: 'Rice', icon: '🍚', profit: '₹38,000/acre', planting: 'Jun-Aug', harvest: 120, demand: 'High' },
+                Autumn: { crop: 'Wheat', icon: '🌾', profit: '₹35,000/acre', planting: 'Oct-Nov', harvest: 120, demand: 'High' },
+                Winter: { crop: 'Vegetables', icon: '🥬', profit: '₹48,000/acre', planting: 'Dec-Jan', harvest: 75, demand: 'Very High' }
+            };
+            
+            const stateCrops = cropData[userState] || defaultCrops;
+            const cropInfo = stateCrops[season] || defaultCrops[season] || defaultCrops.Summer;
+            
+            updateCropDisplay(cropInfo, userCity, season);
+            updateQuickCropCard(cropInfo, season);
+        }
+
+        function updateCropDisplay(cropInfo, city, season) {
+            document.getElementById('cropIcon').textContent = cropInfo.icon || '🌱';
+            document.getElementById('cropName').textContent = cropInfo.crop;
+            document.getElementById('cropLocation').textContent = `For ${city}, ${season} season`;
+            document.getElementById('cropProfit').textContent = cropInfo.profit;
+            document.getElementById('cropPlantingTime').textContent = cropInfo.planting;
+            document.getElementById('cropHarvestTime').textContent = `${cropInfo.harvest} days`;
+            document.getElementById('cropMarketDemand').textContent = cropInfo.demand;
+            
+            const demandColors = {
+                'Very High': 'text-green-700',
+                'High': 'text-green-600',
+                'Medium': 'text-amber-600',
+                'Low': 'text-gray-600'
+            };
+            document.getElementById('cropMarketDemand').className = `font-medium ${demandColors[cropInfo.demand] || 'text-gray-600'}`;
+        }
+
+        function updateQuickCropCard(cropInfo, season) {
+            document.getElementById('quickCropName').textContent = cropInfo.crop;
+            document.getElementById('quickCropIcon').textContent = cropInfo.icon || '🌱';
+            document.getElementById('quickCropReason').textContent = `Best for ${season}`;
+            document.getElementById('quickCropSeason').textContent = `${cropInfo.demand} market demand`;
+            
+            const seasonEl = document.getElementById('quickCropSeason');
+            const demandColors = {
+                'Very High': 'text-green-600',
+                'High': 'text-green-500',
+                'Medium': 'text-amber-500',
+                'Low': 'text-gray-500'
+            };
+            seasonEl.className = `text-xs mt-4 ${demandColors[cropInfo.demand] || 'text-gray-500'}`;
+        }
+
+        // DOM Content Loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                const raw = localStorage.getItem('smartagro_user');
+                if (!raw) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const user = JSON.parse(raw);
+
+                // Set welcome text
+                const welcomeText = document.getElementById('userWelcome');
+                if (welcomeText) {
+                    const firstName = (user.name || 'Farmer').split(' ')[0];
+                    welcomeText.textContent = `Hi ${firstName}, welcome back!`;
+                }
+
+                // Set initials
+                const initialsEl = document.getElementById('sidebarInitials');
+                if (initialsEl && user.name) {
+                    const parts = user.name.trim().split(/\s+/);
+                    let initials = parts[0]?.[0] || '';
+                    if (parts.length > 1) {
+                        initials += parts[parts.length - 1]?.[0] || '';
+                    }
+                    initialsEl.textContent = initials.toUpperCase();
+                }
+                
+                toggleAuthButtons();
+                loadDashboardWeather();
+                displayUserCity();
+                loadMarketData();
+                loadCropRecommendation();
+                loadCommunityData();
+                loadAIInsights(); // Load AI insights
+                
+            } catch (e) {
+                console.error('Dashboard auth error', e);
+                localStorage.removeItem('smartagro_user');
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Auto-refresh community data every 30 seconds
+        setInterval(() => {
+            loadCommunityData();
+        }, 30000);
+
+        // Auto-refresh insights every 5 minutes (300000 ms)
+        setInterval(() => {
+            loadAIInsights();
+        }, 300000);
+       
+        // ========== SIDEBAR ACTIVE STATE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get current page filename (e.g., 'dashboard.html', 'crop.html')
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        
+        console.log('📍 Current page:', currentPage); // For debugging
+        
+        // Find all sidebar links
+        const sidebarLinks = document.querySelectorAll('#sidebar a');
+        
+        // Loop through links and highlight current page
+        sidebarLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            
+            // Remove any existing active classes (clean slate)
+            link.classList.remove('bg-white/15', 'font-semibold');
+            
+            // Check if this link matches current page
+            if (linkHref === currentPage) {
+                link.classList.add('bg-white/15', 'font-semibold');
+                console.log('✅ Highlighted:', linkHref); // For debugging
+            }
+            
+            // Special case for empty URL (root) - go to dashboard
+            if ((currentPage === '' || currentPage === '/') && linkHref === 'dashboard.html') {
+                link.classList.add('bg-white/15', 'font-semibold');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
