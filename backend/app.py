@@ -54,16 +54,12 @@ model.fit(X, y)
 print("✅ Model trained. Number of classes:", len(model.classes_))
 
 # ========== DISEASE DETECTION MODEL (TensorFlow) ==========
-print("\n" + "="*60)
-print("LOADING DISEASE DETECTION MODEL")
-print("="*60)
-
-# ========== DISEASE DETECTION MODEL (TensorFlow) ==========
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+import keras
 
 print("\n" + "="*60)
 print("LOADING DISEASE DETECTION MODEL")
@@ -71,16 +67,7 @@ print("="*60)
 
 try:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-    print("Files inside backend:", os.listdir(BASE_DIR))
-
     MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
-    print("Model path:", MODEL_PATH)
-    print("Model exists:", os.path.exists(MODEL_PATH))
-
-    # Custom Dense class that ignores quantization_config
-    from keras.layers import Dense
-    import keras
 
     class CustomDense(keras.layers.Dense):
         def __init__(self, *args, **kwargs):
@@ -98,7 +85,6 @@ try:
 except Exception as e:
     disease_model = None
     print("❌ Error loading disease model:", str(e))
-        
         
 # ========== DISEASE PREPROCESSING FUNCTION ==========
 def preprocess_disease_image(img):
@@ -3114,6 +3100,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
