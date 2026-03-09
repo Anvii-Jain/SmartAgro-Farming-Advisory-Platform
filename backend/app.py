@@ -67,7 +67,11 @@ from tensorflow.keras.models import load_model
 
 try:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
+print("Files inside backend:", os.listdir(BASE_DIR))
+
+MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
+print("Model path:", MODEL_PATH)
+print("Exists:", os.path.exists(MODEL_PATH))
 
     print(f"Looking for model at: {MODEL_PATH}")
 
@@ -3097,6 +3101,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
