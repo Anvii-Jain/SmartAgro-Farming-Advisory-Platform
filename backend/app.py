@@ -1921,38 +1921,6 @@ def determine_season(slug, category):
     
     # Default
     return "Varies"
-# ========== SCHEMES ROUTE ==========
-SCHEMES_FILE = Path(__file__).parent / "schemes_full.json"
-
-@app.route("/api/schemes", methods=["GET"])
-def api_schemes():
-    if SCHEMES_FILE.exists():
-        try:
-            with open(SCHEMES_FILE, "r", encoding="utf-8") as fh:
-                schemes = json.load(fh)
-        except Exception as e:
-            logging.exception("Failed to load schemes_full.json: %s", e)
-            schemes = []
-    else:
-        schemes = []  # fallback empty list
-
-    q = (request.args.get("q") or "").strip().lower()
-    state = (request.args.get("state") or "").strip().lower()
-
-    filtered = []
-    for s in schemes:
-        if state and state != "all":
-            if "states" in s:
-                if not any(state in st.lower() for st in s.get("states", [])):
-                    continue
-        if q:
-            hay = (s.get("title","") + " " + s.get("short","") + " " + s.get("category","")).lower()
-            if q not in hay:
-                continue
-        filtered.append(s)
-
-    return jsonify({"success": True, "items": filtered}), 200
-
 
 
 # ========== AI CHATBOT ==========
@@ -2131,7 +2099,7 @@ def detect_disease_tf():
         print(f"📸 Image shape: {processed_img.shape}")
         
         # Make prediction
-        prediction = disease_model.predict(processed_img, verbose=0)
+        prediction = np.array(disease_model(processed_img))
         
         # Get predicted class
         predicted_index = int(np.argmax(prediction[0]))
@@ -3102,6 +3070,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
