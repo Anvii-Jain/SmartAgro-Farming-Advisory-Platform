@@ -97,7 +97,7 @@ def preprocess_disease_image(img):
         img.thumbnail((512, 512))
         
         # Resize to model input size (128x128)
-        img = img.resize((224,224))
+        img = img.resize((128, 128))
         
         # Convert to numpy array
         img = np.array(img, dtype=np.float32)
@@ -109,16 +109,18 @@ def preprocess_disease_image(img):
         img = np.expand_dims(img, axis=0)
         
         return img
+
     except Exception as e:
         print(f"Error preprocessing image: {e}")
         return None
+
+
 # Path to crops.json (same folder as this file)
 CROPS_PATH = Path(__file__).parent / "crops.json"
 
 # Load crop data once at startup
 with CROPS_PATH.open("r", encoding="utf-8") as f:
     crops_data = json.load(f)
-
 # ========== LOAD .env FIRST ==========
 from dotenv import load_dotenv
 
@@ -3100,6 +3102,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
