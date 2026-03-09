@@ -2131,7 +2131,7 @@ def detect_disease_tf():
         print(f"📸 Image shape: {processed_img.shape}")
         
         # Make prediction
-        prediction = disease_model.predict(processed_img)
+        prediction = disease_model.predict(processed_img, training=False).numpy()
         
         # Get predicted class
         predicted_index = int(np.argmax(prediction[0]))
@@ -3102,6 +3102,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
