@@ -59,21 +59,26 @@ print("LOADING DISEASE DETECTION MODEL")
 print("="*60)
 
 # ========== DISEASE DETECTION MODEL (TensorFlow) ==========
+
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"   # Force CPU (prevents GPU/memory issues on Render)
+
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+
 print("\n" + "="*60)
 print("LOADING DISEASE DETECTION MODEL")
 print("="*60)
 
-from tensorflow.keras.models import load_model
-
 try:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print("Files inside backend:", os.listdir(BASE_DIR))
 
-MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
-print("Model path:", MODEL_PATH)
-print("Exists:", os.path.exists(MODEL_PATH))
+    # Debug info
+    print("Files inside backend:", os.listdir(BASE_DIR))
 
-    print(f"Looking for model at: {MODEL_PATH}")
+    MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
+    print("Model path:", MODEL_PATH)
+    print("Model exists:", os.path.exists(MODEL_PATH))
 
     if os.path.exists(MODEL_PATH):
         disease_model = load_model(MODEL_PATH)
@@ -3101,6 +3106,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
