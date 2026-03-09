@@ -59,9 +59,8 @@ print("LOADING DISEASE DETECTION MODEL")
 print("="*60)
 
 # ========== DISEASE DETECTION MODEL (TensorFlow) ==========
-
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"   # Force CPU (prevents GPU/memory issues on Render)
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 import tensorflow as tf
 from tensorflow.keras.models import load_model
@@ -73,19 +72,28 @@ print("="*60)
 try:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    # Debug info
     print("Files inside backend:", os.listdir(BASE_DIR))
 
     MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
     print("Model path:", MODEL_PATH)
     print("Model exists:", os.path.exists(MODEL_PATH))
 
-    if os.path.exists(MODEL_PATH):
-        disease_model = load_model(MODEL_PATH)
-        print("✅ Disease model loaded successfully")
-    else:
-        disease_model = None
-        print("❌ Model file not found")
+    # Custom Dense class that ignores quantization_config
+    from keras.layers import Dense
+    import keras
+
+    class CustomDense(keras.layers.Dense):
+        def __init__(self, *args, **kwargs):
+            kwargs.pop("quantization_config", None)
+            super().__init__(*args, **kwargs)
+
+    disease_model = tf.keras.models.load_model(
+        MODEL_PATH,
+        custom_objects={"Dense": CustomDense},
+        compile=False
+    )
+
+    print("✅ Disease model loaded successfully")
 
 except Exception as e:
     disease_model = None
@@ -3106,6 +3114,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
