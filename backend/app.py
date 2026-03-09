@@ -97,7 +97,7 @@ def preprocess_disease_image(img):
         img.thumbnail((512, 512))
         
         # Resize to model input size (128x128)
-        img = img.resize((128, 128))
+        img = img.resize((224,224))
         
         # Convert to numpy array
         img = np.array(img, dtype=np.float32)
@@ -3100,6 +3100,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
