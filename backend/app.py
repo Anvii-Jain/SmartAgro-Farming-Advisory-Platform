@@ -2099,7 +2099,18 @@ def detect_disease_tf():
         print(f"📸 Image shape: {processed_img.shape}")
         
         # Make prediction
-        prediction = np.array(disease_model(processed_img))
+        HF_API = "https://anshika02-smartagro-disease-model.hf.space/run/predict"
+
+        file = request.files["image"]
+
+        response = requests.post(
+           HF_API,
+          files={"file": (file.filename, file.stream, file.mimetype)}
+        )
+
+        result = response.json()
+
+        prediction = np.array(result["data"])
         
         # Get predicted class
         predicted_index = int(np.argmax(prediction[0]))
@@ -3070,6 +3081,7 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 
