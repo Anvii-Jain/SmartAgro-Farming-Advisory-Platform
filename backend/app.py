@@ -2098,19 +2098,9 @@ def detect_disease_tf():
         
         print(f"📸 Image shape: {processed_img.shape}")
         
-        # Make prediction
-        HF_API = "https://anshika02-smartagro-disease-model.hf.space/run/predict"
+        
 
-        file = request.files["image"]
-
-        response = requests.post(
-           HF_API,
-          files={"file": (file.filename, file.stream, file.mimetype)}
-        )
-
-        result = response.json()
-
-        prediction = np.array(result["data"])
+        prediction = np.array(disease_model(processed_img])
         
         # Get predicted class
         predicted_index = int(np.argmax(prediction[0]))
