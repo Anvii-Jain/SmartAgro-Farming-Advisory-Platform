@@ -54,65 +54,10 @@ model.fit(X, y)
 print("✅ Model trained. Number of classes:", len(model.classes_))
 
 # ========== DISEASE DETECTION MODEL (TensorFlow) ==========
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-import tensorflow as tf
-from tensorflow.keras.models import load_model
-import keras
-
-print("\n" + "="*60)
-print("LOADING DISEASE DETECTION MODEL")
-print("="*60)
-
-try:
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.h5")
-
-    class CustomDense(keras.layers.Dense):
-        def __init__(self, *args, **kwargs):
-            kwargs.pop("quantization_config", None)
-            super().__init__(*args, **kwargs)
-
-    disease_model = tf.keras.models.load_model(
-        MODEL_PATH,
-        custom_objects={"Dense": CustomDense},
-        compile=False
-    )
-
-    print("✅ Disease model loaded successfully")
-
-except Exception as e:
-    disease_model = None
-    print("❌ Error loading disease model:", str(e))
         
 # ========== DISEASE PREPROCESSING FUNCTION ==========
-def preprocess_disease_image(img):
-    """Preprocess image for disease detection model"""
-    try:
-        # Convert to RGB if needed
-        img = img.convert("RGB")
-        
-        # Handle large images
-        img.thumbnail((512, 512))
-        
-        # Resize to model input size (128x128)
-        img = img.resize((128, 128))
-        
-        # Convert to numpy array
-        img = np.array(img, dtype=np.float32)
-        
-        # Normalize to [0,1]
-        img = img / 255.0
-        
-        # Add batch dimension
-        img = np.expand_dims(img, axis=0)
-        
-        return img
 
-    except Exception as e:
-        print(f"Error preprocessing image: {e}")
-        return None
 
 
 # Path to crops.json (same folder as this file)
@@ -2051,105 +1996,32 @@ def chat_with_bot():
 
 
 # ========== DISEASE DETECTION API (TensorFlow) ==========
-@app.route('/api/detect_disease', methods=['POST'])
-def detect_disease_tf():
-    """Detect plant disease from uploaded image using TensorFlow model"""
-    
-    # Check if model is loaded
-    if disease_model is None:
-        return jsonify({
-            "success": False,
-            "error": "Disease detection model not loaded. Please check server logs."
-        }), 500
-    
-    try:
-        # Check if file was uploaded
-        if 'file' not in request.files:
-            return jsonify({
-                "success": False,
-                "error": "No file uploaded. Please provide an image file."
-            }), 400
-        
-        file = request.files['file']
-        
-        # Check if file is empty
-        if file.filename == '':
-            return jsonify({
-                "success": False,
-                "error": "Empty file uploaded. Please select a valid image."
-            }), 400
-        
-        # Open and process image
-        try:
-            image = Image.open(file).convert("RGB")
-        except Exception as e:
-            return jsonify({
-                "success": False,
-                "error": "Invalid image file. Please upload a valid image (JPEG, PNG, etc.)."
-            }), 400
-        
-        # Preprocess image
-        processed_img = preprocess_disease_image(image)
-        if processed_img is None:
-            return jsonify({
-                "success": False,
-                "error": "Image preprocessing failed. Please try another image."
-            }), 500
-        
-        print(f"📸 Image shape: {processed_img.shape}")
-        
-        
+HF_API_URL = "https://anshika02-smartagro-disease-model.hf.space/run/predict"
 
-        prediction = np.array(disease_model(processed_img))
-        
-        # Get predicted class
-        predicted_index = int(np.argmax(prediction[0]))
-        confidence = float(np.max(prediction[0])) * 100
-        
-        # Get disease name
-        if CLASS_NAMES and predicted_index < len(CLASS_NAMES):
-            disease_name = CLASS_NAMES[predicted_index]
-        else:
-            disease_name = f"Class_{predicted_index}"
-        
-        # If confidence is low, mark as uncertain
-        if confidence < 60:
-            disease_name = "Unknown / Low confidence"
-            confidence = round(confidence, 2)
-        
-        print(f"✅ Prediction: {disease_name} ({confidence:.2f}%)")
-        
-        # Get top 3 predictions for more info
-        top_3_indices = np.argsort(prediction[0])[-3:][::-1]
-        top_3_predictions = []
-        
-        for idx in top_3_indices:
-            if CLASS_NAMES and idx < len(CLASS_NAMES):
-                class_name = CLASS_NAMES[idx]
-            else:
-                class_name = f"Class_{idx}"
-            
-            top_3_predictions.append({
-                "disease": class_name,
-                "confidence": round(float(prediction[0][idx]) * 100, 2)
-            })
-        
+@app.route('/api/detect_disease', methods=['POST'])
+def detect_disease():
+    try:
+        if 'file' not in request.files:
+            return jsonify({"success": False, "error": "No file uploaded"}), 400
+
+        file = request.files['file']
+
+        response = requests.post(
+            HF_API_URL,
+            files={"data": file}
+        )
+
+        result = response.json()
+
         return jsonify({
             "success": True,
-            "disease": disease_name,
-            "confidence": round(confidence, 2),
-            "top_predictions": top_3_predictions,
-            "message": "Disease detection completed successfully"
-        }), 200
-        
+            "prediction": result
+        })
+
     except Exception as e:
-        print(f"❌ Error in disease detection: {e}")
-        import traceback
-        traceback.print_exc()
-        
         return jsonify({
             "success": False,
-            "error": f"Detection failed: {str(e)}"
+            "error": str(e)
         }), 500
 # ========== IRRIGATION PLAN API ==========
 @app.route("/api/irrigation/plan", methods=["GET", "POST"])
