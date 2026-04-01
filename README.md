@@ -40,31 +40,9 @@ CNN for disease detection
 -Database-
 SQLite
 
-# Future Enhancements:
 
--Regional language support
 
--Collaboration with agricultural shops for product promotion
-
--Partnerships with agricultural companies
-
--Mobile application development
-
-# live platform link - 
-
-https://smartagro-farming-advisoryplatform.onrender.com
 
 # Demo link - 
 
 https://drive.google.com/file/d/1iCDr5jdwpPl9ItBzcOOprOHBriJSF6MU/view?usp=sharing
-
-# Pitch video -  
-
-https://drive.google.com/file/d/1BHwVckTiJeBPKjDJ3zd4USx_yHj5fci_/view?usp=sharing
-
-ppt link - https://drive.google.com/file/d/1IDcjblj-hwnOY1CwALy06GrxhAwPUyeq/view?usp=drivesdk
-
-Team HackSphere-
-
-Anvi Jain --
-Anshika Gupta
