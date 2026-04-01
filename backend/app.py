@@ -54,20 +54,180 @@ model.fit(X, y)
 print("✅ Model trained. Number of classes:", len(model.classes_))
 
 # ========== DISEASE DETECTION MODEL (TensorFlow) ==========
+print("\n" + "="*60)
+print("LOADING DISEASE DETECTION MODEL")
+print("="*60)
 
+try:
+    DISEASE_MODEL_PATH = Path(__file__).parent / "model" / "plant_disease_model.h5"
+    print(f"Looking for model at: {DISEASE_MODEL_PATH}")
+    print(f"File exists: {DISEASE_MODEL_PATH.exists()}")
+    
+    if DISEASE_MODEL_PATH.exists():
+        print("📁 Model file found! Attempting to load...")
         
+        # METHOD 1: Load with custom_objects to ignore quantization_config
+        try:
+            from keras.layers import Dense
+            import keras
+            
+            # Define a custom Dense class that ignores quantization_config
+            class CustomDense(keras.layers.Dense):
+                def __init__(self, *args, **kwargs):
+                    # Remove quantization_config if it exists
+                    kwargs.pop('quantization_config', None)
+                    super().__init__(*args, **kwargs)
+            
+            # Load model with custom objects
+            disease_model = tf.keras.models.load_model(
+                str(DISEASE_MODEL_PATH),
+                custom_objects={
+                    'Dense': CustomDense,
+                    'quantization_config': None
+                },
+                compile=False
+            )
+            print("✅ Model loaded with custom Dense class")
+            
+        except Exception as e1:
+            print(f"⚠️ Method 1 failed: {e1}")
+            
+            # METHOD 2: Load with compile=False only
+            try:
+                disease_model = tf.keras.models.load_model(
+                    str(DISEASE_MODEL_PATH),
+                    compile=False
+                )
+                print("✅ Model loaded with compile=False")
+                
+            except Exception as e2:
+                print(f"⚠️ Method 2 failed: {e2}")
+                
+                # METHOD 3: Load with weights only (create new model)
+                try:
+                    from tensorflow.keras.applications import MobileNetV2
+                    from tensorflow.keras import layers, models
+                    
+                    # Recreate the model architecture
+                    base_model = MobileNetV2(
+                        input_shape=(128, 128, 3),
+                        include_top=False,
+                        weights='imagenet'
+                    )
+                    base_model.trainable = False
+                    
+                    x = base_model.output
+                    x = layers.GlobalAveragePooling2D()(x)
+                    x = layers.Dense(128, activation='relu')(x)
+                    
+                    # We need to know number of classes - load from file or use default
+                    CLASS_NAMES_PATH = Path(__file__).parent / "model" / "class_names.json"
+                    if CLASS_NAMES_PATH.exists():
+                        with open(CLASS_NAMES_PATH, 'r') as f:
+                            CLASS_NAMES = json.load(f)
+                            num_classes = len(CLASS_NAMES)
+                    else:
+                        num_classes = 38  # Default for plant disease dataset
+                    
+                    output = layers.Dense(num_classes, activation='softmax')(x)
+                    
+                    # Create new model
+                    temp_model = models.Model(inputs=base_model.input, outputs=output)
+                    
+                    # Load weights
+                    temp_model.load_weights(str(DISEASE_MODEL_PATH))
+                    disease_model = temp_model
+                    print("✅ Model loaded by rebuilding architecture and loading weights")
+                    
+                except Exception as e3:
+                    print(f"❌ All loading methods failed: {e3}")
+                    disease_model = None
+        
+        if disease_model is not None:
+            print(f"✅ Disease detection model loaded successfully!")
+            print(f"Model input shape: {disease_model.input_shape}")
+            print(f"Model output shape: {disease_model.output_shape}")
+        else:
+            print("❌ Failed to load model - disease_model is None")
+            disease_model = None
+        
+        # Load class names
+        CLASS_NAMES_PATH = Path(__file__).parent / "model" / "class_names.json"
+        print(f"Looking for class names at: {CLASS_NAMES_PATH}")
+        print(f"File exists: {CLASS_NAMES_PATH.exists()}")
+        
+        if CLASS_NAMES_PATH.exists():
+            with open(CLASS_NAMES_PATH, 'r') as f:
+                CLASS_NAMES = json.load(f)
+            print(f"✅ Loaded {len(CLASS_NAMES)} disease classes")
+            print(f"First 5 classes: {CLASS_NAMES[:5]}")
+        else:
+            print(f"⚠️ Class names file not found! Using fallback classes.")
+            # Fallback classes - common plant diseases
+            CLASS_NAMES = [
+                "Apple___Apple_scab", "Apple___Black_rot", "Apple___Cedar_apple_rust", "Apple___healthy",
+                "Blueberry___healthy", "Cherry___Powdery_mildew", "Cherry___healthy",
+                "Corn___Cercospora_leaf_spot", "Corn___Common_rust", "Corn___Northern_Leaf_Blight", "Corn___healthy",
+                "Grape___Black_rot", "Grape___Esca", "Grape___Leaf_blight", "Grape___healthy",
+                "Orange___Haunglongbing", "Peach___Bacterial_spot", "Peach___healthy",
+                "Pepper___Bacterial_spot", "Pepper___healthy", "Potato___Early_blight", "Potato___Late_blight", "Potato___healthy",
+                "Raspberry___healthy", "Soybean___healthy", "Squash___Powdery_mildew",
+                "Strawberry___Leaf_scorch", "Strawberry___healthy", "Tomato___Bacterial_spot", "Tomato___Early_blight",
+                "Tomato___Late_blight", "Tomato___Leaf_Mold", "Tomato___Septoria_leaf_spot",
+                "Tomato___Spider_mites", "Tomato___Target_Spot", "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+                "Tomato___Tomato_mosaic_virus", "Tomato___healthy"
+            ]
+            print(f"✅ Using {len(CLASS_NAMES)} fallback classes")
+            
+    else:
+        print(f"❌ Model file not found at: {DISEASE_MODEL_PATH}")
+        disease_model = None
+        CLASS_NAMES = []
+        
+except Exception as e:
+    print(f"❌ Unexpected error loading disease model: {e}")
+    import traceback
+    traceback.print_exc()
+    disease_model = None
+    CLASS_NAMES = []
+
+print("="*60 + "\n")
 # ========== DISEASE PREPROCESSING FUNCTION ==========
-
-
-
+def preprocess_disease_image(img):
+    """Preprocess image for disease detection model"""
+    try:
+        # Convert to RGB if needed
+        img = img.convert("RGB")
+        
+        # Handle large images
+        img.thumbnail((512, 512))
+        
+        # Resize to model input size (128x128)
+        img = img.resize((128, 128))
+        
+        # Convert to numpy array
+        img = np.array(img, dtype=np.float32)
+        
+        # Normalize to [0,1]
+        img = img / 255.0
+        
+        # Add batch dimension
+        img = np.expand_dims(img, axis=0)
+        
+        return img
+    except Exception as e:
+        print(f"Error preprocessing image: {e}")
+        return None
 # Path to crops.json (same folder as this file)
 CROPS_PATH = Path(__file__).parent / "crops.json"
 
 # Load crop data once at startup
 with CROPS_PATH.open("r", encoding="utf-8") as f:
     crops_data = json.load(f)
+
 # ========== LOAD .env FIRST ==========
 from dotenv import load_dotenv
+import os
 
 # Get absolute path to .env
 BASE_DIR = Path(__file__).resolve().parent
@@ -1866,6 +2026,38 @@ def determine_season(slug, category):
     
     # Default
     return "Varies"
+# ========== SCHEMES ROUTE ==========
+SCHEMES_FILE = Path(__file__).parent / "schemes_full.json"
+
+@app.route("/api/schemes", methods=["GET"])
+def api_schemes():
+    if SCHEMES_FILE.exists():
+        try:
+            with open(SCHEMES_FILE, "r", encoding="utf-8") as fh:
+                schemes = json.load(fh)
+        except Exception as e:
+            logging.exception("Failed to load schemes_full.json: %s", e)
+            schemes = []
+    else:
+        schemes = []  # fallback empty list
+
+    q = (request.args.get("q") or "").strip().lower()
+    state = (request.args.get("state") or "").strip().lower()
+
+    filtered = []
+    for s in schemes:
+        if state and state != "all":
+            if "states" in s:
+                if not any(state in st.lower() for st in s.get("states", [])):
+                    continue
+        if q:
+            hay = (s.get("title","") + " " + s.get("short","") + " " + s.get("category","")).lower()
+            if q not in hay:
+                continue
+        filtered.append(s)
+
+    return jsonify({"success": True, "items": filtered}), 200
+
 
 
 # ========== AI CHATBOT ==========
@@ -1996,32 +2188,104 @@ def chat_with_bot():
 
 
 # ========== DISEASE DETECTION API (TensorFlow) ==========
-HF_API_URL = "https://anshika02-smartagro-disease-model.hf.space/run/predict"
-
 @app.route('/api/detect_disease', methods=['POST'])
-def detect_disease():
-    try:
-        if 'file' not in request.files:
-            return jsonify({"success": False, "error": "No file uploaded"}), 400
-
-        file = request.files['file']
-
-        response = requests.post(
-            HF_API_URL,
-            files={"data": file}
-        )
-
-        result = response.json()
-
-        return jsonify({
-            "success": True,
-            "prediction": result
-        })
-
-    except Exception as e:
+def detect_disease_tf():
+    """Detect plant disease from uploaded image using TensorFlow model"""
+    
+    # Check if model is loaded
+    if disease_model is None:
         return jsonify({
             "success": False,
-            "error": str(e)
+            "error": "Disease detection model not loaded. Please check server logs."
+        }), 500
+    
+    try:
+        # Check if file was uploaded
+        if 'file' not in request.files:
+            return jsonify({
+                "success": False,
+                "error": "No file uploaded. Please provide an image file."
+            }), 400
+        
+        file = request.files['file']
+        
+        # Check if file is empty
+        if file.filename == '':
+            return jsonify({
+                "success": False,
+                "error": "Empty file uploaded. Please select a valid image."
+            }), 400
+        
+        # Open and process image
+        try:
+            image = Image.open(file).convert("RGB")
+        except Exception as e:
+            return jsonify({
+                "success": False,
+                "error": "Invalid image file. Please upload a valid image (JPEG, PNG, etc.)."
+            }), 400
+        
+        # Preprocess image
+        processed_img = preprocess_disease_image(image)
+        if processed_img is None:
+            return jsonify({
+                "success": False,
+                "error": "Image preprocessing failed. Please try another image."
+            }), 500
+        
+        print(f"📸 Image shape: {processed_img.shape}")
+        
+        # Make prediction
+        prediction = disease_model.predict(processed_img)
+        
+        # Get predicted class
+        predicted_index = int(np.argmax(prediction[0]))
+        confidence = float(np.max(prediction[0])) * 100
+        
+        # Get disease name
+        if CLASS_NAMES and predicted_index < len(CLASS_NAMES):
+            disease_name = CLASS_NAMES[predicted_index]
+        else:
+            disease_name = f"Class_{predicted_index}"
+        
+        # If confidence is low, mark as uncertain
+        if confidence < 60:
+            disease_name = "Unknown / Low confidence"
+            confidence = round(confidence, 2)
+        
+        print(f"✅ Prediction: {disease_name} ({confidence:.2f}%)")
+        
+        # Get top 3 predictions for more info
+        top_3_indices = np.argsort(prediction[0])[-3:][::-1]
+        top_3_predictions = []
+        
+        for idx in top_3_indices:
+            if CLASS_NAMES and idx < len(CLASS_NAMES):
+                class_name = CLASS_NAMES[idx]
+            else:
+                class_name = f"Class_{idx}"
+            
+            top_3_predictions.append({
+                "disease": class_name,
+                "confidence": round(float(prediction[0][idx]) * 100, 2)
+            })
+        
+        return jsonify({
+            "success": True,
+            "disease": disease_name,
+            "confidence": round(confidence, 2),
+            "top_predictions": top_3_predictions,
+            "message": "Disease detection completed successfully"
+        }), 200
+        
+    except Exception as e:
+        print(f"❌ Error in disease detection: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        return jsonify({
+            "success": False,
+            "error": f"Detection failed: {str(e)}"
         }), 500
 # ========== IRRIGATION PLAN API ==========
 @app.route("/api/irrigation/plan", methods=["GET", "POST"])
@@ -2943,19 +3207,3 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     socketio.run(app, host="0.0.0.0", port=port)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
